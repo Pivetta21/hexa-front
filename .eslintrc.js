@@ -3,7 +3,6 @@ module.exports = {
         "browser": true,
         "es6": true
     },
-    "ignorePatterns": [".eslintrc.js"],
     "extends": [
         "eslint:recommended",
         "plugin:react/recommended",
@@ -26,8 +25,9 @@ module.exports = {
         "@typescript-eslint",
         "prettier"
     ],
-    rules: {
-      "prettier/prettier": "error",
+    "ignorePatterns": [".eslintrc.js"],
+    "rules": {
+      "prettier/prettier": ["error", {"endOfLine": "auto"}],
       "space-before-function-paren": "off",
       "react/react-in-jsx-scope": "off",
       "react/prop-types": "off",

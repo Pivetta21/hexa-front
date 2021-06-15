@@ -1,6 +1,7 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Hexa",
+  "name": "Hexa Learning Platform!",
+  "description": "Hexa is a learning platform with online classes.",
   "icons": [
     {
       "src": "favicon.ico",
@@ -18,8 +19,5 @@
       "sizes": "512x512"
     }
   ],
-  "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "start_url": "."
 }
