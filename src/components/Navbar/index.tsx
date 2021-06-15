@@ -1,10 +1,18 @@
+import { useContext } from 'react';
+import { ThemeContext } from 'styled-components';
 import { Link } from 'react-router-dom';
 
-interface Props {}
+import { NavContainer } from './styles';
 
-const Navbar: React.FC<Props> = () => {
+interface Props {
+  toggleTheme(): void;
+}
+
+const Navbar: React.FC<Props> = ({ toggleTheme }) => {
+  const { colors, title } = useContext(ThemeContext);
+
   return (
-    <nav>
+    <NavContainer>
       <ul>
         <li>
           <Link to="/">Home</Link>
@@ -13,7 +21,19 @@ const Navbar: React.FC<Props> = () => {
           <Link to="/login">Login</Link>
         </li>
       </ul>
-    </nav>
+      <button
+        style={{
+          borderRadius: '30px',
+          padding: '12px 16px',
+          color: colors.primary,
+        }}
+        onClick={() => {
+          toggleTheme();
+        }}
+      >
+        Theme: {title.charAt(0).toUpperCase() + title.substr(1)}
+      </button>
+    </NavContainer>
   );
 };
 
