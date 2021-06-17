@@ -11,6 +11,7 @@ import light from '../styles/themes/light';
 import usePersistedState from '../hooks/usePersistedState';
 
 import Navbar from '../components/Navbar';
+import Sidenav from '../components/Sidenav';
 
 const App = () => {
   const [theme, setTheme] = usePersistedState<string>('theme', dark.title);
@@ -25,8 +26,13 @@ const App = () => {
 
       <BrowserRouter>
         <Navbar toggleTheme={toggleTheme} />
+        <Sidenav />
 
-        <Routes />
+        <main className="main">
+          <div className="wrapper">
+            <Routes />
+          </div>
+        </main>
       </BrowserRouter>
     </ThemeProvider>
   );
