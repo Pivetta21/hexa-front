@@ -15,8 +15,6 @@ export const GlobalStyle = createGlobalStyle`
   html {
     font-size: 16px;
     font-family: 'Poppins', sans-serif;
-  
-    
   }
 
   body {
@@ -29,17 +27,17 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   .main {
-    padding-top: 60px;
-    padding-left: 278px;
     height: 100%;
+    padding-top: ${(props) => props.theme.sizes.nav.navbarHeight};
+    padding-left: ${(props) => props.theme.sizes.nav.sidenavWeb};
 
     @media (max-width: 900px) {
-      padding-left: 80px;
+      padding-left: ${(props) => props.theme.sizes.nav.sidenavTablet};
     }
 
     @media (max-width: 500px) {
       padding-left: 0;
-      padding-bottom: 60px;
+      padding-bottom: ${(props) => props.theme.sizes.nav.sidenavMobile};
     }
   }
 

@@ -50,5 +50,13 @@ declare module 'styled-components' {
       small: string;
       xSmall: string;
     };
+    sizes: {
+      nav: {
+        navbarHeight: string;
+        sidenavWeb: string;
+        sidenavTablet: string;
+        sidenavMobile: string;
+      };
+    };
   }
 }

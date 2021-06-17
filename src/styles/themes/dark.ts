@@ -3,6 +3,7 @@ import { gradients } from '../system/gradients';
 import { shadows } from '../system/shadows';
 import { fontSizes } from '../system/typography';
 import { spacings } from '../system/spacings';
+import { sizes } from '../system/sizes';
 
 export default {
   title: 'dark',
@@ -20,4 +21,5 @@ export default {
   shadows,
   fontSizes,
   spacings,
+  sizes,
 };

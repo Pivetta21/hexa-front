@@ -8,7 +8,7 @@ export const SidenavContainer = styled.nav`
   left: 0;
   z-index: 1;
   height: 100%;
-  width: 278px;
+  width: ${(props) => props.theme.sizes.nav.sidenavWeb};
   overflow-x: hidden;
   overflow-y: auto;
   background-color: ${(props) => props.theme.colors.nav};
@@ -16,7 +16,7 @@ export const SidenavContainer = styled.nav`
     ${(props) => transparentize(0.25, invert(props.theme.colors.text))};
 
   @media (max-width: 900px) {
-    width: 80px;
+    width: ${(props) => props.theme.sizes.nav.sidenavTablet};
   }
 
   @media (max-width: 500px) {
@@ -24,7 +24,7 @@ export const SidenavContainer = styled.nav`
     top: auto;
     bottom: 0;
     width: 100%;
-    height: 60px;
+    height: ${(props) => props.theme.sizes.nav.sidenavMobile};
     border-right: none;
     border-top: 1px solid
       ${(props) => transparentize(0.25, invert(props.theme.colors.text))};

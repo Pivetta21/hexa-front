@@ -7,7 +7,7 @@ export const NavContainer = styled.nav`
   left: 0;
   z-index: 2;
   width: 100%;
-  height: 60px;
+  height: ${(props) => props.theme.sizes.nav.navbarHeight};
   background-color: ${(props) => props.theme.colors.nav};
   display: flex;
   align-items: center;
