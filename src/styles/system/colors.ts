@@ -5,8 +5,8 @@ const colors = {
   white: '#FEFEFE',
   lightSilver: '#FAFAFA',
   silver: '#EDEDED',
-  lightGray: '#6D6D74',
-  gray: '#84848C',
+  lightGray: '#84848C',
+  gray: '#6D6D74',
   darkGray: '#323234',
 };
 

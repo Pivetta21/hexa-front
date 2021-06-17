@@ -4,6 +4,7 @@ import { shadows } from '../system/shadows';
 import { fontSizes } from '../system/typography';
 import { spacings } from '../system/spacings';
 import { sizes } from '../system/sizes';
+import { breakpoints } from '../system/sizes';
 
 export default {
   title: 'dark',
@@ -13,6 +14,10 @@ export default {
     caption: colors.lightGray,
     nav: colors.lightBlack,
     icon: colors.silver,
+    scrollbar: {
+      track: colors.gray,
+      thumb: colors.darkGray,
+    },
   },
   commonColors: {
     ...colors,
@@ -22,4 +27,5 @@ export default {
   fontSizes,
   spacings,
   sizes,
+  breakpoints,
 };

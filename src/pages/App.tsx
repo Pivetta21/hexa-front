@@ -28,10 +28,8 @@ const App = () => {
         <Navbar toggleTheme={toggleTheme} />
         <Sidenav />
 
-        <main className="main">
-          <div className="wrapper">
-            <Routes />
-          </div>
+        <main className="main scroller">
+          <Routes />
         </main>
       </BrowserRouter>
     </ThemeProvider>

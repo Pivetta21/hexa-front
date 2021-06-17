@@ -8,7 +8,7 @@ interface Props {}
 
 const Sidenav: React.FC<Props> = () => {
   return (
-    <SidenavContainer>
+    <SidenavContainer className="scroller">
       <SidenavLinks>
         <SidenavLink to="/" activeClassName="active" exact>
           <Home />

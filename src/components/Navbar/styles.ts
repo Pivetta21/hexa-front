@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { darken } from 'polished';
 
 export const NavContainer = styled.nav`
+  grid-area: navbar;
   position: fixed;
   top: 0;
   left: 0;
@@ -26,7 +27,7 @@ export const NavSearchForm = styled.form`
   justify-content: center;
   position: relative;
 
-  @media (max-width: 900px) {
+  @media (max-width: ${(props) => props.theme.breakpoints.nav.tablet}) {
     display: none;
   }
 `;
@@ -56,7 +57,7 @@ export const NavInputSeparetor = styled.span`
   right: 48px;
   width: 2px;
   height: 28px;
-  background-color: ${(props) => props.theme.commonColors.gray};
+  background-color: ${(props) => props.theme.commonColors.lightGray};
 `;
 
 export const NavInputButton = styled.button`
@@ -77,8 +78,8 @@ export const NavInputButton = styled.button`
   svg {
     width: 28px;
     height: 28px;
-    fill: ${(props) => props.theme.commonColors.lightGray};
-    stroke: ${(props) => props.theme.commonColors.lightGray};
+    fill: ${(props) => props.theme.commonColors.gray};
+    stroke: ${(props) => props.theme.commonColors.gray};
   }
 `;
 

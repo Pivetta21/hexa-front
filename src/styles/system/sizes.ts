@@ -1,4 +1,9 @@
-// Main breakpoints: Tablet (max-width: 900px), Mobile (max-width: 500px).
+const breakpoints = {
+  nav: {
+    tablet: '900px',
+    mobile: '500px',
+  },
+};
 
 const sizes = {
   nav: {
@@ -10,3 +15,4 @@ const sizes = {
 };
 
 export { sizes };
+export { breakpoints };

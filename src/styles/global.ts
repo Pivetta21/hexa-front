@@ -19,32 +19,63 @@ export const GlobalStyle = createGlobalStyle`
 
   body {
     background-color: ${(props) => props.theme.colors.body};
-    color: ${(props) => props.theme.colors.text}
+    color: ${(props) => props.theme.colors.text};
+    overflow-x: hidden;
+    overflow-y: hidden;
   }
 
   html, body, #root {
     height: 100%;
+    width: 100%;
+  }
+
+  #root {
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-rows: ${(props) => props.theme.sizes.nav.navbarHeight} 1fr;
+    grid-template-columns: ${(props) => props.theme.sizes.nav.sidenavWeb} 1fr;
+    grid-template-areas: 
+      "navbar navbar"
+      "sidenav main";
+
+    @media (max-width: ${(props) => props.theme.breakpoints.nav.tablet}) {
+      grid-template-columns: 
+        ${(props) => props.theme.sizes.nav.sidenavTablet} 1fr;
+    }
+
+    @media (max-width: ${(props) => props.theme.breakpoints.nav.mobile}) {
+      grid-template-rows: 
+        ${(props) => props.theme.sizes.nav.navbarHeight}
+        1fr
+        ${(props) => props.theme.sizes.nav.sidenavMobile};
+      grid-template-columns: 1fr;
+      grid-template-areas: 
+        "navbar"
+        "main"
+        "sidenav";
+    }
   }
 
   .main {
-    height: 100%;
-    padding-top: ${(props) => props.theme.sizes.nav.navbarHeight};
-    padding-left: ${(props) => props.theme.sizes.nav.sidenavWeb};
-
-    @media (max-width: 900px) {
-      padding-left: ${(props) => props.theme.sizes.nav.sidenavTablet};
-    }
-
-    @media (max-width: 500px) {
-      padding-left: 0;
-      padding-bottom: ${(props) => props.theme.sizes.nav.sidenavMobile};
-    }
+    grid-area: main;
+    padding: ${(props) => props.theme.spacings.medium};
   }
 
-  .wrapper {
-    display: grid;
-    height: 100%;
-    width: 100%;
-    padding: ${(props) => props.theme.spacings.medium};
+  .scroller {
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .scroller::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  .scroller::-webkit-scrollbar-track {
+    background-color: ${(props) => props.theme.colors.scrollbar.track};
+  }
+
+  .scroller::-webkit-scrollbar-thumb {  
+    background-color: ${(props) => props.theme.colors.scrollbar.thumb};
   }
 `;
