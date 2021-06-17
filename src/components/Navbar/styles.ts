@@ -2,6 +2,11 @@ import styled from 'styled-components';
 import { darken } from 'polished';
 
 export const NavContainer = styled.nav`
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  width: 100%;
   height: 60px;
   background-color: ${(props) => props.theme.colors.nav};
   display: flex;
@@ -21,17 +26,18 @@ export const NavSearchForm = styled.form`
   justify-content: center;
   position: relative;
 
-  @media (max-width: 800px) {
+  @media (max-width: 900px) {
     display: none;
   }
 `;
 
 export const NavInputSearch = styled.input`
-  font-size: ${(props) => props.theme.fontSizes.body.normal};
-  padding: 0 24px;
   width: 360px;
   height: 40px;
   border-radius: 20px;
+  padding-left: 16px;
+  padding-right: 60px;
+  font-size: ${(props) => props.theme.fontSizes.body.normal};
   background-color: ${(props) => props.theme.commonColors.silver};
   color: ${(props) => props.theme.commonColors.darkGray};
   border: none;

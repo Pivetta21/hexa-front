@@ -4,18 +4,18 @@
 
 const fontSizes = {
   heading: {
-    large: '4rem',
-    medium: '3rem',
-    normal: '2.25rem',
-    small: '1.5rem',
+    large: '4rem', // 64px
+    medium: '3rem', // 48px
+    normal: '2.25rem', // 36px
+    small: '1.5rem', // 24px
   },
   body: {
-    large: '1.5rem',
-    medium: '1.25rem',
-    caption: '1.125rem',
-    normal: '1rem',
-    small: '0.75rem',
-    xSmall: '0.625rem',
+    large: '1.5rem', // 24px
+    medium: '1.25rem', // 20px
+    caption: '1.125rem', // 18px
+    normal: '1rem', // 16px
+    small: '0.75rem', // 12px
+    xSmall: '0.625rem', // 10px
   },
 };
 
