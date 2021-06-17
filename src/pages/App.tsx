@@ -2,15 +2,15 @@ import { useCallback } from 'react';
 import { ThemeProvider } from 'styled-components';
 import { BrowserRouter } from 'react-router-dom';
 
-import Routes from './routes';
+import Routes from '../routes';
 
-import { GlobalStyle } from './styles/global';
-import dark from './styles/themes/dark';
-import light from './styles/themes/light';
+import { GlobalStyle } from '../styles/global';
+import dark from '../styles/themes/dark';
+import light from '../styles/themes/light';
 
-import usePersistedState from './hooks/usePersistedState';
+import usePersistedState from '../hooks/usePersistedState';
 
-import Navbar from './components/Navbar';
+import Navbar from '../components/Navbar';
 
 const App = () => {
   const [theme, setTheme] = usePersistedState<string>('theme', dark.title);
