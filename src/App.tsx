@@ -1,36 +1,32 @@
 import { useCallback } from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import { ThemeProvider, DefaultTheme } from 'styled-components';
+import { ThemeProvider } from 'styled-components';
+import { BrowserRouter } from 'react-router-dom';
+
+import Routes from './routes';
 
 import { GlobalStyle } from './styles/global';
-import usePersistedState from './hooks/usePersistedState';
-
-import Navbar from './components/Navbar';
 import dark from './styles/themes/dark';
 import light from './styles/themes/light';
 
+import usePersistedState from './hooks/usePersistedState';
+
+import Navbar from './components/Navbar';
+
 const App = () => {
-  const [theme, setTheme] = usePersistedState<DefaultTheme>('theme', dark);
+  const [theme, setTheme] = usePersistedState<string>('theme', dark.title);
 
   const toggleTheme = useCallback(() => {
-    setTheme(theme.title === 'dark' ? light : dark);
-  }, [theme.title]);
+    setTheme(theme === 'dark' ? light.title : dark.title);
+  }, [theme]);
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme === 'dark' ? dark : light}>
       <GlobalStyle />
 
       <BrowserRouter>
         <Navbar toggleTheme={toggleTheme} />
 
-        <Switch>
-          <Route path="/login">
-            <h1>Login Route</h1>
-          </Route>
-          <Route path="/" exact>
-            <h1>Home Route</h1>
-          </Route>
-        </Switch>
+        <Routes />
       </BrowserRouter>
     </ThemeProvider>
   );
