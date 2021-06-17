@@ -10,4 +10,4 @@ const colors = {
   darkGray: '#323234',
 };
 
-export default colors;
+export { colors };

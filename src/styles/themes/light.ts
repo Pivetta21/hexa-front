@@ -1,12 +1,23 @@
-import colors from '../system/colors';
+import { colors } from '../system/colors';
+import { gradients } from '../system/gradients';
+import { shadows } from '../system/shadows';
+import { fontSizes } from '../system/typography';
+import { spacings } from '../system/spacings';
 
 export default {
   title: 'light',
   colors: {
-    primary: colors.magenta,
-    secondary: colors.black,
     body: colors.white,
     text: colors.lightBlack,
-    navbar: colors.lightSilver,
+    caption: colors.gray,
+    nav: colors.lightSilver,
+    icon: colors.lightBlack,
   },
+  commonColors: {
+    ...colors,
+  },
+  gradients,
+  shadows,
+  fontSizes,
+  spacings,
 };
