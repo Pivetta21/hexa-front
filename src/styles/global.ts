@@ -65,10 +65,13 @@ export const GlobalStyle = createGlobalStyle`
   .scroller {
     overflow-y: auto;
     overflow-x: hidden;
+    scrollbar-color: ${(props) =>
+      props.theme.colors.scrollbar.thumb + props.theme.colors.scrollbar.track};
+    scrollbar-width: thin;
   }
 
   .scroller::-webkit-scrollbar {
-    width: 10px;
+    width: 8px;
   }
 
   .scroller::-webkit-scrollbar-track {
