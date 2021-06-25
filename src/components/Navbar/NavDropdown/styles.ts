@@ -1,3 +1,4 @@
+import { darken } from 'polished';
 import styled from 'styled-components';
 
 export const NavDropdownContainer = styled.div`
@@ -18,7 +19,7 @@ export const NavDropdownIcon = styled.div`
 `;
 
 export const NavDropdownItem = styled.div`
-  background: #202020;
+  background: ${(props) => props.theme.colors.nav};
   position: absolute;
   width: 264px;
   top: 48px;
@@ -34,17 +35,18 @@ export const NavDropdownItem = styled.div`
     align-items: center;
     border-radius: 6px;
     padding: 8px 4px;
-    font-size: 16px;
-    color: #ededed;
+    font-size: ${(props) => props.theme.fontSizes.body.normal};
+    color: ${(props) => props.theme.colors.text};
 
     svg {
       height: 40px;
       width: 40px;
       margin-right: 12px;
+      fill: ${(props) => props.theme.colors.icon};
     }
 
     &:hover {
-      background-color: #333;
+      background-color: ${(props) => darken(0.04, props.theme.colors.nav)};
     }
   }
 `;

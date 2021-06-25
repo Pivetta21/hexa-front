@@ -9,7 +9,6 @@ import { ReactComponent as Search } from 'src/assets/svg/icons/Search.svg';
 import { ReactComponent as Profile } from 'src/assets/svg/icons/Profile.svg';
 import { ReactComponent as Cog } from 'src/assets/svg/icons/Cog.svg';
 import { ReactComponent as Moon } from 'src/assets/svg/icons/Moon.svg';
-import { ReactComponent as Sun } from 'src/assets/svg/icons/Sun.svg';
 import { ReactComponent as Leave } from 'src/assets/svg/icons/Leave.svg';
 
 import {
@@ -23,12 +22,14 @@ import {
 } from './styles';
 
 import NavDropdown from './NavDropdown';
+import Switch from '../Switch';
+
 interface Props {
   toggleTheme(): void;
 }
 
 const Navbar: React.FC<Props> = ({ toggleTheme }) => {
-  const { colors, title } = useContext(ThemeContext);
+  const { colors } = useContext(ThemeContext);
 
   function logout() {
     console.log('Realizando Logout!');
@@ -51,14 +52,7 @@ const Navbar: React.FC<Props> = ({ toggleTheme }) => {
       </NavSearchForm>
 
       <NavMenu>
-        <div
-          onClick={() => toggleTheme()}
-          style={{ display: 'flex', alignItems: 'center' }}
-        >
-          {title === 'light' && <Moon fill={colors.icon} />}
-          {title === 'dark' && <Sun fill={colors.icon} />}
-        </div>
-
+        <Switch name="toggleTheme" onChecked={toggleTheme}></Switch>
         <NavDropdown icon={<Profile fill={colors.icon} />}>
           <Link to="/profile">
             <Profile fill={colors.icon} />
@@ -66,7 +60,7 @@ const Navbar: React.FC<Props> = ({ toggleTheme }) => {
           </Link>
           <Link to="/config">
             <Cog fill={colors.icon} />
-            <span>Configuração</span>
+            <span>Configurações</span>
           </Link>
           <Link to="/theme">
             <Moon fill={colors.icon} />

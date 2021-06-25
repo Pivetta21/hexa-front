@@ -61,7 +61,7 @@ export const GlobalStyle = createGlobalStyle`
     grid-area: main;
     padding: ${(props) => props.theme.spacings.medium};
 
-    @media (max-width: ${(props) => props.theme.breakpoints.nav.mobile}) {
+    @media (max-width: ${(props) => props.theme.breakpoints.nav.tablet}) {
       padding: ${(props) => props.theme.spacings.normal};
     }
   }
@@ -69,13 +69,10 @@ export const GlobalStyle = createGlobalStyle`
   .scroller {
     overflow-y: auto;
     overflow-x: hidden;
-    scrollbar-color: ${(props) =>
-      props.theme.colors.scrollbar.thumb + props.theme.colors.scrollbar.track};
-    scrollbar-width: thin;
   }
 
   .scroller::-webkit-scrollbar {
-    width: 8px;
+    width: 14px;
   }
 
   .scroller::-webkit-scrollbar-track {
