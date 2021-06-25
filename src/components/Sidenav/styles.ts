@@ -16,6 +16,7 @@ export const SidenavContainer = styled.nav`
     ${(props) => transparentize(0.25, invert(props.theme.colors.text))};
 
   @media (max-width: ${(props) => props.theme.breakpoints.nav.tablet}) {
+    padding: ${(props) => props.theme.spacings.normal} 0;
     width: ${(props) => props.theme.sizes.nav.sidenavTablet};
   }
 
@@ -33,7 +34,6 @@ export const SidenavLinks = styled.div`
   display: grid;
 
   @media (max-width: ${(props) => props.theme.breakpoints.nav.tablet}) {
-    padding: ${(props) => props.theme.spacings.normal} 0;
     justify-content: center;
 
     span {
