@@ -15,6 +15,10 @@ export const NavContainer = styled.nav`
   justify-content: space-between;
   padding: 0 ${(props) => props.theme.spacings.medium};
   box-shadow: ${(props) => props.theme.shadows.primary};
+
+  @media (max-width: ${(props) => props.theme.breakpoints.nav.tablet}) {
+    padding: 0 ${(props) => props.theme.spacings.normal};
+  }
 `;
 
 export const NavLogo = styled.div`
@@ -83,22 +87,12 @@ export const NavInputButton = styled.button`
   }
 `;
 
-export const NavIcons = styled.div`
+export const NavMenu = styled.div`
   display: flex;
-  justify-items: center;
-  align-content: center;
+  align-items: center;
+  position: relative;
 
-  svg {
-    height: 42px;
-    width: 42px;
-    margin-left: ${(props) => props.theme.spacings.xSmall};
-
-    &:hover {
-      cursor: pointer;
-    }
-
-    &:first-child {
-      margin-left: 0px;
-    }
+  div:hover {
+    cursor: pointer;
   }
 `;

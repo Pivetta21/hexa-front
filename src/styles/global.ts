@@ -60,6 +60,10 @@ export const GlobalStyle = createGlobalStyle`
   .main {
     grid-area: main;
     padding: ${(props) => props.theme.spacings.medium};
+
+    @media (max-width: ${(props) => props.theme.breakpoints.nav.mobile}) {
+      padding: ${(props) => props.theme.spacings.normal};
+    }
   }
 
   .scroller {
