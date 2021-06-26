@@ -32,6 +32,7 @@ export const SidenavContainer = styled.nav`
 
 export const SidenavLinks = styled.div`
   display: grid;
+  user-select: none;
 
   @media (max-width: ${(props) => props.theme.breakpoints.nav.tablet}) {
     justify-content: center;

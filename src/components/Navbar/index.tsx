@@ -1,15 +1,10 @@
-import { useContext } from 'react';
-import { ThemeContext } from 'styled-components';
 import { Link } from 'react-router-dom';
 
 import Hexa from 'src/assets/svg/logos/Hexa.svg';
 
 import { ReactComponent as Search } from 'src/assets/svg/icons/Search.svg';
-
-import { ReactComponent as Profile } from 'src/assets/svg/icons/Profile.svg';
-import { ReactComponent as Cog } from 'src/assets/svg/icons/Cog.svg';
-import { ReactComponent as Moon } from 'src/assets/svg/icons/Moon.svg';
-import { ReactComponent as Leave } from 'src/assets/svg/icons/Leave.svg';
+import { ReactComponent as Bell } from 'src/assets/svg/icons/Bell.svg';
+import { ReactComponent as Download } from 'src/assets/svg/icons/Download.svg';
 
 import {
   NavContainer,
@@ -21,20 +16,11 @@ import {
   NavMenu,
 } from './styles';
 
-import NavDropdown from './NavDropdown';
-import Switch from '../Switch';
+import ProfileMenu from './ProfileMenu';
 
-interface Props {
-  toggleTheme(): void;
-}
+interface Props {}
 
-const Navbar: React.FC<Props> = ({ toggleTheme }) => {
-  const { colors } = useContext(ThemeContext);
-
-  function logout() {
-    console.log('Realizando Logout!');
-  }
-
+const Navbar: React.FC<Props> = () => {
   return (
     <NavContainer>
       <NavLogo>
@@ -52,25 +38,9 @@ const Navbar: React.FC<Props> = ({ toggleTheme }) => {
       </NavSearchForm>
 
       <NavMenu>
-        <Switch name="toggleTheme" onChecked={toggleTheme}></Switch>
-        <NavDropdown icon={<Profile fill={colors.icon} />}>
-          <Link to="/profile">
-            <Profile fill={colors.icon} />
-            <span>Perfil</span>
-          </Link>
-          <Link to="/config">
-            <Cog fill={colors.icon} />
-            <span>Configurações</span>
-          </Link>
-          <Link to="/theme">
-            <Moon fill={colors.icon} />
-            <span>Tema escuro</span>
-          </Link>
-          <div onClick={() => logout()}>
-            <Leave fill={colors.icon} />
-            <span>Sair</span>
-          </div>
-        </NavDropdown>
+        <Download className="navmenu-item navmenu-icon" />
+        <Bell className="navmenu-item navmenu-icon" />
+        <ProfileMenu />
       </NavMenu>
     </NavContainer>
   );

@@ -92,7 +92,21 @@ export const NavMenu = styled.div`
   align-items: center;
   position: relative;
 
-  div:hover {
-    cursor: pointer;
+  .navmenu-item {
+    margin-left: 8px;
+
+    &:first-child {
+      margin-left: 0;
+    }
+  }
+
+  .navmenu-icon {
+    fill: ${(props) => props.theme.colors.icon};
+    height: 40px;
+    width: 40px;
+
+    &:hover {
+      cursor: pointer;
+    }
   }
 `;
