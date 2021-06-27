@@ -15,7 +15,7 @@ const Routes = () => {
       <Route path="/" exact>
         <Home />
       </Route>
-      <Route>
+      <Route path="*">
         <NotFound />
       </Route>
     </Switch>

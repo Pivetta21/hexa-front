@@ -19,7 +19,7 @@ export const SwitchContainer = styled.label`
   }
 
   input:checked + .switch-slider:before {
-    transform: translateX(23px);
+    transform: translateX(24px);
     background: ${(props) => props.theme.commonColors.magenta};
   }
 

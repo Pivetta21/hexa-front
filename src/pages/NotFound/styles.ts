@@ -1,36 +1,32 @@
 import styled from 'styled-components';
+
 import { darken } from 'polished';
 
-export const NotFoundContainer = styled.div`
+export const NotFoundContainer = styled.div``;
+
+export const NotFoundImage = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: ${(props) => props.theme.fontSizes.heading.small};
-  font-weight: 700;
 
   img {
-    width: 40%;
-
-    @media (max-width: 1300px) {
-      width: 55%;
-    }
-
-    @media (max-width: 800px) {
-      width: 80%;
-    }
+    pointer-events: none;
+    width: 38%;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
   }
+`;
+
+export const NotFoundText = styled.div`
+  text-align: center;
+  font-size: ${(props) => props.theme.fontSizes.heading.small};
+  padding-top: 60px;
 
   a {
-    margin: 32px 0;
-    padding: 10px 24px;
-    background-color: ${(props) => props.theme.commonColors.magenta};
-    border-radius: 4px;
-    color: ${(props) => props.theme.commonColors.white};
+    font-weight: 700;
+    color: ${(props) => props.theme.commonColors.magenta};
 
     &:hover {
-      background-color: ${(props) =>
-        darken(0.05, props.theme.commonColors.magenta)};
+      color: ${(props) => darken(0.05, props.theme.commonColors.magenta)};
     }
   }
 `;
