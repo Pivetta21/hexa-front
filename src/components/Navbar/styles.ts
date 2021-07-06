@@ -52,7 +52,7 @@ export const NavInputSearch = styled.input`
   }
 
   &::placeholder {
-    color: ${(props) => props.theme.commonColors.lightGray};
+    color: ${(props) => props.theme.commonColors.gray};
   }
 `;
 

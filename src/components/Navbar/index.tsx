@@ -1,10 +1,13 @@
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
+
+import AuthContext from 'src/providers/AuthContext';
 
 import Hexa from 'src/assets/svg/logos/Hexa.svg';
 
 import { ReactComponent as Search } from 'src/assets/svg/icons/Search.svg';
 import { ReactComponent as Bell } from 'src/assets/svg/icons/Bell.svg';
-import { ReactComponent as Download } from 'src/assets/svg/icons/Download.svg';
+import { ReactComponent as Channel } from 'src/assets/svg/icons/Channel.svg';
 
 import {
   NavContainer,
@@ -18,9 +21,13 @@ import {
 
 import ProfileMenu from './ProfileMenu';
 
+import Login from '../Login';
+
 interface Props {}
 
 const Navbar: React.FC<Props> = () => {
+  const { isUserLoggedIn } = useContext(AuthContext);
+
   return (
     <NavContainer>
       <NavLogo>
@@ -38,8 +45,15 @@ const Navbar: React.FC<Props> = () => {
       </NavSearchForm>
 
       <NavMenu>
-        <Download className="navmenu-item navmenu-icon" />
-        <Bell className="navmenu-item navmenu-icon" />
+        {isUserLoggedIn && (
+          <>
+            <Channel className="navmenu-item navmenu-icon" />
+            <Bell className="navmenu-item navmenu-icon" />
+          </>
+        )}
+
+        {!isUserLoggedIn && <Login />}
+
         <ProfileMenu />
       </NavMenu>
     </NavContainer>
