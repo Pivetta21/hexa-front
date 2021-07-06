@@ -8,7 +8,7 @@ interface Props {}
 
 const NotFound: React.FC<Props> = () => {
   return (
-    <NotFoundContainer>
+    <NotFoundContainer className="main-padding">
       <NotFoundImage>
         <img src={NotFoundError} aria-label="No Found - 404" />
       </NotFoundImage>

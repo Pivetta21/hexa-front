@@ -4,7 +4,7 @@ interface Props {}
 
 const Home: React.FC<Props> = () => {
   return (
-    <div>
+    <div className="main-padding">
       <Header>Home Page</Header>
       <p>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit ea natus

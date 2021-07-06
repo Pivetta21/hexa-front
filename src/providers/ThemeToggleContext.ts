@@ -4,8 +4,8 @@ interface ThemeToggleContextType {
   toggleTheme: () => void;
 }
 
-const ThemeToggleContext = createContext<ThemeToggleContextType>({
-  toggleTheme: () => {},
-});
+const ThemeToggleContext = createContext<ThemeToggleContextType>(
+  {} as ThemeToggleContextType,
+);
 
 export default ThemeToggleContext;

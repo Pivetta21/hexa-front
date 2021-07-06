@@ -59,6 +59,9 @@ export const GlobalStyle = createGlobalStyle`
 
   .main {
     grid-area: main;
+  }
+
+  .main-padding {
     padding: ${(props) => props.theme.spacings.medium};
 
     @media (max-width: ${(props) => props.theme.breakpoints.nav.tablet}) {
