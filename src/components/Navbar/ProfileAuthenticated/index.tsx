@@ -16,11 +16,7 @@ import {
   NavDropdownDivider,
 } from 'src/styled/NavDropdown';
 
-import {
-  ProfileMenuContainer,
-  ProfileMenuIcon,
-  ProfileMenuImage,
-} from './styles';
+import { ProfileMenuContainer, ProfileMenuImage } from './styles';
 
 import Switch from 'src/components/Switch';
 
@@ -30,8 +26,8 @@ import useOutsideClick from 'src/hooks/useOutsideClick';
 
 interface Props {}
 
-const ProfileMenu: React.FC<Props> = () => {
-  const { isUserLoggedIn, logout } = useContext(AuthContext);
+const ProfileAuthenticated: React.FC<Props> = () => {
+  const { logout } = useContext(AuthContext);
 
   const { toggleTheme } = useContext(ThemeToggleContext);
   const { colors, title } = useContext(ThemeContext);
@@ -47,47 +43,11 @@ const ProfileMenu: React.FC<Props> = () => {
 
   return (
     <ProfileMenuContainer className="navmenu-item" ref={dropdownEl}>
-      {!isUserLoggedIn && (
-        <ProfileMenuIcon onClick={() => setOpen(!open)}>
-          <Profile fill={colors.icon} />
-        </ProfileMenuIcon>
-      )}
+      <ProfileMenuImage onClick={() => setOpen(!open)}>
+        <img src={nopic} aria-label="Sua foto de perfil" />
+      </ProfileMenuImage>
 
-      {open && !isUserLoggedIn && (
-        <NavDropdown>
-          <NavDropdownSwitch>
-            <div className="navdropdown-block">
-              <Moon fill={colors.icon} />
-              <span>Tema escuro</span>
-            </div>
-            <Switch
-              name="toggleTheme"
-              onChecked={toggleTheme}
-              checked={title === 'dark' ? true : false}
-            />
-          </NavDropdownSwitch>
-
-          <NavDropdownDivider />
-
-          <NavDropdownLink onClick={() => setOpen(!open)}>
-            <div className="navdropdown-block">
-              <Leave
-                fill={colors.icon}
-                transform="rotate(180) translate(-4.5 0)"
-              />
-              <span>Entrar</span>
-            </div>
-          </NavDropdownLink>
-        </NavDropdown>
-      )}
-
-      {isUserLoggedIn && (
-        <ProfileMenuImage onClick={() => setOpen(!open)}>
-          <img src={nopic} aria-label="Sua foto de perfil" />
-        </ProfileMenuImage>
-      )}
-
-      {open && isUserLoggedIn && (
+      {open && (
         <NavDropdown>
           <NavDropdownLink onClick={() => setOpen(false)}>
             <Link to="/profile" className="navdropdown-block">
@@ -129,4 +89,4 @@ const ProfileMenu: React.FC<Props> = () => {
   );
 };
 
-export default ProfileMenu;
+export default ProfileAuthenticated;

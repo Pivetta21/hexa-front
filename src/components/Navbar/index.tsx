@@ -1,5 +1,6 @@
-import { Fragment, useContext } from 'react';
+import { Fragment, useContext, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { ReactComponent as Close } from 'src/assets/svg/icons/Close.svg';
 
 import AuthContext from 'src/providers/AuthContext';
 
@@ -18,14 +19,39 @@ import {
   NavMenu,
 } from './styles';
 
-import ProfileMenu from './ProfileMenu';
+import ProfileAuthenticated from './ProfileAuthenticated';
 
-import Login from '../Login';
+import { ButtonPrimary, ButtonSecondary } from 'src/styled/Buttons';
+import LoginOverlayContext from 'src/providers/LoginOverlayContext';
+
+import LoginOverlay from './LoginOverlay';
+import {
+  Overlay,
+  OverlayClose,
+  OverlayContainer,
+  OverlayDiv,
+} from 'src/styled/Overlay';
+import { RefObject } from 'react';
+import useOutsideClick from 'src/hooks/useOutsideClick';
+import ProfileGuest from './ProfileGuest';
 
 interface Props {}
 
 const Navbar: React.FC<Props> = () => {
   const { isUserLoggedIn } = useContext(AuthContext);
+
+  const refOverlay: RefObject<HTMLDivElement> = useRef(null);
+  const [isSignIn, setIsSignIn] = useOutsideClick(refOverlay, false);
+  const [isSignUp, setIsSignUp] = useOutsideClick(refOverlay, false);
+
+  function toggleMenu() {
+    setIsSignIn(!isSignIn);
+    setIsSignUp(!isSignUp);
+  }
+
+  function openSignIn() {
+    setIsSignIn(true);
+  }
 
   return (
     <NavContainer>
@@ -47,12 +73,46 @@ const Navbar: React.FC<Props> = () => {
         {isUserLoggedIn && (
           <Fragment>
             <Channel className="navmenu-item navmenu-icon" />
+
+            <ProfileAuthenticated />
           </Fragment>
         )}
 
-        {!isUserLoggedIn && <Login />}
+        {!isUserLoggedIn && (
+          <LoginOverlayContext.Provider
+            value={{ toggleMenu, openSignIn, isSignIn, isSignUp }}
+          >
+            <ButtonSecondary
+              className="navmenu-item"
+              onClick={() => setIsSignIn(!isSignIn)}
+            >
+              Entrar
+            </ButtonSecondary>
 
-        <ProfileMenu />
+            <ButtonPrimary
+              className="navmenu-item"
+              onClick={() => setIsSignUp(!isSignUp)}
+            >
+              Cadastrar-se
+            </ButtonPrimary>
+
+            <ProfileGuest />
+
+            {(isSignIn || isSignUp) && (
+              <OverlayContainer>
+                <Overlay>
+                  <OverlayClose>
+                    <Close />
+                  </OverlayClose>
+
+                  <OverlayDiv ref={refOverlay}>
+                    <LoginOverlay />
+                  </OverlayDiv>
+                </Overlay>
+              </OverlayContainer>
+            )}
+          </LoginOverlayContext.Provider>
+        )}
       </NavMenu>
     </NavContainer>
   );

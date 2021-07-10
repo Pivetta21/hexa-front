@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const LoginContainer = styled.div`
+export const LoginOverlayContainer = styled.div`
   h1 {
     font-size: ${(props) => props.theme.fontSizes.body.medium};
     font-weight: 700;
@@ -23,24 +23,24 @@ export const LoginNav = styled.div`
     height: 1px;
     background-color: rgba(132, 132, 140, 0.2);
   }
+`;
 
-  div {
-    z-index: 999;
-    font-size: ${(props) => props.theme.fontSizes.body.normal};
-    font-weight: 600;
-    color: ${(props) => props.theme.colors.text};
-    margin-left: 12px;
+export const LoginNavLink = styled.div`
+  z-index: 999;
+  font-size: ${(props) => props.theme.fontSizes.body.normal};
+  font-weight: 600;
+  color: ${(props) => props.theme.colors.text};
+  margin-left: 12px;
 
-    &:first-child {
-      margin-left: 0;
-    }
-
-    &:hover {
-      cursor: pointer;
-    }
+  &:first-child {
+    margin-left: 0;
   }
 
-  div.active {
+  &:hover {
+    cursor: pointer;
+  }
+
+  &.active {
     font-weight: 700;
     color: ${(props) => props.theme.commonColors.magenta};
     border-bottom: 2px solid ${(props) => props.theme.commonColors.magenta};

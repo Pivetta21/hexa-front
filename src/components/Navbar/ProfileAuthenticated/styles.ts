@@ -1,12 +1,4 @@
-import styled, { css } from 'styled-components';
-
-const profile = css`
-  display: flex;
-  align-items: center;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-`;
+import styled from 'styled-components';
 
 export const ProfileMenuContainer = styled.div`
   display: flex;
@@ -15,16 +7,12 @@ export const ProfileMenuContainer = styled.div`
   position: relative;
 `;
 
-export const ProfileMenuIcon = styled.div`
-  ${profile}
-
-  &:hover {
-    cursor: pointer;
-  }
-`;
-
 export const ProfileMenuImage = styled.div`
-  ${profile}
+  display: flex;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
 
   img {
     margin: 0 auto;
