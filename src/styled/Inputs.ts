@@ -10,6 +10,7 @@ const inputReset = css`
 
 export const FormContainer = styled.form`
   p {
+    width: fit-content;
     color: ${(props) => props.theme.commonColors.magenta};
 
     &:hover {
@@ -21,6 +22,18 @@ export const FormContainer = styled.form`
     margin-top: 20px;
     width: 100%;
   }
+`;
+
+export const FormErro = styled.ul`
+  max-width: fit-content;
+  background-color: ${(props) => props.theme.colors.body};
+  padding: 20px;
+  margin-top: 16px;
+  border-radius: 8px;
+  font-size: 16px;
+  margin-bottom: 16px;
+  color: red;
+  text-align: center;
 `;
 
 export const OutlineInput = styled.div`
@@ -50,5 +63,17 @@ export const OutlineInput = styled.div`
     ::placeholder {
       color: ${(props) => props.theme.colors.caption};
     }
+  }
+`;
+
+export const OutlineInputError = styled.div`
+  font-size: 14px;
+  position: relative;
+  color: #e61919;
+  margin-top: -8px;
+  margin-bottom: 16px;
+
+  &::before {
+    content: '* ';
   }
 `;
