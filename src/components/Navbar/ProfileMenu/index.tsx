@@ -31,18 +31,13 @@ import useOutsideClick from 'src/hooks/useOutsideClick';
 interface Props {}
 
 const ProfileMenu: React.FC<Props> = () => {
-  const { isUserLoggedIn, login, logout } = useContext(AuthContext);
+  const { isUserLoggedIn, logout } = useContext(AuthContext);
+
   const { toggleTheme } = useContext(ThemeToggleContext);
   const { colors, title } = useContext(ThemeContext);
 
   const dropdownEl: RefObject<HTMLDivElement> = useRef(null);
   const [open, setOpen] = useOutsideClick(dropdownEl, false);
-
-  function handleLogin() {
-    login();
-
-    setOpen(false);
-  }
 
   function handleLogout() {
     logout();
@@ -74,7 +69,7 @@ const ProfileMenu: React.FC<Props> = () => {
 
           <NavDropdownDivider />
 
-          <NavDropdownLink onClick={() => handleLogin()}>
+          <NavDropdownLink onClick={() => setOpen(!open)}>
             <div className="navdropdown-block">
               <Leave
                 fill={colors.icon}

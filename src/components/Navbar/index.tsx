@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { Fragment, useContext } from 'react';
 import { Link } from 'react-router-dom';
 
 import AuthContext from 'src/providers/AuthContext';
@@ -6,7 +6,6 @@ import AuthContext from 'src/providers/AuthContext';
 import Hexa from 'src/assets/svg/logos/Hexa.svg';
 
 import { ReactComponent as Search } from 'src/assets/svg/icons/Search.svg';
-import { ReactComponent as Bell } from 'src/assets/svg/icons/Bell.svg';
 import { ReactComponent as Channel } from 'src/assets/svg/icons/Channel.svg';
 
 import {
@@ -37,7 +36,7 @@ const Navbar: React.FC<Props> = () => {
       </NavLogo>
 
       <NavSearchForm>
-        <NavInputSearch type="text" placeholder="Pesquisar..." />
+        <NavInputSearch type="text" placeholder="Pesquisar canal" />
         <NavInputSeparetor />
         <NavInputButton type="button">
           <Search />
@@ -46,10 +45,9 @@ const Navbar: React.FC<Props> = () => {
 
       <NavMenu>
         {isUserLoggedIn && (
-          <>
+          <Fragment>
             <Channel className="navmenu-item navmenu-icon" />
-            <Bell className="navmenu-item navmenu-icon" />
-          </>
+          </Fragment>
         )}
 
         {!isUserLoggedIn && <Login />}

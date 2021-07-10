@@ -14,35 +14,21 @@ import Sidenav from 'src/components/Sidenav';
 import usePersistedState from 'src/hooks/usePersistedState';
 
 import ThemeToggleContext from 'src/providers/ThemeToggleContext';
-import AuthContext from 'src/providers/AuthContext';
+import { AuthProvider } from 'src/providers/AuthContext';
 
 const App = () => {
-  // Theme Context
   const [theme, setTheme] = usePersistedState<string>('theme', dark.title);
 
   const toggleTheme = useCallback(() => {
     setTheme(theme === 'dark' ? light.title : dark.title);
   }, [theme]);
 
-  // Auth Context
-  const [user, setUser] = usePersistedState<object | null>('user', null);
-
-  const login = async () => {
-    setUser({ name: 'Lucas', token: 'JWT1234' });
-  };
-
-  const logout = async () => {
-    setUser(null);
-  };
-
   return (
     <ThemeToggleContext.Provider value={{ toggleTheme }}>
       <ThemeProvider theme={theme === 'dark' ? dark : light}>
         <GlobalStyle />
 
-        <AuthContext.Provider
-          value={{ user, isUserLoggedIn: Boolean(user), login, logout }}
-        >
+        <AuthProvider>
           <BrowserRouter>
             <Navbar />
             <Sidenav />
@@ -51,7 +37,7 @@ const App = () => {
               <Routes />
             </main>
           </BrowserRouter>
-        </AuthContext.Provider>
+        </AuthProvider>
       </ThemeProvider>
     </ThemeToggleContext.Provider>
   );
