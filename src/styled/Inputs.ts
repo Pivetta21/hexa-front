@@ -9,8 +9,6 @@ const inputReset = css`
 `;
 
 export const FormContainer = styled.form`
-  width: 340px;
-
   p {
     width: fit-content;
     color: ${(props) => props.theme.commonColors.magenta};
@@ -39,6 +37,7 @@ export const OutlineInput = styled.div`
 
   input {
     ${inputReset}
+    min-width: 320px;
     color: ${(props) => props.theme.colors.text};
     font-size: 16px;
     font-weight: 400;
