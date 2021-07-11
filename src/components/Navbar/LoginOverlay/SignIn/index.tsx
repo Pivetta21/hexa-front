@@ -8,7 +8,7 @@ import {
   FormContainer,
   FormErro,
   OutlineInput,
-  OutlineInputError,
+  InputError,
 } from 'src/styled/Inputs';
 
 import { ApiResponse } from 'src/models/ApiResponse.model';
@@ -16,13 +16,16 @@ import { ApiResponse } from 'src/models/ApiResponse.model';
 import { ButtonPrimary } from 'src/styled/Buttons';
 import { ButtonLoader } from 'src/styled/Loaders';
 import { useState } from 'react';
+import { AuthenticatedUser } from 'src/models/AuthenticatedUser.model';
 
 interface Props {}
 
 const Login: React.FC<Props> = () => {
   const { login } = useContext(AuthContext);
 
-  const [loginResponse, setLoginResponse] = useState({} as ApiResponse);
+  const [loginResponse, setLoginResponse] = useState(
+    {} as ApiResponse<AuthenticatedUser>,
+  );
 
   const initialValues = { email: '', password: '' };
 
@@ -67,7 +70,7 @@ const Login: React.FC<Props> = () => {
       </OutlineInput>
 
       {formik.touched.email && formik.errors.email ? (
-        <OutlineInputError>{formik.errors.email}</OutlineInputError>
+        <InputError>{formik.errors.email}</InputError>
       ) : null}
 
       <OutlineInput>
@@ -84,7 +87,7 @@ const Login: React.FC<Props> = () => {
       </OutlineInput>
 
       {formik.touched.password && formik.errors.password ? (
-        <OutlineInputError>{formik.errors.password}</OutlineInputError>
+        <InputError>{formik.errors.password}</InputError>
       ) : null}
 
       <p>Problemas para entrar?</p>

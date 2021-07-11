@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-import { invert } from 'polished';
+import { invert, transparentize } from 'polished';
 
 const inputReset = css`
   background: none;
@@ -9,6 +9,8 @@ const inputReset = css`
 `;
 
 export const FormContainer = styled.form`
+  width: 340px;
+
   p {
     width: fit-content;
     color: ${(props) => props.theme.commonColors.magenta};
@@ -22,18 +24,6 @@ export const FormContainer = styled.form`
     margin-top: 20px;
     width: 100%;
   }
-`;
-
-export const FormErro = styled.ul`
-  max-width: fit-content;
-  background-color: ${(props) => props.theme.colors.body};
-  padding: 20px;
-  margin-top: 16px;
-  border-radius: 8px;
-  font-size: 16px;
-  margin-bottom: 16px;
-  color: red;
-  text-align: center;
 `;
 
 export const OutlineInput = styled.div`
@@ -52,7 +42,6 @@ export const OutlineInput = styled.div`
     color: ${(props) => props.theme.colors.text};
     font-size: 16px;
     font-weight: 400;
-    width: 320px;
     padding: 8px 0;
     border-bottom: 2px solid ${(props) => invert(props.theme.colors.body)};
 
@@ -66,7 +55,27 @@ export const OutlineInput = styled.div`
   }
 `;
 
-export const OutlineInputError = styled.div`
+export const FormErro = styled.div`
+  position: relative;
+  width: 100%;
+  background-color: ${(props) => transparentize(0.92, props.theme.colors.text)};
+  padding: 20px;
+  margin-top: 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  margin-bottom: 16px;
+  color: ${(props) => props.theme.colors.text};
+  font-weight: 600;
+
+  &::before {
+    content: '> ';
+    color: #e61919;
+    width: 30px;
+    height: 30px;
+  }
+`;
+
+export const InputError = styled.div`
   font-size: 14px;
   position: relative;
   color: #e61919;

@@ -59,6 +59,7 @@ export const SidenavLink = styled(NavLink)`
   align-items: center;
   justify-content: start;
   margin-bottom: ${(props) => props.theme.spacings.normal};
+  outline: none;
 
   &:last-child {
     margin: 0;

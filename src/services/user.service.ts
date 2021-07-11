@@ -1,5 +1,5 @@
 import api from './api';
-import { AxiosError } from 'axios';
+
 import { AuthenticatedUser } from 'src/models/AuthenticatedUser.model';
 
 const url: string = '/users';
@@ -17,9 +17,7 @@ export const login = async function (
     .then((response) => {
       return { user: response.data.user, token: response.data.token };
     })
-    .catch((error: AxiosError | Error) => {
-      console.error(error.message);
-
+    .catch(() => {
       return null;
     });
 };
