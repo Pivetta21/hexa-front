@@ -3,6 +3,8 @@ import { gradients } from '../system/gradients';
 import { shadows } from '../system/shadows';
 import { fontSizes } from '../system/typography';
 import { spacings } from '../system/spacings';
+import { sizes } from '../system/sizes';
+import { breakpoints } from '../system/sizes';
 
 export default {
   title: 'light',
@@ -12,6 +14,10 @@ export default {
     caption: colors.gray,
     nav: colors.lightSilver,
     icon: colors.lightBlack,
+    scrollbar: {
+      track: colors.silver,
+      thumb: colors.lightGray,
+    },
   },
   commonColors: {
     ...colors,
@@ -20,4 +26,6 @@ export default {
   shadows,
   fontSizes,
   spacings,
+  sizes,
+  breakpoints,
 };

@@ -2,18 +2,23 @@ import styled from 'styled-components';
 import { darken } from 'polished';
 
 export const NavContainer = styled.nav`
+  grid-area: navbar;
   position: fixed;
   top: 0;
   left: 0;
   z-index: 2;
   width: 100%;
-  height: 60px;
+  height: ${(props) => props.theme.sizes.nav.navbarHeight};
   background-color: ${(props) => props.theme.colors.nav};
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 ${(props) => props.theme.spacings.medium};
   box-shadow: ${(props) => props.theme.shadows.primary};
+
+  @media (max-width: ${(props) => props.theme.breakpoints.nav.tablet}) {
+    padding: 0 ${(props) => props.theme.spacings.normal};
+  }
 `;
 
 export const NavLogo = styled.div`
@@ -26,7 +31,7 @@ export const NavSearchForm = styled.form`
   justify-content: center;
   position: relative;
 
-  @media (max-width: 900px) {
+  @media (max-width: ${(props) => props.theme.breakpoints.nav.tablet}) {
     display: none;
   }
 `;
@@ -47,7 +52,7 @@ export const NavInputSearch = styled.input`
   }
 
   &::placeholder {
-    color: ${(props) => props.theme.commonColors.lightGray};
+    color: ${(props) => props.theme.commonColors.gray};
   }
 `;
 
@@ -56,7 +61,7 @@ export const NavInputSeparetor = styled.span`
   right: 48px;
   width: 2px;
   height: 28px;
-  background-color: ${(props) => props.theme.commonColors.gray};
+  background-color: ${(props) => props.theme.commonColors.lightGray};
 `;
 
 export const NavInputButton = styled.button`
@@ -77,27 +82,31 @@ export const NavInputButton = styled.button`
   svg {
     width: 28px;
     height: 28px;
-    fill: ${(props) => props.theme.commonColors.lightGray};
-    stroke: ${(props) => props.theme.commonColors.lightGray};
+    fill: ${(props) => props.theme.commonColors.gray};
+    stroke: ${(props) => props.theme.commonColors.gray};
   }
 `;
 
-export const NavIcons = styled.div`
+export const NavMenu = styled.div`
   display: flex;
-  justify-items: center;
-  align-content: center;
+  align-items: center;
+  position: relative;
 
-  svg {
-    height: 42px;
-    width: 42px;
-    margin-left: ${(props) => props.theme.spacings.xSmall};
+  .navmenu-item {
+    margin-left: 8px;
+
+    &:first-child {
+      margin-left: 0;
+    }
+  }
+
+  .navmenu-icon {
+    fill: ${(props) => props.theme.colors.icon};
+    height: 40px;
+    width: 40px;
 
     &:hover {
       cursor: pointer;
-    }
-
-    &:first-child {
-      margin-left: 0px;
     }
   }
 `;

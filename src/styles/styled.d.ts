@@ -9,6 +9,10 @@ declare module 'styled-components' {
       caption: string;
       nav: string;
       icon: string;
+      scrollbar: {
+        track: string;
+        thumb: string;
+      };
     };
     commonColors: {
       magenta: string;
@@ -47,8 +51,23 @@ declare module 'styled-components' {
       large: string;
       medium: string;
       normal: string;
+      default: string;
       small: string;
       xSmall: string;
+    };
+    sizes: {
+      nav: {
+        navbarHeight: string;
+        sidenavWeb: string;
+        sidenavTablet: string;
+        sidenavMobile: string;
+      };
+    };
+    breakpoints: {
+      nav: {
+        tablet: string;
+        mobile: string;
+      };
     };
   }
 }

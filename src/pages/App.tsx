@@ -2,16 +2,19 @@ import { useCallback } from 'react';
 import { ThemeProvider } from 'styled-components';
 import { BrowserRouter } from 'react-router-dom';
 
-import Routes from '../routes';
+import Routes from 'src/routes';
 
-import { GlobalStyle } from '../styles/global';
-import dark from '../styles/themes/dark';
-import light from '../styles/themes/light';
+import { GlobalStyle } from 'src/styles/global';
+import dark from 'src/styles/themes/dark';
+import light from 'src/styles/themes/light';
 
-import usePersistedState from '../hooks/usePersistedState';
+import Navbar from 'src/components/Navbar';
+import Sidenav from 'src/components/Sidenav';
 
-import Navbar from '../components/Navbar';
-import Sidenav from '../components/Sidenav';
+import usePersistedState from 'src/hooks/usePersistedState';
+
+import ThemeToggleContext from 'src/providers/ThemeToggleContext';
+import { AuthProvider } from 'src/providers/AuthContext';
 
 const App = () => {
   const [theme, setTheme] = usePersistedState<string>('theme', dark.title);
@@ -21,20 +24,22 @@ const App = () => {
   }, [theme]);
 
   return (
-    <ThemeProvider theme={theme === 'dark' ? dark : light}>
-      <GlobalStyle />
+    <ThemeToggleContext.Provider value={{ toggleTheme }}>
+      <ThemeProvider theme={theme === 'dark' ? dark : light}>
+        <GlobalStyle />
 
-      <BrowserRouter>
-        <Navbar toggleTheme={toggleTheme} />
-        <Sidenav />
+        <AuthProvider>
+          <BrowserRouter>
+            <Navbar />
+            <Sidenav />
 
-        <main className="main">
-          <div className="wrapper">
-            <Routes />
-          </div>
-        </main>
-      </BrowserRouter>
-    </ThemeProvider>
+            <main className="main scroller">
+              <Routes />
+            </main>
+          </BrowserRouter>
+        </AuthProvider>
+      </ThemeProvider>
+    </ThemeToggleContext.Provider>
   );
 };
 
