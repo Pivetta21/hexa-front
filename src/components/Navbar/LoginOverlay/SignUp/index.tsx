@@ -1,5 +1,7 @@
 import { Fragment, useState } from 'react';
 
+import { createUser } from 'src/services/user.service';
+
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
@@ -7,24 +9,28 @@ import {
   OutlineInput,
   FormContainer,
   InputError,
-  FormErro,
+  FormError,
 } from 'src/styled/Inputs';
 import { ButtonPrimary } from 'src/styled/Buttons';
 import { ButtonLoader } from 'src/styled/Loaders';
 import { useContext } from 'react';
 import AuthContext from 'src/providers/AuthContext';
 import { AuthenticatedUser } from 'src/models/AuthenticatedUser.model';
-import { ApiResponse } from 'src/models/ApiResponse.model';
+
 import { User } from 'src/models/User.model';
+import { ServiceResponse } from 'src/models/ServiceResponse.model';
 
 interface Props {}
 
 const SignUp: React.FC<Props> = () => {
-  const { signUp, login } = useContext(AuthContext);
+  const { login } = useContext(AuthContext);
 
-  const [signUpResponse, setSignUpResponse] = useState({} as ApiResponse<User>);
+  const [createUserResponse, setCreateUserResponse] = useState(
+    {} as ServiceResponse<User>,
+  );
+
   const [loginResponse, setLoginResponse] = useState(
-    {} as ApiResponse<AuthenticatedUser>,
+    {} as ServiceResponse<AuthenticatedUser>,
   );
 
   const initialValues = {
@@ -55,11 +61,11 @@ const SignUp: React.FC<Props> = () => {
     onSubmit: async (values, { setSubmitting }) => {
       const { name, email, password } = values;
 
-      const signUpResponse = await signUp(name, email, password);
+      const serviceResponse = await createUser(name, email, password);
 
-      setSignUpResponse(signUpResponse);
+      setCreateUserResponse(serviceResponse);
 
-      if (!signUpResponse.errors) {
+      if (!serviceResponse.errorResponse) {
         const loginResponse = await login(email, password);
         setLoginResponse(loginResponse);
       }
@@ -71,14 +77,12 @@ const SignUp: React.FC<Props> = () => {
   return (
     <Fragment>
       <FormContainer autoComplete="off" onSubmit={formik.handleSubmit}>
-        {loginResponse.dirty && loginResponse.errors && !formik.isValidating ? (
-          <FormErro>{loginResponse.errorMessage}</FormErro>
+        {createUserResponse.errorResponse && !formik.isValidating ? (
+          <FormError>{createUserResponse.errorResponse.message}</FormError>
         ) : null}
 
-        {signUpResponse.dirty &&
-        signUpResponse.errors &&
-        !formik.isValidating ? (
-          <FormErro>{signUpResponse.errorMessage}</FormErro>
+        {loginResponse.errorResponse && !formik.isValidating ? (
+          <FormError>{loginResponse.errorResponse.message}</FormError>
         ) : null}
 
         <OutlineInput>

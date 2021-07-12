@@ -6,17 +6,16 @@ import AuthContext from 'src/providers/AuthContext';
 
 import {
   FormContainer,
-  FormErro,
+  FormError,
   OutlineInput,
   InputError,
 } from 'src/styled/Inputs';
-
-import { ApiResponse } from 'src/models/ApiResponse.model';
 
 import { ButtonPrimary } from 'src/styled/Buttons';
 import { ButtonLoader } from 'src/styled/Loaders';
 import { useState } from 'react';
 import { AuthenticatedUser } from 'src/models/AuthenticatedUser.model';
+import { ServiceResponse } from 'src/models/ServiceResponse.model';
 
 interface Props {}
 
@@ -24,7 +23,7 @@ const Login: React.FC<Props> = () => {
   const { login } = useContext(AuthContext);
 
   const [loginResponse, setLoginResponse] = useState(
-    {} as ApiResponse<AuthenticatedUser>,
+    {} as ServiceResponse<AuthenticatedUser>,
   );
 
   const initialValues = { email: '', password: '' };
@@ -42,9 +41,9 @@ const Login: React.FC<Props> = () => {
     initialValues: initialValues,
     validationSchema: validationSchema,
     onSubmit: async (values, { setSubmitting }) => {
-      const response = await login(values.email, values.password);
+      const loginResponse = await login(values.email, values.password);
 
-      setLoginResponse(response);
+      setLoginResponse(loginResponse);
 
       setSubmitting(false);
     },
@@ -52,8 +51,8 @@ const Login: React.FC<Props> = () => {
 
   return (
     <FormContainer autoComplete="off" onSubmit={formik.handleSubmit}>
-      {loginResponse.dirty && loginResponse.errors && !formik.isValidating ? (
-        <FormErro>{loginResponse.errorMessage}</FormErro>
+      {loginResponse.errorResponse && !formik.isValidating ? (
+        <FormError>{loginResponse.errorResponse.message}</FormError>
       ) : null}
 
       <OutlineInput>
