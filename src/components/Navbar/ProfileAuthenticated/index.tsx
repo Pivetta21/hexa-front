@@ -27,7 +27,7 @@ import useOutsideClick from 'src/hooks/useOutsideClick';
 interface Props {}
 
 const ProfileAuthenticated: React.FC<Props> = () => {
-  const { logout } = useContext(AuthContext);
+  const { logout, authenticatedUser } = useContext(AuthContext);
 
   const { toggleTheme } = useContext(ThemeToggleContext);
   const { colors, title } = useContext(ThemeContext);
@@ -41,10 +41,18 @@ const ProfileAuthenticated: React.FC<Props> = () => {
     setOpen(false);
   }
 
+  function getProfilePicture() {
+    if (authenticatedUser?.user.pictureUrl) {
+      return authenticatedUser.user.pictureUrl;
+    }
+
+    return nopic;
+  }
+
   return (
     <ProfileMenuContainer className="navmenu-item" ref={dropdownEl}>
       <ProfileMenuImage onClick={() => setOpen(!open)}>
-        <img src={nopic} aria-label="Sua foto de perfil" />
+        <img src={getProfilePicture()} aria-label="Sua foto de perfil." />
       </ProfileMenuImage>
 
       {open && (

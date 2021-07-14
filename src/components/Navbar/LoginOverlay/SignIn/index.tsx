@@ -89,7 +89,7 @@ const Login: React.FC<Props> = () => {
         <InputError>{formik.errors.password}</InputError>
       ) : null}
 
-      <p>Problemas para entrar?</p>
+      <p className="link">Problemas para entrar?</p>
       <ButtonPrimary
         type="submit"
         disabled={!(formik.isValid && formik.dirty) ? true : undefined}

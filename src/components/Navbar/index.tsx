@@ -14,7 +14,7 @@ import {
   NavLogo,
   NavSearchForm,
   NavInputSearch,
-  NavInputSeparetor,
+  NavInputDivider,
   NavInputButton,
   NavMenu,
 } from './styles';
@@ -63,7 +63,7 @@ const Navbar: React.FC<Props> = () => {
 
       <NavSearchForm>
         <NavInputSearch type="text" placeholder="Pesquisar canal" />
-        <NavInputSeparetor />
+        <NavInputDivider />
         <NavInputButton type="button">
           <Search />
         </NavInputButton>

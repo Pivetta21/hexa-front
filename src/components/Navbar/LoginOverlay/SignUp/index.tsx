@@ -1,36 +1,33 @@
-import { Fragment, useState } from 'react';
-
-import { createUser } from 'src/services/user.service';
+import { Fragment, useState, useContext } from 'react';
 
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
-import {
-  OutlineInput,
-  FormContainer,
-  InputError,
-  FormError,
-} from 'src/styled/Inputs';
-import { ButtonPrimary } from 'src/styled/Buttons';
-import { ButtonLoader } from 'src/styled/Loaders';
-import { useContext } from 'react';
-import AuthContext from 'src/providers/AuthContext';
-import { AuthenticatedUser } from 'src/models/AuthenticatedUser.model';
+import { SignUpPageOne } from './pageOne';
+import { SignUpPageTwo } from './pageTwo';
+
+import { createUser, getEmailConfirmation } from 'src/services/user.service';
+import { ServiceResponse } from 'src/models/ServiceResponse.model';
+import { FormContainer, FormError } from 'src/styled/Inputs';
 
 import { User } from 'src/models/User.model';
-import { ServiceResponse } from 'src/models/ServiceResponse.model';
+
+import { ButtonPrimary, ButtonSecondary } from 'src/styled/Buttons';
+
+import AuthContext from 'src/providers/AuthContext';
+import { ButtonLoader } from 'src/styled/Loaders';
+import { ButtonsStepTwo, StepsHeader } from '../style';
 
 interface Props {}
 
 const SignUp: React.FC<Props> = () => {
   const { login } = useContext(AuthContext);
 
+  const [step, setStep] = useState(1);
+  const [user, setUser] = useState({} as User);
+
   const [createUserResponse, setCreateUserResponse] = useState(
     {} as ServiceResponse<User>,
-  );
-
-  const [loginResponse, setLoginResponse] = useState(
-    {} as ServiceResponse<AuthenticatedUser>,
   );
 
   const initialValues = {
@@ -65,98 +62,68 @@ const SignUp: React.FC<Props> = () => {
 
       setCreateUserResponse(serviceResponse);
 
-      if (!serviceResponse.errorResponse) {
-        const loginResponse = await login(email, password);
-        setLoginResponse(loginResponse);
+      if (!serviceResponse.errorResponse && serviceResponse.data) {
+        setUser(serviceResponse.data);
+        setStep(2);
       }
 
       setSubmitting(false);
     },
   });
 
+  function handleConfirmEmail() {
+    getEmailConfirmation(formik.values.email);
+
+    setStep(3);
+  }
+
+  function handleLogin() {
+    login(formik.values.email, formik.values.password);
+  }
+
   return (
     <Fragment>
-      <FormContainer autoComplete="off" onSubmit={formik.handleSubmit}>
-        {createUserResponse.errorResponse && !formik.isValidating ? (
-          <FormError>{createUserResponse.errorResponse.message}</FormError>
-        ) : null}
+      {step == 1 && (
+        <FormContainer autoComplete="off" onSubmit={formik.handleSubmit}>
+          {createUserResponse.errorResponse && !formik.isValidating ? (
+            <FormError>{createUserResponse.errorResponse.message}</FormError>
+          ) : null}
 
-        {loginResponse.errorResponse && !formik.isValidating ? (
-          <FormError>{loginResponse.errorResponse.message}</FormError>
-        ) : null}
+          <SignUpPageOne formik={formik} />
 
-        <OutlineInput>
-          <label htmlFor="name">Nome</label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            placeholder="Digite aqui seu nome"
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-            value={formik.values.name}
-          />
-        </OutlineInput>
+          <ButtonPrimary
+            type="submit"
+            disabled={!(formik.isValid && formik.dirty) ? true : undefined}
+          >
+            {formik.isSubmitting ? <ButtonLoader /> : 'Cadastrar-se'}
+          </ButtonPrimary>
+        </FormContainer>
+      )}
 
-        {formik.touched.name && formik.errors.name ? (
-          <InputError>{formik.errors.name}</InputError>
-        ) : null}
+      {step == 2 && (
+        <Fragment>
+          <StepsHeader>
+            <h1>Confirmar seu e-mail agora?</h1>
+            <p>
+              Lembrando que você pode confirmar seu e-mail a qualquer momento.
+            </p>
+          </StepsHeader>
 
-        <OutlineInput>
-          <label htmlFor="email">E-mail</label>
-          <input
-            type="text"
-            id="email"
-            name="email"
-            placeholder="Digite aqui seu e-mail"
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-            value={formik.values.email}
-          />
-        </OutlineInput>
-        {formik.touched.email && formik.errors.email ? (
-          <InputError>{formik.errors.email}</InputError>
-        ) : null}
+          <ButtonsStepTwo>
+            <ButtonPrimary type="button" onClick={() => handleConfirmEmail()}>
+              Confirmar Agora
+            </ButtonPrimary>
 
-        <OutlineInput>
-          <label htmlFor="password">Senha</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            placeholder="Digite aqui sua senha"
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-            value={formik.values.password}
-          />
-        </OutlineInput>
-        {formik.touched.password && formik.errors.password ? (
-          <InputError>{formik.errors.password}</InputError>
-        ) : null}
+            <ButtonSecondary type="button" onClick={() => handleLogin()}>
+              Mais Tarde
+            </ButtonSecondary>
+          </ButtonsStepTwo>
+        </Fragment>
+      )}
 
-        <OutlineInput>
-          <label htmlFor="confirmPassword">Confirmação de senha</label>
-          <input
-            type="password"
-            id="confirmPassword"
-            name="confirmPassword"
-            placeholder="Digite novamente aqui sua senha"
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-            value={formik.values.confirmPassword}
-          />
-        </OutlineInput>
-        {formik.touched.password && formik.errors.confirmPassword ? (
-          <InputError>{formik.errors.confirmPassword}</InputError>
-        ) : null}
-
-        <ButtonPrimary
-          type="submit"
-          disabled={!(formik.isValid && formik.dirty) ? true : undefined}
-        >
-          {formik.isSubmitting ? <ButtonLoader /> : 'Cadastrar-se'}
-        </ButtonPrimary>
-      </FormContainer>
+      {step == 3 && (
+        <SignUpPageTwo user={user} password={formik.values.password} />
+      )}
     </Fragment>
   );
 };

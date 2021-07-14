@@ -56,7 +56,7 @@ export const NavInputSearch = styled.input`
   }
 `;
 
-export const NavInputSeparetor = styled.span`
+export const NavInputDivider = styled.span`
   position: absolute;
   right: 48px;
   width: 2px;

@@ -5,4 +5,5 @@ export interface User {
   pictureUrl: string;
   signUpDate: string;
   isCreator: boolean;
+  isEmailValidated: boolean;
 }

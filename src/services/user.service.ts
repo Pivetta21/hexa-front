@@ -43,16 +43,49 @@ export const createUser = async function (
 
   await request
     .then((response: AxiosResponse) => {
-      serviceResponse.data = {
-        id: response.data.id,
-        name: response.data.name,
-        email: response.data.email,
-        pictureUrl: response.data.pictureUrl,
-        signUpDate: response.data.signUpDate,
-        isCreator: response.data.isCreator,
-      };
+      serviceResponse.data = response.data;
     })
     .catch((e: AxiosError) => {
+      if (e.response) serviceResponse.errorResponse = e.response.data;
+    });
+
+  return serviceResponse;
+};
+
+export const getEmailConfirmation = async function (
+  email: string,
+): Promise<ServiceResponse<any>> {
+  const request = api.post(`${url}/email-confirmation`, { email });
+
+  const serviceResponse: ServiceResponse<any> = {};
+
+  await request
+    .then((response: AxiosResponse) => {
+      serviceResponse.data = response.data;
+    })
+    .catch((e: AxiosError) => {
+      if (e.response) serviceResponse.errorResponse = e.response.data;
+    });
+
+  return serviceResponse;
+};
+
+export const confirmEmail = async function (
+  user: User,
+  code: number,
+): Promise<ServiceResponse<boolean>> {
+  const request = api.post(`${url}/confirm-email`, user, {
+    params: { code },
+  });
+
+  const serviceResponse: ServiceResponse<boolean> = {};
+
+  await request
+    .then(() => {
+      serviceResponse.data = true;
+    })
+    .catch((e: AxiosError) => {
+      serviceResponse.data = false;
       if (e.response) serviceResponse.errorResponse = e.response.data;
     });
 
