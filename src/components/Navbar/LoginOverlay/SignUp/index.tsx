@@ -8,7 +8,6 @@ import { SignUpPageTwo } from './pageTwo';
 
 import { createUser, getEmailConfirmation } from 'src/services/user.service';
 import { ServiceResponse } from 'src/models/ServiceResponse.model';
-import { FormContainer, FormError } from 'src/styled/Inputs';
 
 import { User } from 'src/models/User.model';
 
@@ -16,7 +15,12 @@ import { ButtonPrimary, ButtonSecondary } from 'src/styled/Buttons';
 
 import AuthContext from 'src/providers/AuthContext';
 import { ButtonLoader } from 'src/styled/Loaders';
-import { ButtonsStepTwo, StepsHeader } from '../style';
+import {
+  ButtonsStepTwo,
+  LoginForm,
+  LoginFormError,
+  StepsHeader,
+} from '../style';
 
 interface Props {}
 
@@ -84,9 +88,11 @@ const SignUp: React.FC<Props> = () => {
   return (
     <Fragment>
       {step == 1 && (
-        <FormContainer autoComplete="off" onSubmit={formik.handleSubmit}>
+        <LoginForm autoComplete="off" onSubmit={formik.handleSubmit}>
           {createUserResponse.errorResponse && !formik.isValidating ? (
-            <FormError>{createUserResponse.errorResponse.message}</FormError>
+            <LoginFormError>
+              {createUserResponse.errorResponse.message}
+            </LoginFormError>
           ) : null}
 
           <SignUpPageOne formik={formik} />
@@ -97,7 +103,7 @@ const SignUp: React.FC<Props> = () => {
           >
             {formik.isSubmitting ? <ButtonLoader /> : 'Cadastrar-se'}
           </ButtonPrimary>
-        </FormContainer>
+        </LoginForm>
       )}
 
       {step == 2 && (

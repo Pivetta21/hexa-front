@@ -65,7 +65,7 @@ const ProfileAuthenticated: React.FC<Props> = () => {
           </NavDropdownLink>
 
           <NavDropdownLink onClick={() => setOpen(false)}>
-            <Link to="/config" className="navdropdown-block">
+            <Link to="/profile/config" className="navdropdown-block">
               <Cog fill={colors.icon} />
               <span>Configurações</span>
             </Link>

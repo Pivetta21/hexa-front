@@ -4,18 +4,14 @@ import * as Yup from 'yup';
 
 import AuthContext from 'src/providers/AuthContext';
 
-import {
-  FormContainer,
-  FormError,
-  OutlineInput,
-  InputError,
-} from 'src/styled/Inputs';
+import { OutlineInput, OutlineInputError } from 'src/styled/Inputs';
 
 import { ButtonPrimary } from 'src/styled/Buttons';
 import { ButtonLoader } from 'src/styled/Loaders';
 import { useState } from 'react';
 import { AuthenticatedUser } from 'src/models/AuthenticatedUser.model';
 import { ServiceResponse } from 'src/models/ServiceResponse.model';
+import { LoginForm, LoginFormError } from '../style';
 
 interface Props {}
 
@@ -50,9 +46,9 @@ const Login: React.FC<Props> = () => {
   });
 
   return (
-    <FormContainer autoComplete="off" onSubmit={formik.handleSubmit}>
+    <LoginForm autoComplete="off" onSubmit={formik.handleSubmit}>
       {loginResponse.errorResponse && !formik.isValidating ? (
-        <FormError>{loginResponse.errorResponse.message}</FormError>
+        <LoginFormError>{loginResponse.errorResponse.message}</LoginFormError>
       ) : null}
 
       <OutlineInput>
@@ -69,7 +65,7 @@ const Login: React.FC<Props> = () => {
       </OutlineInput>
 
       {formik.touched.email && formik.errors.email ? (
-        <InputError>{formik.errors.email}</InputError>
+        <OutlineInputError>{formik.errors.email}</OutlineInputError>
       ) : null}
 
       <OutlineInput>
@@ -86,7 +82,7 @@ const Login: React.FC<Props> = () => {
       </OutlineInput>
 
       {formik.touched.password && formik.errors.password ? (
-        <InputError>{formik.errors.password}</InputError>
+        <OutlineInputError>{formik.errors.password}</OutlineInputError>
       ) : null}
 
       <p className="link">Problemas para entrar?</p>
@@ -96,7 +92,7 @@ const Login: React.FC<Props> = () => {
       >
         {formik.isSubmitting ? <ButtonLoader /> : 'Entrar'}
       </ButtonPrimary>
-    </FormContainer>
+    </LoginForm>
   );
 };
 

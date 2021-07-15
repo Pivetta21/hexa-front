@@ -1,3 +1,4 @@
+import { transparentize } from 'polished';
 import styled from 'styled-components';
 
 export const LoginOverlayContainer = styled.div`
@@ -74,5 +75,41 @@ export const ButtonsStepTwo = styled.div`
     &:last-child {
       margin-bottom: 0;
     }
+  }
+`;
+
+export const LoginForm = styled.form`
+  p.link {
+    width: fit-content;
+    color: ${(props) => props.theme.commonColors.magenta};
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  button {
+    margin-top: 20px;
+    width: 100%;
+  }
+`;
+
+export const LoginFormError = styled.div`
+  position: relative;
+  width: 100%;
+  background-color: ${(props) => transparentize(0.92, props.theme.colors.text)};
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  margin-bottom: 16px;
+  color: ${(props) => props.theme.colors.text};
+  font-weight: 600;
+
+  &::before {
+    content: '> ';
+    color: ${(props) => props.theme.commonColors.red};
+    width: 30px;
+    height: 30px;
   }
 `;

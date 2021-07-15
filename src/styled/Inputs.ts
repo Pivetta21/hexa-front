@@ -2,32 +2,64 @@ import styled, { css } from 'styled-components';
 
 import { invert, transparentize } from 'polished';
 
-const inputReset = css`
+const input = css`
   background: none;
   border: none;
   outline: none;
+  min-width: 320px;
+  max-width: 368px;
+  color: ${(props) => props.theme.colors.text};
+  font-size: ${(props) => props.theme.fontSizes.body.normal};
+  font-weight: 400;
+
+  ::-ms-reveal {
+    display: none;
+  }
+
+  ::placeholder {
+    color: ${(props) => props.theme.colors.caption};
+  }
 `;
 
-export const FormContainer = styled.form`
-  p.link {
-    width: fit-content;
-    color: ${(props) => props.theme.commonColors.magenta};
+const inputError = css`
+  position: relative;
+  color: ${(props) => props.theme.commonColors.red};
+  margin-bottom: ${(props) => props.theme.spacings.default};
 
-    &:hover {
-      cursor: pointer;
-    }
+  &::before {
+    content: '* ';
+  }
+`;
+
+export const DefaultInput = styled.div`
+  margin-bottom: ${(props) => props.theme.spacings.default};
+
+  label {
+    font-size: ${(props) => props.theme.fontSizes.body.normal};
+    font-weight: 700;
   }
 
-  button {
-    margin-top: 20px;
-    width: 100%;
+  input {
+    ${input}
+    background-color: ${(props) =>
+      transparentize(0.92, props.theme.colors.text)};
+    padding: 10px 12px;
+    border-radius: 6px;
+    margin-top: 8px;
   }
+`;
+
+export const DefaultInputError = styled.div`
+  ${inputError}
+
+  font-size: ${(props) => props.theme.fontSizes.body.normal};
+  margin-top: 6px;
 `;
 
 export const OutlineInput = styled.div`
   display: flex;
   flex-direction: column;
-  margin-bottom: 16px;
+  margin-bottom: ${(props) => props.theme.spacings.default};
 
   label {
     font-size: 16px;
@@ -36,53 +68,15 @@ export const OutlineInput = styled.div`
   }
 
   input {
-    ${inputReset}
-    min-width: 320px;
-    max-width: 368px;
-    color: ${(props) => props.theme.colors.text};
-    font-size: 16px;
-    font-weight: 400;
+    ${input}
     padding: 8px 0;
     border-bottom: 2px solid ${(props) => invert(props.theme.colors.body)};
-
-    ::-ms-reveal {
-      display: none;
-    }
-
-    ::placeholder {
-      color: ${(props) => props.theme.colors.caption};
-    }
   }
 `;
 
-export const FormError = styled.div`
-  position: relative;
-  width: 100%;
-  background-color: ${(props) => transparentize(0.92, props.theme.colors.text)};
-  padding: 20px;
-  margin-top: 16px;
-  border-radius: 8px;
-  font-size: 14px;
-  margin-bottom: 16px;
-  color: ${(props) => props.theme.colors.text};
-  font-weight: 600;
+export const OutlineInputError = styled.div`
+  ${inputError}
 
-  &::before {
-    content: '> ';
-    color: #e61919;
-    width: 30px;
-    height: 30px;
-  }
-`;
-
-export const InputError = styled.div`
   font-size: 14px;
-  position: relative;
-  color: #e61919;
   margin-top: -8px;
-  margin-bottom: 16px;
-
-  &::before {
-    content: '* ';
-  }
 `;

@@ -3,12 +3,7 @@ import { useContext, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
-import {
-  FormContainer,
-  FormError,
-  InputError,
-  OutlineInput,
-} from 'src/styled/Inputs';
+import { OutlineInput, OutlineInputError } from 'src/styled/Inputs';
 import { ButtonPrimary } from 'src/styled/Buttons';
 import { ButtonLoader } from 'src/styled/Loaders';
 
@@ -17,7 +12,7 @@ import AuthContext from 'src/providers/AuthContext';
 import { confirmEmail } from 'src/services/user.service';
 import { User } from 'src/models/User.model';
 import { ServiceResponse } from 'src/models/ServiceResponse.model';
-import { StepsHeader } from '../style';
+import { LoginForm, LoginFormError, StepsHeader } from '../style';
 
 interface Props {
   user: User;
@@ -58,9 +53,11 @@ export const SignUpPageTwo: React.FC<Props> = ({ user, password }) => {
   });
 
   return (
-    <FormContainer autoComplete="off" onSubmit={formik.handleSubmit}>
+    <LoginForm autoComplete="off" onSubmit={formik.handleSubmit}>
       {emailConfirmation.errorResponse && !formik.isValidating ? (
-        <FormError>{emailConfirmation.errorResponse.message}</FormError>
+        <LoginFormError>
+          {emailConfirmation.errorResponse.message}
+        </LoginFormError>
       ) : null}
 
       <StepsHeader>
@@ -84,7 +81,7 @@ export const SignUpPageTwo: React.FC<Props> = ({ user, password }) => {
         />
       </OutlineInput>
       {formik.touched.code && formik.errors.code ? (
-        <InputError>{formik.errors.code}</InputError>
+        <OutlineInputError>{formik.errors.code}</OutlineInputError>
       ) : null}
 
       <ButtonPrimary
@@ -93,6 +90,6 @@ export const SignUpPageTwo: React.FC<Props> = ({ user, password }) => {
       >
         {formik.isSubmitting ? <ButtonLoader /> : 'Verificar'}
       </ButtonPrimary>
-    </FormContainer>
+    </LoginForm>
   );
 };

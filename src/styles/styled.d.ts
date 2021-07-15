@@ -24,6 +24,7 @@ declare module 'styled-components' {
       lightGray: string;
       gray: string;
       darkGray: string;
+      red: string;
     };
     gradients: {
       primary: string;
