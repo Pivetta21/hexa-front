@@ -1,4 +1,4 @@
-import { createContext } from 'react';
+import { createContext, Dispatch, SetStateAction } from 'react';
 
 import usePersistedState from 'src/hooks/usePersistedState';
 
@@ -8,6 +8,7 @@ import { AuthenticatedUser } from 'src/models/AuthenticatedUser.model';
 
 interface AuthContextType {
   authenticatedUser: AuthenticatedUser | null;
+  setAuthenticatedUser: Dispatch<SetStateAction<AuthenticatedUser | null>>;
   isUserLoggedIn: boolean;
   login(
     email: string,
@@ -41,7 +42,8 @@ export const AuthProvider: React.FC = ({ children }) => {
   return (
     <AuthContext.Provider
       value={{
-        authenticatedUser: authenticatedUser,
+        authenticatedUser,
+        setAuthenticatedUser,
         isUserLoggedIn: Boolean(authenticatedUser),
         login: handleLogin,
         logout: handleLogout,

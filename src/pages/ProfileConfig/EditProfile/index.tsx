@@ -1,23 +1,34 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
 import AuthContext from 'src/providers/AuthContext';
 
+import getFormikChangedValues from 'src/helpers/getFormikChangedValues';
+
 import { ButtonPrimary, ButtonSecondary } from 'src/styled/Buttons';
 import { ButtonLoader } from 'src/styled/Loaders';
 import { FormButtonsRow, FormContainer } from 'src/styled/Blocks';
 
+import { updateUser } from 'src/services/user.service';
+
+import { ServiceResponse } from 'src/models/ServiceResponse.model';
+import { User } from 'src/models/User.model';
+
 import InputField from 'src/components/InputField';
-import { useHistory } from 'react-router-dom';
 
 interface Props {}
 
 const EditProfile: React.FC<Props> = () => {
   const history = useHistory();
 
-  const { authenticatedUser } = useContext(AuthContext);
+  const { authenticatedUser, setAuthenticatedUser } = useContext(AuthContext);
+
+  const [updateUserResponse, setUpdateUserResponse] = useState(
+    {} as ServiceResponse<User>,
+  );
 
   const initialValues = {
     name: authenticatedUser?.user.name,
@@ -27,31 +38,54 @@ const EditProfile: React.FC<Props> = () => {
   };
 
   const validationSchema = Yup.object({
-    name: Yup.string()
-      .min(3, 'Seu nome é muito curto.')
-      .required('Esse campo é obrigatório!'),
-    email: Yup.string()
-      .email('Endereço de e-mail inválido.')
-      .required('Esse campo é obrigatório!'),
+    name: Yup.string().min(3, 'Seu nome é muito curto.'),
+    email: Yup.string().email('Endereço de e-mail inválido.'),
     password: Yup.string().min(5, 'Sua senha é muito curta.'),
-    confirmPassword: Yup.string().oneOf(
-      [Yup.ref('password')],
-      'As senhas devem ser iguais!',
-    ),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref('password')], 'As senhas devem ser iguais!')
+      .when(['password'], {
+        is: (value: any) => Boolean(value),
+        then: Yup.string().required('Preencher este campo!'),
+      }),
   });
 
   return (
     <Formik
+      enableReinitialize
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={async (values, actions) => {
-        console.log(values);
+        const changedValues = getFormikChangedValues(values, initialValues, [
+          'confirmPassword',
+        ]);
+
+        if (authenticatedUser) {
+          const serviceResponse = await updateUser(
+            authenticatedUser,
+            changedValues,
+          );
+
+          setUpdateUserResponse(serviceResponse);
+
+          if (!serviceResponse.errorResponse && serviceResponse.data) {
+            setAuthenticatedUser({
+              user: serviceResponse.data,
+              token: authenticatedUser.token,
+            });
+
+            actions.resetForm();
+          }
+        }
 
         actions.setSubmitting(false);
       }}
     >
       {(formik) => (
         <FormContainer autoComplete="off" onSubmit={formik.handleSubmit}>
+          {updateUserResponse.errorResponse && !formik.isValidating ? (
+            <div>{updateUserResponse.errorResponse.message}</div>
+          ) : null}
+
           <InputField
             fullWidth
             label="Nome"

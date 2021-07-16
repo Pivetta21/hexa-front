@@ -12,7 +12,7 @@ export const SectionLinks = styled.div`
 `;
 
 export const FormContainer = styled.form`
-  margin: ${(props) => props.theme.spacings.normal} 0;
+  margin-top: ${(props) => props.theme.spacings.normal};
 `;
 
 export const FormButtonsRow = styled.div`
