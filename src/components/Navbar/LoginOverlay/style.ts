@@ -2,7 +2,7 @@ import { transparentize } from 'polished';
 import styled from 'styled-components';
 
 export const LoginOverlayContainer = styled.div`
-  > h1 {
+  .login-header {
     font-size: ${(props) => props.theme.fontSizes.body.medium};
     font-weight: 700;
     color: ${(props) => props.theme.commonColors.magenta};
@@ -45,21 +45,6 @@ export const LoginNavLink = styled.div`
     font-weight: 700;
     color: ${(props) => props.theme.commonColors.magenta};
     border-bottom: 2px solid ${(props) => props.theme.commonColors.magenta};
-  }
-`;
-
-export const StepsHeader = styled.div`
-  width: 320px;
-
-  > h1 {
-    margin-bottom: 10px;
-    font-weight: 600;
-    font-size: 1.15rem;
-  }
-
-  > p {
-    font-size: 1rem;
-    margin-bottom: 20px;
   }
 `;
 

@@ -15,12 +15,8 @@ import { ButtonPrimary, ButtonSecondary } from 'src/styled/Buttons';
 
 import AuthContext from 'src/providers/AuthContext';
 import { ButtonLoader } from 'src/styled/Loaders';
-import {
-  ButtonsStepTwo,
-  LoginForm,
-  LoginFormError,
-  StepsHeader,
-} from '../style';
+import { ButtonsStepTwo, LoginForm, LoginFormError } from '../style';
+import { ContainerCaption, ContainerHeader } from 'src/styled/Texts';
 
 interface Props {}
 
@@ -108,12 +104,11 @@ const SignUp: React.FC<Props> = () => {
 
       {step == 2 && (
         <Fragment>
-          <StepsHeader>
-            <h1>Confirmar seu e-mail agora?</h1>
-            <p>
-              Lembrando que você pode confirmar seu e-mail a qualquer momento.
-            </p>
-          </StepsHeader>
+          <ContainerHeader>Confirmar seu e-mail agora?</ContainerHeader>
+          <ContainerCaption>
+            Lembrando que você pode confirmar <br /> seu e-mail a qualquer
+            momento.
+          </ContainerCaption>
 
           <ButtonsStepTwo>
             <ButtonPrimary type="button" onClick={() => handleConfirmEmail()}>

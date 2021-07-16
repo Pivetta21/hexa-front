@@ -80,3 +80,45 @@ export const ButtonSecondary = styled.button`
       darken(0.02, props.theme.commonColors.darkGray)};
   }
 `;
+
+export const OutlineButton = styled.button`
+  ${btn}
+
+  background-color: transparent;
+  border: 2px solid;
+  border-color: ${(props) => props.theme.colors.text};
+  color: ${(props) => props.theme.colors.text};
+
+  &:hover:not(:disabled) {
+    opacity: 0.8;
+  }
+`;
+
+export const ButtonsRowContainer = styled.div`
+  display: flex;
+  flex-direction: row-reverse;
+  margin-top: ${(props) => props.theme.spacings.medium};
+
+  button {
+    margin-right: 12px;
+
+    &:first-child {
+      margin-right: 0;
+    }
+  }
+`;
+
+export const ButtonsColumnContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: ${(props) => props.theme.spacings.medium};
+
+  button {
+    margin-bottom: 12px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+`;

@@ -1,26 +1,36 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+
+const marginTop = css`
+  margin-top: ${(props) => props.theme.spacings.normal};
+`;
 
 export const Section = styled.div`
   display: flex;
   flex-direction: column;
-  width: 365px;
+  width: 380px;
   margin: 0 auto;
 `;
 
-export const SectionLinks = styled.div`
+export const InternalLinksContainer = styled.div`
   margin-bottom: ${(props) => props.theme.spacings.small};
 `;
 
 export const FormContainer = styled.form`
-  margin-top: ${(props) => props.theme.spacings.normal};
+  ${marginTop}
 `;
 
-export const FormButtonsRow = styled.div`
-  display: flex;
-  flex-direction: row-reverse;
-  margin: ${(props) => props.theme.spacings.medium} 0;
+export const OptionsContainer = styled.div`
+  ${marginTop}
+`;
 
-  button:last-child {
-    margin-right: 12px;
+export const InlineOption = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: ${(props) => props.theme.spacings.normal};
+
+  &:last-child {
+    margin-bottom: 0;
   }
 `;

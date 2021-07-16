@@ -7,7 +7,6 @@ const input = css`
   border: none;
   outline: none;
   min-width: 320px;
-  max-width: 368px;
   color: ${(props) => props.theme.colors.text};
   font-size: ${(props) => props.theme.fontSizes.body.normal};
   font-weight: 400;
@@ -32,6 +31,8 @@ const inputError = css`
 `;
 
 export const DefaultInput = styled.div`
+  display: flex;
+  flex-direction: column;
   margin-bottom: ${(props) => props.theme.spacings.default};
 
   label {

@@ -12,7 +12,8 @@ import AuthContext from 'src/providers/AuthContext';
 import { confirmEmail } from 'src/services/user.service';
 import { User } from 'src/models/User.model';
 import { ServiceResponse } from 'src/models/ServiceResponse.model';
-import { LoginForm, LoginFormError, StepsHeader } from '../style';
+import { LoginForm, LoginFormError } from '../style';
+import { ContainerCaption, ContainerHeader } from 'src/styled/Texts';
 
 interface Props {
   user: User;
@@ -60,13 +61,11 @@ export const SignUpPageTwo: React.FC<Props> = ({ user, password }) => {
         </LoginFormError>
       ) : null}
 
-      <StepsHeader>
-        <h1>Confirmar E-mail</h1>
-        <p>
-          Enviamos um e-mail para você com o código de verificação. Isto pode
-          levar alguns minutos.
-        </p>
-      </StepsHeader>
+      <ContainerHeader>Confirmação de E-mail</ContainerHeader>
+      <ContainerCaption>
+        Enviamos um e-mail para você com o <br />
+        código de verificação.
+      </ContainerCaption>
 
       <OutlineInput>
         <label htmlFor="code">Código de Verificação</label>

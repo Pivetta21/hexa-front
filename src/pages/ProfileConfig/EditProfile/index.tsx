@@ -8,9 +8,13 @@ import AuthContext from 'src/providers/AuthContext';
 
 import getFormikChangedValues from 'src/helpers/getFormikChangedValues';
 
-import { ButtonPrimary, ButtonSecondary } from 'src/styled/Buttons';
+import {
+  ButtonPrimary,
+  ButtonSecondary,
+  ButtonsRowContainer,
+} from 'src/styled/Buttons';
 import { ButtonLoader } from 'src/styled/Loaders';
-import { FormButtonsRow, FormContainer } from 'src/styled/Blocks';
+import { FormContainer } from 'src/styled/Blocks';
 
 import { updateUser } from 'src/services/user.service';
 
@@ -95,7 +99,11 @@ const EditProfile: React.FC<Props> = () => {
 
           <InputField
             fullWidth
-            label="E-mail"
+            label={`E-mail ${
+              authenticatedUser?.user.isEmailValidated
+                ? '(Verificado)'
+                : '(Não verificado)'
+            } `}
             name="email"
             placeholder="Digite aqui seu email"
           />
@@ -116,7 +124,7 @@ const EditProfile: React.FC<Props> = () => {
             type="password"
           />
 
-          <FormButtonsRow>
+          <ButtonsRowContainer>
             <ButtonPrimary
               type="submit"
               disabled={!(formik.isValid && formik.dirty) ? true : undefined}
@@ -127,7 +135,7 @@ const EditProfile: React.FC<Props> = () => {
             <ButtonSecondary onClick={() => history.push('/profile')}>
               Voltar
             </ButtonSecondary>
-          </FormButtonsRow>
+          </ButtonsRowContainer>
         </FormContainer>
       )}
     </Formik>

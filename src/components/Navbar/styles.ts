@@ -93,6 +93,7 @@ export const NavMenu = styled.div`
   position: relative;
 
   .navmenu-item {
+    display: flex;
     margin-left: 8px;
 
     &:first-child {
