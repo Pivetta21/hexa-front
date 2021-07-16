@@ -72,7 +72,9 @@ const Navbar: React.FC<Props> = () => {
       <NavMenu>
         {isUserLoggedIn && (
           <Fragment>
-            <Channel className="navmenu-item navmenu-icon" />
+            <Link to="/channel" className="navmenu-item">
+              <Channel className="navmenu-icon" />
+            </Link>
 
             <ProfileAuthenticated />
           </Fragment>

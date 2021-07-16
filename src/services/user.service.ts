@@ -1,5 +1,5 @@
 import { ServiceResponse } from '../models/ServiceResponse.model';
-import { User } from './../models/User.model';
+import { UpdateUser, User } from './../models/User.model';
 import api from './api';
 
 import { AuthenticatedUser } from 'src/models/AuthenticatedUser.model';
@@ -76,6 +76,48 @@ export const confirmEmail = async function (
 ): Promise<ServiceResponse<boolean>> {
   const request = api.post(`${url}/confirm-email`, user, {
     params: { code },
+  });
+
+  const serviceResponse: ServiceResponse<boolean> = {};
+
+  await request
+    .then(() => {
+      serviceResponse.data = true;
+    })
+    .catch((e: AxiosError) => {
+      serviceResponse.data = false;
+      if (e.response) serviceResponse.errorResponse = e.response.data;
+    });
+
+  return serviceResponse;
+};
+
+export const updateUser = async function (
+  authenticatedUser: AuthenticatedUser,
+  user: UpdateUser,
+): Promise<ServiceResponse<User>> {
+  const request = api.patch(`${url}/${authenticatedUser.user.id}`, user, {
+    headers: { Authorization: `Bearer ${authenticatedUser.token}` },
+  });
+
+  const serviceResponse: ServiceResponse<User> = {};
+
+  await request
+    .then((response: AxiosResponse) => {
+      serviceResponse.data = response.data;
+    })
+    .catch((e: AxiosError) => {
+      if (e.response) serviceResponse.errorResponse = e.response.data;
+    });
+
+  return serviceResponse;
+};
+
+export const deleteUser = async function (
+  authenticatedUser: AuthenticatedUser,
+): Promise<ServiceResponse<boolean>> {
+  const request = api.delete(`${url}/${authenticatedUser.user.id}`, {
+    headers: { Authorization: `Bearer ${authenticatedUser.token}` },
   });
 
   const serviceResponse: ServiceResponse<boolean> = {};

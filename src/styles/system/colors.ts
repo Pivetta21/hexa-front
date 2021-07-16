@@ -8,6 +8,7 @@ const colors = {
   lightGray: '#84848C',
   gray: '#65656B',
   darkGray: '#323234',
+  red: '#e23636',
 };
 
 export { colors };

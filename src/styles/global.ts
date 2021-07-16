@@ -85,4 +85,8 @@ export const GlobalStyle = createGlobalStyle`
   .scroller::-webkit-scrollbar-thumb {  
     background-color: ${(props) => props.theme.colors.scrollbar.thumb};
   }
+
+  .w-100 {
+    width: 100%;
+  }
 `;

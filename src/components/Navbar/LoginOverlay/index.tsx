@@ -14,8 +14,8 @@ const LoginOverlay: React.FC<Props> = () => {
 
   return (
     <LoginOverlayContainer>
-      {isSignIn && <h1>Entrar na Hexa</h1>}
-      {isSignUp && <h1>Cadastrar-se na Hexa</h1>}
+      {isSignIn && <h1 className="login-header">Entrar na Hexa</h1>}
+      {isSignUp && <h1 className="login-header">Cadastrar-se na Hexa</h1>}
 
       <LoginNav>
         <LoginNavLink

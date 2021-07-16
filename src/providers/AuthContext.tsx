@@ -8,12 +8,13 @@ import { AuthenticatedUser } from 'src/models/AuthenticatedUser.model';
 
 interface AuthContextType {
   authenticatedUser: AuthenticatedUser | null;
+  setAuthenticatedUser(user: AuthenticatedUser | null): void;
   isUserLoggedIn: boolean;
   login(
     email: string,
     password: string,
   ): Promise<ServiceResponse<AuthenticatedUser>>;
-  logout(): Promise<void>;
+  logout(): void;
 }
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
@@ -34,14 +35,21 @@ export const AuthProvider: React.FC = ({ children }) => {
     return loginResponse;
   };
 
-  const handleLogout = async () => {
+  const handleSetAuthenticatedUser = (
+    authenticatedUser: AuthenticatedUser | null,
+  ): void => {
+    setAuthenticatedUser(authenticatedUser);
+  };
+
+  const handleLogout = () => {
     setAuthenticatedUser(null);
   };
 
   return (
     <AuthContext.Provider
       value={{
-        authenticatedUser: authenticatedUser,
+        authenticatedUser,
+        setAuthenticatedUser: handleSetAuthenticatedUser,
         isUserLoggedIn: Boolean(authenticatedUser),
         login: handleLogin,
         logout: handleLogout,

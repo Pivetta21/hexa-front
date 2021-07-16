@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
 
-import { OutlineInput, InputError } from 'src/styled/Inputs';
+import { OutlineInput, OutlineInputError } from 'src/styled/Inputs';
 
 interface Props {
   formik: any;
@@ -22,7 +22,7 @@ export const SignUpPageOne: React.FC<Props> = ({ formik }) => {
         />
       </OutlineInput>
       {formik.touched.name && formik.errors.name ? (
-        <InputError>{formik.errors.name}</InputError>
+        <OutlineInputError>{formik.errors.name}</OutlineInputError>
       ) : null}
 
       <OutlineInput>
@@ -38,7 +38,7 @@ export const SignUpPageOne: React.FC<Props> = ({ formik }) => {
         />
       </OutlineInput>
       {formik.touched.email && formik.errors.email ? (
-        <InputError>{formik.errors.email}</InputError>
+        <OutlineInputError>{formik.errors.email}</OutlineInputError>
       ) : null}
 
       <OutlineInput>
@@ -54,7 +54,7 @@ export const SignUpPageOne: React.FC<Props> = ({ formik }) => {
         />
       </OutlineInput>
       {formik.touched.password && formik.errors.password ? (
-        <InputError>{formik.errors.password}</InputError>
+        <OutlineInputError>{formik.errors.password}</OutlineInputError>
       ) : null}
 
       <OutlineInput>
@@ -70,7 +70,7 @@ export const SignUpPageOne: React.FC<Props> = ({ formik }) => {
         />
       </OutlineInput>
       {formik.touched.password && formik.errors.confirmPassword ? (
-        <InputError>{formik.errors.confirmPassword}</InputError>
+        <OutlineInputError>{formik.errors.confirmPassword}</OutlineInputError>
       ) : null}
     </Fragment>
   );

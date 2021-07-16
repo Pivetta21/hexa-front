@@ -8,15 +8,20 @@ import { SignUpPageTwo } from './pageTwo';
 
 import { createUser, getEmailConfirmation } from 'src/services/user.service';
 import { ServiceResponse } from 'src/models/ServiceResponse.model';
-import { FormContainer, FormError } from 'src/styled/Inputs';
 
 import { User } from 'src/models/User.model';
 
-import { ButtonPrimary, ButtonSecondary } from 'src/styled/Buttons';
+import {
+  ButtonPrimary,
+  ButtonsColumnContainer,
+  ButtonSecondary,
+} from 'src/styled/Buttons';
 
 import AuthContext from 'src/providers/AuthContext';
 import { ButtonLoader } from 'src/styled/Loaders';
-import { ButtonsStepTwo, StepsHeader } from '../style';
+import { ContainerCaption, ContainerHeader } from 'src/styled/Texts';
+import { ServiceError } from 'src/styled/Inputs';
+import { FormContainer } from 'src/styled/Blocks';
 
 interface Props {}
 
@@ -86,13 +91,16 @@ const SignUp: React.FC<Props> = () => {
       {step == 1 && (
         <FormContainer autoComplete="off" onSubmit={formik.handleSubmit}>
           {createUserResponse.errorResponse && !formik.isValidating ? (
-            <FormError>{createUserResponse.errorResponse.message}</FormError>
+            <ServiceError>
+              {createUserResponse.errorResponse.message}
+            </ServiceError>
           ) : null}
 
           <SignUpPageOne formik={formik} />
 
           <ButtonPrimary
             type="submit"
+            className="w-100"
             disabled={!(formik.isValid && formik.dirty) ? true : undefined}
           >
             {formik.isSubmitting ? <ButtonLoader /> : 'Cadastrar-se'}
@@ -102,14 +110,13 @@ const SignUp: React.FC<Props> = () => {
 
       {step == 2 && (
         <Fragment>
-          <StepsHeader>
-            <h1>Confirmar seu e-mail agora?</h1>
-            <p>
-              Lembrando que você pode confirmar seu e-mail a qualquer momento.
-            </p>
-          </StepsHeader>
+          <ContainerHeader>Confirmar seu e-mail agora?</ContainerHeader>
+          <ContainerCaption>
+            Lembrando que você pode confirmar <br /> seu e-mail a qualquer
+            momento.
+          </ContainerCaption>
 
-          <ButtonsStepTwo>
+          <ButtonsColumnContainer>
             <ButtonPrimary type="button" onClick={() => handleConfirmEmail()}>
               Confirmar Agora
             </ButtonPrimary>
@@ -117,7 +124,7 @@ const SignUp: React.FC<Props> = () => {
             <ButtonSecondary type="button" onClick={() => handleLogin()}>
               Mais Tarde
             </ButtonSecondary>
-          </ButtonsStepTwo>
+          </ButtonsColumnContainer>
         </Fragment>
       )}
 

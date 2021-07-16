@@ -4,10 +4,9 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
 import {
-  FormContainer,
-  FormError,
-  InputError,
+  ServiceError,
   OutlineInput,
+  OutlineInputError,
 } from 'src/styled/Inputs';
 import { ButtonPrimary } from 'src/styled/Buttons';
 import { ButtonLoader } from 'src/styled/Loaders';
@@ -17,7 +16,8 @@ import AuthContext from 'src/providers/AuthContext';
 import { confirmEmail } from 'src/services/user.service';
 import { User } from 'src/models/User.model';
 import { ServiceResponse } from 'src/models/ServiceResponse.model';
-import { StepsHeader } from '../style';
+import { ContainerCaption, ContainerHeader } from 'src/styled/Texts';
+import { FormContainer } from 'src/styled/Blocks';
 
 interface Props {
   user: User;
@@ -60,16 +60,14 @@ export const SignUpPageTwo: React.FC<Props> = ({ user, password }) => {
   return (
     <FormContainer autoComplete="off" onSubmit={formik.handleSubmit}>
       {emailConfirmation.errorResponse && !formik.isValidating ? (
-        <FormError>{emailConfirmation.errorResponse.message}</FormError>
+        <ServiceError>{emailConfirmation.errorResponse.message}</ServiceError>
       ) : null}
 
-      <StepsHeader>
-        <h1>Confirmar E-mail</h1>
-        <p>
-          Enviamos um e-mail para você com o código de verificação. Isto pode
-          levar alguns minutos.
-        </p>
-      </StepsHeader>
+      <ContainerHeader>Confirmação de E-mail</ContainerHeader>
+      <ContainerCaption>
+        Enviamos um e-mail para você com o <br />
+        código de verificação.
+      </ContainerCaption>
 
       <OutlineInput>
         <label htmlFor="code">Código de Verificação</label>
@@ -84,11 +82,12 @@ export const SignUpPageTwo: React.FC<Props> = ({ user, password }) => {
         />
       </OutlineInput>
       {formik.touched.code && formik.errors.code ? (
-        <InputError>{formik.errors.code}</InputError>
+        <OutlineInputError>{formik.errors.code}</OutlineInputError>
       ) : null}
 
       <ButtonPrimary
         type="submit"
+        className="w-100"
         disabled={!(formik.isValid && formik.dirty) ? true : undefined}
       >
         {formik.isSubmitting ? <ButtonLoader /> : 'Verificar'}
