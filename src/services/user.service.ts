@@ -112,3 +112,24 @@ export const updateUser = async function (
 
   return serviceResponse;
 };
+
+export const deleteUser = async function (
+  authenticatedUser: AuthenticatedUser,
+): Promise<ServiceResponse<boolean>> {
+  const request = api.delete(`${url}/${authenticatedUser.user.id}`, {
+    headers: { Authorization: `Bearer ${authenticatedUser.token}` },
+  });
+
+  const serviceResponse: ServiceResponse<boolean> = {};
+
+  await request
+    .then(() => {
+      serviceResponse.data = true;
+    })
+    .catch((e: AxiosError) => {
+      serviceResponse.data = false;
+      if (e.response) serviceResponse.errorResponse = e.response.data;
+    });
+
+  return serviceResponse;
+};

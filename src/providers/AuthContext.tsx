@@ -14,7 +14,7 @@ interface AuthContextType {
     email: string,
     password: string,
   ): Promise<ServiceResponse<AuthenticatedUser>>;
-  logout(): Promise<void>;
+  logout(): void;
 }
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
@@ -41,7 +41,7 @@ export const AuthProvider: React.FC = ({ children }) => {
     setAuthenticatedUser(authenticatedUser);
   };
 
-  const handleLogout = async () => {
+  const handleLogout = () => {
     setAuthenticatedUser(null);
   };
 

@@ -4,7 +4,11 @@ import * as Yup from 'yup';
 
 import AuthContext from 'src/providers/AuthContext';
 
-import { FormError, OutlineInput, OutlineInputError } from 'src/styled/Inputs';
+import {
+  ServiceError,
+  OutlineInput,
+  OutlineInputError,
+} from 'src/styled/Inputs';
 
 import { ButtonPrimary } from 'src/styled/Buttons';
 import { ButtonLoader } from 'src/styled/Loaders';
@@ -48,7 +52,7 @@ const Login: React.FC<Props> = () => {
   return (
     <FormContainer autoComplete="off" onSubmit={formik.handleSubmit}>
       {loginResponse.errorResponse && !formik.isValidating ? (
-        <FormError>{loginResponse.errorResponse.message}</FormError>
+        <ServiceError>{loginResponse.errorResponse.message}</ServiceError>
       ) : null}
 
       <OutlineInput>

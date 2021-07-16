@@ -24,7 +24,11 @@ import {
   OverlayDiv,
 } from 'src/styled/Overlay';
 
-import { DefaultInput, DefaultInputError, FormError } from 'src/styled/Inputs';
+import {
+  DefaultInput,
+  DefaultInputError,
+  ServiceError,
+} from 'src/styled/Inputs';
 import { ButtonLoader } from 'src/styled/Loaders';
 
 interface Props {}
@@ -74,7 +78,7 @@ const ConfirmEmail: React.FC<Props> = () => {
 
         if (!serviceResponse.errorResponse && serviceResponse.data) {
           authenticatedUser.user.isEmailValidated = serviceResponse.data;
-          console.log(authenticatedUser);
+
           setAuthenticatedUser(authenticatedUser);
 
           setIsConfirmEmail(false);
@@ -112,9 +116,9 @@ const ConfirmEmail: React.FC<Props> = () => {
 
               <FormContainer autoComplete="off" onSubmit={formik.handleSubmit}>
                 {emailConfirmationRes.errorResponse && !formik.isValidating ? (
-                  <FormError>
+                  <ServiceError>
                     {emailConfirmationRes.errorResponse.message}
-                  </FormError>
+                  </ServiceError>
                 ) : null}
 
                 <DefaultInput>

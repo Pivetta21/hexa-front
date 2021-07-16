@@ -20,7 +20,7 @@ import {
 import AuthContext from 'src/providers/AuthContext';
 import { ButtonLoader } from 'src/styled/Loaders';
 import { ContainerCaption, ContainerHeader } from 'src/styled/Texts';
-import { FormError } from 'src/styled/Inputs';
+import { ServiceError } from 'src/styled/Inputs';
 import { FormContainer } from 'src/styled/Blocks';
 
 interface Props {}
@@ -91,7 +91,9 @@ const SignUp: React.FC<Props> = () => {
       {step == 1 && (
         <FormContainer autoComplete="off" onSubmit={formik.handleSubmit}>
           {createUserResponse.errorResponse && !formik.isValidating ? (
-            <FormError>{createUserResponse.errorResponse.message}</FormError>
+            <ServiceError>
+              {createUserResponse.errorResponse.message}
+            </ServiceError>
           ) : null}
 
           <SignUpPageOne formik={formik} />

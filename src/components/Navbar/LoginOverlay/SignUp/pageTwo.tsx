@@ -3,7 +3,11 @@ import { useContext, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
-import { FormError, OutlineInput, OutlineInputError } from 'src/styled/Inputs';
+import {
+  ServiceError,
+  OutlineInput,
+  OutlineInputError,
+} from 'src/styled/Inputs';
 import { ButtonPrimary } from 'src/styled/Buttons';
 import { ButtonLoader } from 'src/styled/Loaders';
 
@@ -56,7 +60,7 @@ export const SignUpPageTwo: React.FC<Props> = ({ user, password }) => {
   return (
     <FormContainer autoComplete="off" onSubmit={formik.handleSubmit}>
       {emailConfirmation.errorResponse && !formik.isValidating ? (
-        <FormError>{emailConfirmation.errorResponse.message}</FormError>
+        <ServiceError>{emailConfirmation.errorResponse.message}</ServiceError>
       ) : null}
 
       <ContainerHeader>Confirmação de E-mail</ContainerHeader>

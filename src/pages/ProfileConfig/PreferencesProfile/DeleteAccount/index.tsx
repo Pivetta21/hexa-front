@@ -4,8 +4,8 @@ import useOutsideClick from 'src/hooks/useOutsideClick';
 import { InlineOption } from 'src/styled/Blocks';
 import {
   ButtonPrimary,
-  ButtonsColumnContainer,
   ButtonSecondary,
+  ButtonsRowContainer,
   OutlineButton,
 } from 'src/styled/Buttons';
 import {
@@ -16,20 +16,39 @@ import {
 } from 'src/styled/Overlay';
 import { ReactComponent as Close } from 'src/assets/svg/icons/Close.svg';
 import { ContainerHeader } from 'src/styled/Texts';
+import { deleteUser } from 'src/services/user.service';
+import { useContext } from 'react';
+import AuthContext from 'src/providers/AuthContext';
+import { useState } from 'react';
+import { ServiceResponse } from 'src/models/ServiceResponse.model';
+import { ServiceError } from 'src/styled/Inputs';
 
 interface Props {}
 
 const DeleteAccount: React.FC<Props> = () => {
-  const deleteAccountRef = useRef(null);
+  const { authenticatedUser, logout } = useContext(AuthContext);
 
+  const [deleteUserRes, setDeleteUserRes] = useState(
+    {} as ServiceResponse<boolean>,
+  );
+
+  const deleteAccountRef = useRef(null);
   const [deleteAccount, setDeleteAccount] = useOutsideClick(
     deleteAccountRef,
     false,
   );
 
-  function handleDeleteAccount() {
-    console.log('Deletando conta...');
-    setDeleteAccount(false);
+  async function handleDeleteAccount() {
+    if (authenticatedUser) {
+      const serviceResponse = await deleteUser(authenticatedUser);
+
+      setDeleteUserRes(serviceResponse);
+
+      if (!serviceResponse.errorResponse && serviceResponse.data) {
+        logout();
+        setDeleteAccount(false);
+      }
+    }
   }
 
   return (
@@ -52,14 +71,21 @@ const DeleteAccount: React.FC<Props> = () => {
               <ContainerHeader>
                 Tem certeza que deseja excluir sua conta?
               </ContainerHeader>
-              <ButtonsColumnContainer>
+
+              {deleteUserRes.errorResponse ? (
+                <ServiceError>
+                  {deleteUserRes.errorResponse.message}
+                </ServiceError>
+              ) : null}
+
+              <ButtonsRowContainer>
                 <ButtonPrimary onClick={() => setDeleteAccount(false)}>
-                  Voltar
+                  CANCELAR
                 </ButtonPrimary>
                 <ButtonSecondary onClick={() => handleDeleteAccount()}>
                   Sim, excluir conta!
                 </ButtonSecondary>
-              </ButtonsColumnContainer>
+              </ButtonsRowContainer>
             </OverlayDiv>
           </Overlay>
         </OverlayContainer>

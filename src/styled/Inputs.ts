@@ -82,7 +82,7 @@ export const OutlineInputError = styled.div`
   margin-top: -8px;
 `;
 
-export const FormError = styled.div`
+export const ServiceError = styled.div`
   position: relative;
   width: 100%;
   background-color: ${(props) => transparentize(0.92, props.theme.colors.text)};
