@@ -4,14 +4,14 @@ import * as Yup from 'yup';
 
 import AuthContext from 'src/providers/AuthContext';
 
-import { OutlineInput, OutlineInputError } from 'src/styled/Inputs';
+import { FormError, OutlineInput, OutlineInputError } from 'src/styled/Inputs';
 
 import { ButtonPrimary } from 'src/styled/Buttons';
 import { ButtonLoader } from 'src/styled/Loaders';
 import { useState } from 'react';
 import { AuthenticatedUser } from 'src/models/AuthenticatedUser.model';
 import { ServiceResponse } from 'src/models/ServiceResponse.model';
-import { LoginForm, LoginFormError } from '../style';
+import { FormContainer } from 'src/styled/Blocks';
 
 interface Props {}
 
@@ -46,9 +46,9 @@ const Login: React.FC<Props> = () => {
   });
 
   return (
-    <LoginForm autoComplete="off" onSubmit={formik.handleSubmit}>
+    <FormContainer autoComplete="off" onSubmit={formik.handleSubmit}>
       {loginResponse.errorResponse && !formik.isValidating ? (
-        <LoginFormError>{loginResponse.errorResponse.message}</LoginFormError>
+        <FormError>{loginResponse.errorResponse.message}</FormError>
       ) : null}
 
       <OutlineInput>
@@ -86,13 +86,15 @@ const Login: React.FC<Props> = () => {
       ) : null}
 
       <p className="link">Problemas para entrar?</p>
+
       <ButtonPrimary
         type="submit"
+        className="w-100"
         disabled={!(formik.isValid && formik.dirty) ? true : undefined}
       >
         {formik.isSubmitting ? <ButtonLoader /> : 'Entrar'}
       </ButtonPrimary>
-    </LoginForm>
+    </FormContainer>
   );
 };
 

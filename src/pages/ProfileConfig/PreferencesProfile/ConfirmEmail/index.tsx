@@ -24,12 +24,21 @@ import {
   OverlayDiv,
 } from 'src/styled/Overlay';
 
-import { DefaultInput, DefaultInputError } from 'src/styled/Inputs';
+import { DefaultInput, DefaultInputError, FormError } from 'src/styled/Inputs';
+import { ButtonLoader } from 'src/styled/Loaders';
 
 interface Props {}
 
 const ConfirmEmail: React.FC<Props> = () => {
-  const [emailConfirmation, setEmailConfirmation] = useState(
+  const { authenticatedUser, setAuthenticatedUser } = useContext(AuthContext);
+
+  const confirmEmailRef = useRef(null);
+  const [isConfirmEmail, setIsConfirmEmail] = useOutsideClick(
+    confirmEmailRef,
+    false,
+  );
+
+  const [emailConfirmationRes, setEmailConfirmationRes] = useState(
     {} as ServiceResponse<boolean>,
   );
 
@@ -43,6 +52,14 @@ const ConfirmEmail: React.FC<Props> = () => {
       .required('Esse campo é obrigatório!'),
   });
 
+  async function sendEmailConfirmation() {
+    if (authenticatedUser) {
+      await getEmailConfirmation(authenticatedUser.user.email);
+    }
+
+    setIsConfirmEmail(true);
+  }
+
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: validationSchema,
@@ -53,47 +70,33 @@ const ConfirmEmail: React.FC<Props> = () => {
           Number(values.code),
         );
 
-        setEmailConfirmation(serviceResponse);
+        setEmailConfirmationRes(serviceResponse);
 
-        console.log(emailConfirmation);
+        if (!serviceResponse.errorResponse && serviceResponse.data) {
+          authenticatedUser.user.isEmailValidated = serviceResponse.data;
+          console.log(authenticatedUser);
+          setAuthenticatedUser(authenticatedUser);
+
+          setIsConfirmEmail(false);
+        }
       }
 
       actions.setSubmitting(false);
     },
   });
 
-  const { authenticatedUser } = useContext(AuthContext);
-
-  const confirmEmailRef = useRef(null);
-
-  const [isConfirmEmail, setIsConfirmEmail] = useOutsideClick(
-    confirmEmailRef,
-    false,
-  );
-
-  async function sendEmailConfirmation() {
-    if (authenticatedUser) {
-      await getEmailConfirmation(authenticatedUser.user.email);
-    }
-
-    setIsConfirmEmail(true);
-  }
-
-  async function handleConfirmEmail() {
-    console.log('Confirmando email...');
-    setIsConfirmEmail(false);
-  }
-
   return (
     <Fragment>
-      <InlineOption className="w-100">
-        <div>Deseja confirmar seu e-mail?</div>
-        <ButtonPrimary onClick={() => sendEmailConfirmation()}>
-          Confirmar
-        </ButtonPrimary>
-      </InlineOption>
+      {!authenticatedUser?.user.isEmailValidated && (
+        <InlineOption className="w-100">
+          <div>Deseja confirmar seu e-mail?</div>
+          <ButtonPrimary onClick={() => sendEmailConfirmation()}>
+            Confirmar
+          </ButtonPrimary>
+        </InlineOption>
+      )}
 
-      {isConfirmEmail && (
+      {!authenticatedUser?.user.isEmailValidated && isConfirmEmail && (
         <OverlayContainer>
           <Overlay>
             <OverlayClose>
@@ -108,6 +111,12 @@ const ConfirmEmail: React.FC<Props> = () => {
               </ContainerCaption>
 
               <FormContainer autoComplete="off" onSubmit={formik.handleSubmit}>
+                {emailConfirmationRes.errorResponse && !formik.isValidating ? (
+                  <FormError>
+                    {emailConfirmationRes.errorResponse.message}
+                  </FormError>
+                ) : null}
+
                 <DefaultInput>
                   <label htmlFor="code">Código de Verificação</label>
                   <input
@@ -127,9 +136,11 @@ const ConfirmEmail: React.FC<Props> = () => {
                 <ButtonsRowContainer>
                   <ButtonPrimary
                     type="submit"
-                    onClick={() => handleConfirmEmail()}
+                    disabled={
+                      !(formik.isValid && formik.dirty) ? true : undefined
+                    }
                   >
-                    Confirmar
+                    {formik.isSubmitting ? <ButtonLoader /> : 'Confirmar'}
                   </ButtonPrimary>
                   <ButtonSecondary onClick={() => setIsConfirmEmail(false)}>
                     Voltar

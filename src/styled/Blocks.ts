@@ -17,6 +17,16 @@ export const InternalLinksContainer = styled.div`
 
 export const FormContainer = styled.form`
   ${marginTop}
+
+  p.link {
+    width: fit-content;
+    color: ${(props) => props.theme.commonColors.magenta};
+    margin-bottom: ${(props) => props.theme.spacings.normal};
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
 `;
 
 export const OptionsContainer = styled.div`

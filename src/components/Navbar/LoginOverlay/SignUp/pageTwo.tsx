@@ -3,7 +3,7 @@ import { useContext, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
-import { OutlineInput, OutlineInputError } from 'src/styled/Inputs';
+import { FormError, OutlineInput, OutlineInputError } from 'src/styled/Inputs';
 import { ButtonPrimary } from 'src/styled/Buttons';
 import { ButtonLoader } from 'src/styled/Loaders';
 
@@ -12,8 +12,8 @@ import AuthContext from 'src/providers/AuthContext';
 import { confirmEmail } from 'src/services/user.service';
 import { User } from 'src/models/User.model';
 import { ServiceResponse } from 'src/models/ServiceResponse.model';
-import { LoginForm, LoginFormError } from '../style';
 import { ContainerCaption, ContainerHeader } from 'src/styled/Texts';
+import { FormContainer } from 'src/styled/Blocks';
 
 interface Props {
   user: User;
@@ -54,11 +54,9 @@ export const SignUpPageTwo: React.FC<Props> = ({ user, password }) => {
   });
 
   return (
-    <LoginForm autoComplete="off" onSubmit={formik.handleSubmit}>
+    <FormContainer autoComplete="off" onSubmit={formik.handleSubmit}>
       {emailConfirmation.errorResponse && !formik.isValidating ? (
-        <LoginFormError>
-          {emailConfirmation.errorResponse.message}
-        </LoginFormError>
+        <FormError>{emailConfirmation.errorResponse.message}</FormError>
       ) : null}
 
       <ContainerHeader>Confirmação de E-mail</ContainerHeader>
@@ -85,10 +83,11 @@ export const SignUpPageTwo: React.FC<Props> = ({ user, password }) => {
 
       <ButtonPrimary
         type="submit"
+        className="w-100"
         disabled={!(formik.isValid && formik.dirty) ? true : undefined}
       >
         {formik.isSubmitting ? <ButtonLoader /> : 'Verificar'}
       </ButtonPrimary>
-    </LoginForm>
+    </FormContainer>
   );
 };

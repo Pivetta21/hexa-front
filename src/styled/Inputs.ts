@@ -81,3 +81,22 @@ export const OutlineInputError = styled.div`
   font-size: 14px;
   margin-top: -8px;
 `;
+
+export const FormError = styled.div`
+  position: relative;
+  width: 100%;
+  background-color: ${(props) => transparentize(0.92, props.theme.colors.text)};
+  padding: 20px;
+  margin: 16px 0;
+  border-radius: 8px;
+  font-size: 14px;
+  color: ${(props) => props.theme.colors.text};
+  font-weight: 600;
+
+  &::before {
+    content: '> ';
+    color: ${(props) => props.theme.commonColors.red};
+    width: 30px;
+    height: 30px;
+  }
+`;
