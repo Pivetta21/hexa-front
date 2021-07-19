@@ -1,25 +1,17 @@
 import { FormikValues } from 'formik';
 
-type GenericObject = { [key: string]: any };
-
 export default function getFormikChangedValues(
   values: FormikValues,
-  initialValues: GenericObject,
+  initialValues: FormikValues,
   excludedValues?: string[],
-): GenericObject {
-  const blacklist: GenericObject = {};
-
-  if (excludedValues) {
-    excludedValues.forEach((value) => {
-      blacklist[value] = '';
-    });
-  }
+): FormikValues {
+  const blacklist: Set<string> = new Set(excludedValues);
 
   return Object.entries(values).reduce(
     (acc: { [value: string]: any }, [key, value]) => {
       const hasChanged = initialValues[key] !== value;
 
-      if (hasChanged && !(key in blacklist)) {
+      if (hasChanged && !blacklist.has(key)) {
         acc[key] = value;
       }
 
