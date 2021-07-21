@@ -16,12 +16,13 @@ import {
 import { ButtonLoader } from 'src/styled/Loaders';
 import { FormContainer } from 'src/styled/Blocks';
 
-import { updateUser } from 'src/services/user.service';
+import { getProfilePicture, updateUser } from 'src/services/user.service';
 
 import { ServiceResponse } from 'src/models/ServiceResponse.model';
 import { User } from 'src/models/User.model';
 
 import InputField from 'src/components/InputField';
+import ProfileImageUpload from 'src/pages/ProfileConfig/EditProfile/ProfileImageUpload';
 
 interface Props {}
 
@@ -89,6 +90,10 @@ const EditProfile: React.FC<Props> = () => {
           {updateUserResponse.errorResponse && !formik.isValidating ? (
             <div>{updateUserResponse.errorResponse.message}</div>
           ) : null}
+
+          <ProfileImageUpload
+            initialImage={getProfilePicture(authenticatedUser)}
+          />
 
           <InputField
             fullWidth

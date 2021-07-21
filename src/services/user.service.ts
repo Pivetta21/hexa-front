@@ -1,9 +1,11 @@
-import { ServiceResponse } from '../models/ServiceResponse.model';
-import { UpdateUser, User } from './../models/User.model';
 import api from './api';
-
-import { AuthenticatedUser } from 'src/models/AuthenticatedUser.model';
 import { AxiosError, AxiosResponse } from 'axios';
+
+import { ServiceResponse } from '../models/ServiceResponse.model';
+import { AuthenticatedUser } from '../models/AuthenticatedUser.model';
+import { UpdateUser, User } from '../models/User.model';
+
+import nopic from 'src/assets/images/nopic.webp';
 
 const url: string = '/users';
 
@@ -132,4 +134,16 @@ export const deleteUser = async function (
     });
 
   return serviceResponse;
+};
+
+export const getProfilePicture = (
+  authenticatedUser: AuthenticatedUser | null,
+): string => {
+  const userPicture = authenticatedUser?.user.pictureUrl;
+
+  if (userPicture && userPicture.length > 0) {
+    return `${process.env.REACT_APP_SERVER_URL}/${userPicture}`;
+  }
+
+  return nopic;
 };
