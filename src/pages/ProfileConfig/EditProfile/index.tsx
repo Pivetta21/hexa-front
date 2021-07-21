@@ -22,7 +22,7 @@ import { ServiceResponse } from 'src/models/ServiceResponse.model';
 import { User } from 'src/models/User.model';
 
 import InputField from 'src/components/InputField';
-import ProfileImageUpload from 'src/pages/ProfileConfig/EditProfile/ProfileImageUpload';
+import ProfileImageUpload from 'src/components/ProfileImageUpload';
 
 interface Props {}
 
