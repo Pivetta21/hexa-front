@@ -1,6 +1,4 @@
-import { useRef, useState } from 'react';
-
-import { ImageUploadContainer } from './styles';
+import { useRef, useState, useContext } from 'react';
 
 import {
   ButtonPrimary,
@@ -8,26 +6,28 @@ import {
   ButtonsRowContainer,
   OutlineButton,
 } from 'src/styled/Buttons';
+import { ImageUploadInput, OutlineInputError } from 'src/styled/Inputs';
+import { ImageUploadContainer } from 'src/styled/Blocks';
+
 import {
-  deleteImage,
-  DeleteImageOptions,
-  uploadImage,
-} from 'src/services/storage.service';
-import { useContext } from 'react';
+  deleteProfilePicture,
+  uploadProfilePicture,
+} from 'src/services/user.service';
+
 import AuthContext from 'src/providers/AuthContext';
+
 import { ServiceResponse } from 'src/models/ServiceResponse.model';
-import { FileStorage } from 'src/models/FileStorage.model';
-import { updateUser } from 'src/services/user.service';
+import { User } from 'src/models/User.model';
 
 interface Props {
   initialImage: string;
 }
 
-const ProfileImageUpload: React.FC<Props> = ({ initialImage }) => {
+const EditProfileImage: React.FC<Props> = ({ initialImage }) => {
   const { authenticatedUser, setAuthenticatedUser } = useContext(AuthContext);
 
-  const [uploadImageRes, setUploadImageRes] = useState(
-    {} as ServiceResponse<FileStorage>,
+  const [uploadProfilePictureRes, setUploadProfilePictureRes] = useState(
+    {} as ServiceResponse<User>,
   );
 
   const [imageSrc, setImageSrc] = useState(initialImage);
@@ -61,42 +61,35 @@ const ProfileImageUpload: React.FC<Props> = ({ initialImage }) => {
   }
 
   async function handleUpload() {
-    if (inputFile.current.files && authenticatedUser) {
-      const file = inputFile.current.files[0];
+    const inputFiles = inputFile.current.files;
 
-      if (authenticatedUser.user.pictureUrl) {
-        deleteImage(
-          authenticatedUser,
-          DeleteImageOptions.PROFILE_PICTURE,
-          authenticatedUser.user.pictureUrl,
-        );
-      }
+    if (inputFiles && authenticatedUser && authenticatedUser.token) {
+      const file = inputFiles[0];
 
-      const serviceResponse = await uploadImage(authenticatedUser, file);
+      deleteProfilePicture(authenticatedUser);
 
-      setUploadImageRes(serviceResponse);
+      const serviceResponse = await uploadProfilePicture(
+        authenticatedUser.token,
+        authenticatedUser.user.id,
+        file,
+      );
 
-      const updatedUser = await updateUser(authenticatedUser, {
-        pictureUrl: serviceResponse.data?.path,
-      });
+      setUploadProfilePictureRes(serviceResponse);
 
-      if (updatedUser.data) {
-        setAuthenticatedUser({
-          user: updatedUser.data,
+      if (!serviceResponse.errorResponse && serviceResponse.data) {
+        await setAuthenticatedUser({
+          user: serviceResponse.data,
           token: authenticatedUser.token,
         });
-
-        setIsUpload(false);
       }
+
+      setIsUpload(false);
     }
   }
 
   return (
     <ImageUploadContainer>
-      {uploadImageRes.errorResponse && (
-        <div>uploadImageRes.errorResponse.message</div>
-      )}
-      <div className="stack">
+      <ImageUploadInput className="stack">
         <img src={imageSrc} />
 
         {!isUpload ? (
@@ -106,7 +99,7 @@ const ProfileImageUpload: React.FC<Props> = ({ initialImage }) => {
         ) : (
           <ButtonsRowContainer style={{ marginTop: '0px' }}>
             <ButtonPrimary type="button" onClick={() => handleUpload()}>
-              Salvar
+              Enviar
             </ButtonPrimary>
             <ButtonSecondary type="button" onClick={() => cancelImageUpload()}>
               Cancelar
@@ -115,9 +108,15 @@ const ProfileImageUpload: React.FC<Props> = ({ initialImage }) => {
         )}
 
         <input type="file" ref={inputFile} onChange={handleChange} />
-      </div>
+      </ImageUploadInput>
+
+      {uploadProfilePictureRes.errorResponse && (
+        <OutlineInputError>
+          {uploadProfilePictureRes.errorResponse.message}
+        </OutlineInputError>
+      )}
     </ImageUploadContainer>
   );
 };
 
-export default ProfileImageUpload;
+export default EditProfileImage;

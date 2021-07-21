@@ -7,6 +7,12 @@ import { UpdateUser, User } from '../models/User.model';
 
 import nopic from 'src/assets/images/nopic.webp';
 
+import {
+  deleteImage,
+  DeleteImageOptions,
+  uploadImage,
+} from './storage.service';
+
 const url: string = '/users';
 
 export const login = async function (
@@ -95,14 +101,15 @@ export const confirmEmail = async function (
 };
 
 export const updateUser = async function (
-  authenticatedUser: AuthenticatedUser,
-  user: UpdateUser,
+  access_token: string,
+  userId: number,
+  updatedUser: UpdateUser,
 ): Promise<ServiceResponse<User>> {
-  const request = api.patch(`${url}/${authenticatedUser.user.id}`, user, {
-    headers: { Authorization: `Bearer ${authenticatedUser.token}` },
-  });
+  const serviceResponse = {} as ServiceResponse<User>;
 
-  const serviceResponse: ServiceResponse<User> = {};
+  const request = api.patch(`${url}/${userId}`, updatedUser, {
+    headers: { Authorization: `Bearer ${access_token}` },
+  });
 
   await request
     .then((response: AxiosResponse) => {
@@ -116,13 +123,14 @@ export const updateUser = async function (
 };
 
 export const deleteUser = async function (
-  authenticatedUser: AuthenticatedUser,
+  access_token: string,
+  userId: number,
 ): Promise<ServiceResponse<boolean>> {
-  const request = api.delete(`${url}/${authenticatedUser.user.id}`, {
-    headers: { Authorization: `Bearer ${authenticatedUser.token}` },
-  });
+  const serviceResponse = {} as ServiceResponse<boolean>;
 
-  const serviceResponse: ServiceResponse<boolean> = {};
+  const request = api.delete(`${url}/${userId}`, {
+    headers: { Authorization: `Bearer ${access_token}` },
+  });
 
   await request
     .then(() => {
@@ -136,9 +144,9 @@ export const deleteUser = async function (
   return serviceResponse;
 };
 
-export const getProfilePicture = (
+export function getProfilePicture(
   authenticatedUser: AuthenticatedUser | null,
-): string => {
+): string {
   const userPicture = authenticatedUser?.user.pictureUrl;
 
   if (userPicture && userPicture.length > 0) {
@@ -146,4 +154,32 @@ export const getProfilePicture = (
   }
 
   return nopic;
-};
+}
+
+export function deleteProfilePicture(authenticatedUser: AuthenticatedUser) {
+  const userPicture = authenticatedUser.user.pictureUrl;
+  const access_token = authenticatedUser.token;
+
+  if (userPicture && access_token) {
+    deleteImage(access_token, DeleteImageOptions.PROFILE_PICTURE, userPicture);
+  }
+}
+
+export async function uploadProfilePicture(
+  access_token: string,
+  userId: number,
+  file: File,
+): Promise<ServiceResponse<User>> {
+  const serviceResponse = {} as ServiceResponse<User>;
+
+  const uploadResponse = await uploadImage(access_token, file);
+  if (uploadResponse.data) {
+    updateUser(access_token, userId, {
+      pictureUrl: uploadResponse.data.path,
+    });
+  } else {
+    serviceResponse.errorResponse = uploadResponse.errorResponse;
+  }
+
+  return serviceResponse;
+}

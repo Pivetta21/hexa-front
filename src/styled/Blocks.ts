@@ -44,3 +44,11 @@ export const InlineOption = styled.div`
     margin-bottom: 0;
   }
 `;
+
+export const ImageUploadContainer = styled.div`
+  margin-bottom: ${(props) => props.theme.spacings.default};
+
+  input {
+    display: none;
+  }
+`;

@@ -16,7 +16,7 @@ import {
 } from 'src/styled/Overlay';
 import { ReactComponent as Close } from 'src/assets/svg/icons/Close.svg';
 import { ContainerHeader } from 'src/styled/Texts';
-import { deleteUser } from 'src/services/user.service';
+import { deleteProfilePicture, deleteUser } from 'src/services/user.service';
 import { useContext } from 'react';
 import AuthContext from 'src/providers/AuthContext';
 import { useState } from 'react';
@@ -33,20 +33,25 @@ const DeleteAccount: React.FC<Props> = () => {
   );
 
   const deleteAccountRef = useRef(null);
-  const [deleteAccount, setDeleteAccount] = useOutsideClick(
+  const [confirmDeleteAccount, setConfirmDeleteAccount] = useOutsideClick(
     deleteAccountRef,
     false,
   );
 
   async function handleDeleteAccount() {
-    if (authenticatedUser) {
-      const serviceResponse = await deleteUser(authenticatedUser);
+    if (authenticatedUser && authenticatedUser.token) {
+      deleteProfilePicture(authenticatedUser);
+
+      const serviceResponse = await deleteUser(
+        authenticatedUser.token,
+        authenticatedUser.user.id,
+      );
 
       setDeleteUserRes(serviceResponse);
 
       if (!serviceResponse.errorResponse && serviceResponse.data) {
+        await setConfirmDeleteAccount(false);
         logout();
-        setDeleteAccount(false);
       }
     }
   }
@@ -55,12 +60,12 @@ const DeleteAccount: React.FC<Props> = () => {
     <Fragment>
       <InlineOption className="w-100">
         <div>Deseja excluir sua conta?</div>
-        <OutlineButton onClick={() => setDeleteAccount(true)}>
+        <OutlineButton onClick={() => setConfirmDeleteAccount(true)}>
           Excluir Conta
         </OutlineButton>
       </InlineOption>
 
-      {deleteAccount && (
+      {confirmDeleteAccount && (
         <OverlayContainer>
           <Overlay>
             <OverlayClose>
@@ -79,7 +84,7 @@ const DeleteAccount: React.FC<Props> = () => {
               ) : null}
 
               <ButtonsRowContainer>
-                <ButtonPrimary onClick={() => setDeleteAccount(false)}>
+                <ButtonPrimary onClick={() => setConfirmDeleteAccount(false)}>
                   CANCELAR
                 </ButtonPrimary>
                 <ButtonSecondary onClick={() => handleDeleteAccount()}>

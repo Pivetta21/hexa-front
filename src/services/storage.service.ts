@@ -2,7 +2,6 @@ import api from './api';
 
 import { AxiosResponse, AxiosError } from 'axios';
 
-import { AuthenticatedUser } from './../models/AuthenticatedUser.model';
 import { ServiceResponse } from './../models/ServiceResponse.model';
 import { FileStorage } from './../models/FileStorage.model';
 
@@ -14,14 +13,14 @@ export enum DeleteImageOptions {
 }
 
 export const uploadImage = async (
-  authenticatedUser: AuthenticatedUser,
+  access_token: string,
   file: File,
 ): Promise<ServiceResponse<FileStorage>> => {
   const dataForm = new FormData();
   dataForm.append('file', file);
 
   const request = api.post(`${url}/images`, dataForm, {
-    headers: { Authorization: `Bearer ${authenticatedUser.token}` },
+    headers: { Authorization: `Bearer ${access_token}` },
   });
 
   const serviceResponse: ServiceResponse<FileStorage> = {};
@@ -38,14 +37,14 @@ export const uploadImage = async (
 };
 
 export const deleteImage = async (
-  authenticatedUser: AuthenticatedUser,
+  access_token: string,
   deleteOption: DeleteImageOptions,
   fileUrl: string,
 ): Promise<ServiceResponse<void>> => {
   const filename = parseFilename(fileUrl);
 
   const request = api.delete(`${url}/images/${deleteOption}/${filename}`, {
-    headers: { Authorization: `Bearer ${authenticatedUser.token}` },
+    headers: { Authorization: `Bearer ${access_token}` },
   });
 
   const serviceResponse: ServiceResponse<void> = {};
