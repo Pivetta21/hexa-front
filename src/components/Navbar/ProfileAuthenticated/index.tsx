@@ -2,8 +2,6 @@ import { useContext, useRef, RefObject } from 'react';
 import { Link } from 'react-router-dom';
 import { ThemeContext } from 'styled-components';
 
-import nopic from 'src/assets/images/nopic.webp';
-
 import { ReactComponent as Cog } from 'src/assets/svg/icons/Cog.svg';
 import { ReactComponent as Moon } from 'src/assets/svg/icons/Moon.svg';
 import { ReactComponent as Leave } from 'src/assets/svg/icons/Leave.svg';
@@ -23,6 +21,7 @@ import Switch from 'src/components/Switch';
 import AuthContext from 'src/providers/AuthContext';
 import ThemeToggleContext from 'src/providers/ThemeToggleContext';
 import useOutsideClick from 'src/hooks/useOutsideClick';
+import { getProfilePicture } from 'src/services/user.service';
 
 interface Props {}
 
@@ -41,18 +40,13 @@ const ProfileAuthenticated: React.FC<Props> = () => {
     setOpen(false);
   }
 
-  function getProfilePicture() {
-    if (authenticatedUser?.user.pictureUrl) {
-      return authenticatedUser.user.pictureUrl;
-    }
-
-    return nopic;
-  }
-
   return (
     <ProfileMenuContainer className="navmenu-item" ref={dropdownEl}>
       <ProfileMenuImage onClick={() => setOpen(!open)}>
-        <img src={getProfilePicture()} aria-label="Sua foto de perfil." />
+        <img
+          src={getProfilePicture(authenticatedUser)}
+          aria-label="Sua foto de perfil."
+        />
       </ProfileMenuImage>
 
       {open && (
