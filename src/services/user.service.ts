@@ -170,15 +170,16 @@ export async function uploadProfilePicture(
   userId: number,
   file: File,
 ): Promise<ServiceResponse<User>> {
-  const serviceResponse = {} as ServiceResponse<User>;
+  let serviceResponse = {} as ServiceResponse<User>;
 
-  const uploadResponse = await uploadImage(access_token, file);
-  if (uploadResponse.data) {
-    updateUser(access_token, userId, {
-      pictureUrl: uploadResponse.data.path,
+  const uploadImageResponse = await uploadImage(access_token, file);
+
+  if (uploadImageResponse.data) {
+    serviceResponse = await updateUser(access_token, userId, {
+      pictureUrl: uploadImageResponse.data.path,
     });
   } else {
-    serviceResponse.errorResponse = uploadResponse.errorResponse;
+    serviceResponse.errorResponse = uploadImageResponse.errorResponse;
   }
 
   return serviceResponse;
