@@ -6,13 +6,14 @@ import {
   ButtonsRowContainer,
   OutlineButton,
 } from 'src/styled/Buttons';
-import { ImageUploadInput, OutlineInputError } from 'src/styled/Inputs';
+import { ImageUploadInput, ServiceError } from 'src/styled/Inputs';
 import { ImageUploadContainer } from 'src/styled/Blocks';
 
 import {
   deleteProfilePicture,
   uploadProfilePicture,
 } from 'src/services/user.service';
+import { isFileImage, isFileImageAccepted } from 'src/services/storage.service';
 
 import AuthContext from 'src/providers/AuthContext';
 
@@ -66,21 +67,29 @@ const EditProfileImage: React.FC<Props> = ({ initialImage }) => {
     if (inputFiles && authenticatedUser && authenticatedUser.token) {
       const file = inputFiles[0];
 
-      deleteProfilePicture(authenticatedUser);
+      if (isFileImage(file) && isFileImageAccepted(file)) {
+        deleteProfilePicture(authenticatedUser);
 
-      const serviceResponse = await uploadProfilePicture(
-        authenticatedUser.token,
-        authenticatedUser.user.id,
-        file,
-      );
+        const serviceResponse = await uploadProfilePicture(
+          authenticatedUser.token,
+          authenticatedUser.user.id,
+          file,
+        );
 
-      setUploadProfilePictureRes(serviceResponse);
+        setUploadProfilePictureRes(serviceResponse);
 
-      if (!serviceResponse.errorResponse && serviceResponse.data) {
-        await setAuthenticatedUser({
-          user: serviceResponse.data,
-          token: authenticatedUser.token,
-        });
+        if (!serviceResponse.errorResponse && serviceResponse.data) {
+          await setAuthenticatedUser({
+            user: serviceResponse.data,
+            token: authenticatedUser.token,
+          });
+        }
+      } else {
+        uploadProfilePictureRes.errorResponse = {
+          message: 'Imagem possui o tipo inválido!',
+          statusCode: 400,
+        };
+        cancelImageUpload();
       }
 
       setIsUpload(false);
@@ -89,6 +98,12 @@ const EditProfileImage: React.FC<Props> = ({ initialImage }) => {
 
   return (
     <ImageUploadContainer>
+      {uploadProfilePictureRes.errorResponse && (
+        <ServiceError style={{ marginTop: '0px' }}>
+          {uploadProfilePictureRes.errorResponse.message}
+        </ServiceError>
+      )}
+
       <ImageUploadInput className="stack">
         <img src={imageSrc} />
 
@@ -109,12 +124,6 @@ const EditProfileImage: React.FC<Props> = ({ initialImage }) => {
 
         <input type="file" ref={inputFile} onChange={handleChange} />
       </ImageUploadInput>
-
-      {uploadProfilePictureRes.errorResponse && (
-        <OutlineInputError>
-          {uploadProfilePictureRes.errorResponse.message}
-        </OutlineInputError>
-      )}
     </ImageUploadContainer>
   );
 };

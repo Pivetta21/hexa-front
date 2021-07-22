@@ -48,7 +48,8 @@ const Channel: React.FC = () => {
     >
       <div style={{ height: '100%' }}>
         {isLoading ? <Loading /> : undefined}
-        {channel.id ? <EditChannel /> : <CreateChannel />}
+        {channel.id && !isLoading ? <EditChannel /> : undefined}
+        {!channel.id && !isLoading ? <CreateChannel /> : undefined}
       </div>
     </ChannelContext.Provider>
   );
