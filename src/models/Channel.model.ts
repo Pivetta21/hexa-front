@@ -1,6 +1,7 @@
+import { User } from './User.model';
 export interface ChannelI {
   id: number;
-  user: number;
+  user: User;
   name: string;
   description?: string;
   banner_url?: string;
@@ -8,7 +9,7 @@ export interface ChannelI {
 }
 
 export interface CreateChannelI {
-  user: number;
+  user: User;
   name: string;
   description?: string;
   banner_url?: string;

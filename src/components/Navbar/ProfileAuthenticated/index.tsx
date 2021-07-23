@@ -44,7 +44,7 @@ const ProfileAuthenticated: React.FC<Props> = () => {
     <ProfileMenuContainer className="navmenu-item" ref={dropdownEl}>
       <ProfileMenuImage onClick={() => setOpen(!open)}>
         <img
-          src={getProfilePicture(authenticatedUser)}
+          src={getProfilePicture(authenticatedUser?.user)}
           aria-label="Sua foto de perfil."
         />
       </ProfileMenuImage>

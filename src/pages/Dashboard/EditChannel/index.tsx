@@ -119,7 +119,10 @@ const EditChannel: React.FC = () => {
                   {formik.isSubmitting ? <ButtonLoader /> : 'Salvar Alterações'}
                 </ButtonPrimary>
 
-                <ButtonSecondary onClick={() => history.push('/')}>
+                <ButtonSecondary
+                  type="button"
+                  onClick={() => history.push('/')}
+                >
                   Voltar
                 </ButtonSecondary>
               </ButtonsRowContainer>
