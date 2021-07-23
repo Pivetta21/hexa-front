@@ -61,7 +61,7 @@ export const updateChannel = async function (
   access_token: string,
   channelId: number,
   updateChannel: UpdateChannelI,
-): Promise<ServiceResponse<any>> {
+): Promise<ServiceResponse<ChannelI>> {
   const serviceResponse = {} as ServiceResponse<ChannelI>;
 
   const request = api.patch(`${url}/${channelId}`, updateChannel, {
@@ -78,6 +78,24 @@ export const updateChannel = async function (
 
   return serviceResponse;
 };
+
+export async function deleteChannel(access_token: string, channelId: number) {
+  const serviceResponse = {} as ServiceResponse<boolean>;
+
+  const request = api.delete(`${url}/${channelId}`, {
+    headers: { Authorization: `Bearer ${access_token}` },
+  });
+
+  await request
+    .then(() => {
+      serviceResponse.data = true;
+    })
+    .catch((e: AxiosError) => {
+      if (e.response) serviceResponse.errorResponse = e.response.data;
+    });
+
+  return serviceResponse;
+}
 
 export function getBannerPicture(channel: ChannelI) {
   if (channel.banner_url && channel.banner_url.length > 0) {

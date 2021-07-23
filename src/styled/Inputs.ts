@@ -90,6 +90,11 @@ export const OutlineInputError = styled.div`
 `;
 
 export const ImageUploadInput = styled.div`
+  img {
+    background-color: ${(props) =>
+      transparentize(0.92, props.theme.colors.text)};
+  }
+
   &.stack {
     display: flex;
     align-items: center;
