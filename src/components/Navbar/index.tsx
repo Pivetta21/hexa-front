@@ -1,5 +1,5 @@
 import { Fragment, useContext, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { ReactComponent as Close } from 'src/assets/svg/icons/Close.svg';
 
 import AuthContext from 'src/providers/AuthContext';
@@ -38,6 +38,8 @@ import ProfileGuest from './ProfileGuest';
 interface Props {}
 
 const Navbar: React.FC<Props> = () => {
+  const history = useHistory();
+
   const { isUserLoggedIn } = useContext(AuthContext);
 
   const refOverlay: RefObject<HTMLDivElement> = useRef(null);
@@ -53,6 +55,10 @@ const Navbar: React.FC<Props> = () => {
     setIsSignIn(true);
   }
 
+  function searchChannel() {
+    history.push('/discover/channels');
+  }
+
   return (
     <NavContainer>
       <NavLogo>
@@ -64,7 +70,7 @@ const Navbar: React.FC<Props> = () => {
       <NavSearchForm>
         <NavInputSearch type="text" placeholder="Pesquisar canal" />
         <NavInputDivider />
-        <NavInputButton type="button">
+        <NavInputButton type="button" onClick={() => searchChannel()}>
           <Search />
         </NavInputButton>
       </NavSearchForm>
@@ -72,7 +78,7 @@ const Navbar: React.FC<Props> = () => {
       <NavMenu>
         {isUserLoggedIn && (
           <Fragment>
-            <Link to="/channel" className="navmenu-item">
+            <Link to="/dashboard" className="navmenu-item">
               <Channel className="navmenu-icon" />
             </Link>
 

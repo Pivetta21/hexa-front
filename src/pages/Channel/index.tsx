@@ -1,57 +1,37 @@
-import { useState, useContext, useEffect } from 'react';
-
-import AuthContext from 'src/providers/AuthContext';
-
-import { findChannelByUserId } from 'src/services/channel.service';
-
-import { ChannelI } from 'src/models/Channel.model';
-
+import { Fragment, useState } from 'react';
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import Loading from 'src/components/Loading';
 
-import EditChannel from './EditChannel';
-import ChannelContext from 'src/providers/ChannelContext';
-import CreateChannel from './CreateChannel';
+interface Props {}
 
-const Channel: React.FC = () => {
-  const { authenticatedUser } = useContext(AuthContext);
-
+const Channel: React.FC<Props> = () => {
+  const { id } = useParams() as any;
   const [isLoading, setIsLoading] = useState(true);
-  const [channel, setChannel] = useState({} as ChannelI);
 
-  function handleSetChannel(updatedChannel: ChannelI) {
-    setChannel(updatedChannel);
+  async function fetchChannel() {
+    console.log(id);
+
+    setIsLoading(false);
   }
-
-  const redirectChannel = async () => {
-    if (authenticatedUser) {
-      const serviceResponse = await findChannelByUserId(
-        authenticatedUser.user.id,
-      );
-
-      if (!serviceResponse.errorResponse && serviceResponse.data) {
-        await setChannel(serviceResponse.data);
-      }
-
-      await setIsLoading(false);
-    }
-  };
 
   useEffect(() => {
     setTimeout(() => {
-      redirectChannel();
-    }, 1000);
+      fetchChannel();
+    }, 500);
   }, []);
 
   return (
-    <ChannelContext.Provider
-      value={{ channel: channel, setChannel: handleSetChannel }}
-    >
-      <div style={{ height: '100%' }}>
-        {isLoading ? <Loading /> : undefined}
-        {channel.id && !isLoading ? <EditChannel /> : undefined}
-        {!channel.id && !isLoading ? <CreateChannel /> : undefined}
-      </div>
-    </ChannelContext.Provider>
+    <Fragment>
+      {!isLoading ? (
+        <div className="main-padding">
+          <div>Public Channel Component</div>
+          <div>{id}</div>
+        </div>
+      ) : (
+        <Loading />
+      )}
+    </Fragment>
   );
 };
 

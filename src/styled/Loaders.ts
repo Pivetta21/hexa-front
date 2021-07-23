@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 
-export const ButtonLoader = styled.div`
+export const BasicLoader = styled.div`
   border: 3px solid #f3f3f3;
   border-top: 3px solid #555;
   border-radius: 50%;
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   animation: spin 2s linear infinite;
 
   @keyframes spin {
@@ -16,6 +16,11 @@ export const ButtonLoader = styled.div`
       transform: rotate(360deg);
     }
   }
+`;
+
+export const ButtonLoader = styled(BasicLoader)`
+  width: 20px;
+  height: 20px;
 `;
 
 export const PageLoaderContainer = styled.div`
@@ -36,22 +41,11 @@ export const PageLoaderText = styled.p`
   margin-bottom: 20px;
 `;
 
-export const PageLoader = styled.div`
+export const PageLoader = styled(BasicLoader)`
   margin: 0 auto;
   border: 6px solid #f3f3f3;
   border-top: 6px solid #555;
-  border-radius: 50%;
   width: 54px;
   height: 54px;
   z-index: 3;
-  animation: spin 2s linear infinite;
-
-  @keyframes spin {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
 `;
