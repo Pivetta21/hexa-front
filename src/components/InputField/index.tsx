@@ -6,11 +6,13 @@ interface Props extends FieldConfig {
   type?: string;
   placeholder?: string;
   fullWidth?: boolean;
+  isTextarea?: boolean;
 }
 
 const InputField: React.FC<Props> = ({
   label,
   fullWidth = false,
+  isTextarea = false,
   ...props
 }) => {
   const [field, meta] = useField(props);
@@ -18,12 +20,21 @@ const InputField: React.FC<Props> = ({
   return (
     <DefaultInput>
       <label htmlFor={props.name}>{label}</label>
-      <input
-        className={fullWidth ? 'w-100' : undefined}
-        type={props.type ? props.type : 'text'}
-        {...field}
-        {...props}
-      />
+
+      {isTextarea ? (
+        <textarea
+          className={fullWidth ? 'w-100' : undefined}
+          {...field}
+          {...props}
+        />
+      ) : (
+        <input
+          className={fullWidth ? 'w-100' : undefined}
+          type={props.type ? props.type : 'text'}
+          {...field}
+          {...props}
+        />
+      )}
 
       {meta.touched && meta.error ? (
         <DefaultInputError>{meta.error}</DefaultInputError>

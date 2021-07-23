@@ -7,8 +7,9 @@ const input = css`
   border: none;
   outline: none;
   min-width: 320px;
-  color: ${(props) => props.theme.colors.text};
+  font-family: inherit;
   font-size: ${(props) => props.theme.fontSizes.body.normal};
+  color: ${(props) => props.theme.colors.text};
   font-weight: 400;
 
   ::-ms-reveal {
@@ -40,13 +41,19 @@ export const DefaultInput = styled.div`
     font-weight: 700;
   }
 
-  input {
+  input,
+  textarea {
     ${input}
     background-color: ${(props) =>
       transparentize(0.92, props.theme.colors.text)};
     padding: 10px 12px;
     border-radius: 6px;
     margin-top: 8px;
+  }
+
+  textarea {
+    resize: none;
+    height: 140px;
   }
 `;
 
@@ -80,6 +87,47 @@ export const OutlineInputError = styled.div`
 
   font-size: 14px;
   margin-top: -8px;
+`;
+
+export const ImageUploadInput = styled.div`
+  img {
+    background-color: ${(props) =>
+      transparentize(0.92, props.theme.colors.text)};
+  }
+
+  &.stack {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    button {
+      width: 60%;
+    }
+  }
+
+  &.inline {
+    display: flex;
+    flex-direction: column;
+
+    img {
+      height: 160px;
+      object-fit: cover;
+      object-position: center;
+      border-radius: 12px;
+    }
+
+    button {
+      margin-top: ${(props) => props.theme.spacings.small};
+    }
+  }
 `;
 
 export const ServiceError = styled.div`

@@ -41,8 +41,8 @@ export const AuthProvider: React.FC = ({ children }) => {
     setAuthenticatedUser(authenticatedUser);
   };
 
-  const handleLogout = () => {
-    setAuthenticatedUser(null);
+  const handleLogout = async () => {
+    await setAuthenticatedUser(null);
   };
 
   return (

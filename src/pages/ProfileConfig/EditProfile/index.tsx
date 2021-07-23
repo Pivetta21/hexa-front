@@ -15,6 +15,7 @@ import {
 } from 'src/styled/Buttons';
 import { ButtonLoader } from 'src/styled/Loaders';
 import { FormContainer } from 'src/styled/Blocks';
+import { ServiceError } from 'src/styled/Inputs';
 
 import { getProfilePicture, updateUser } from 'src/services/user.service';
 
@@ -22,7 +23,7 @@ import { ServiceResponse } from 'src/models/ServiceResponse.model';
 import { User } from 'src/models/User.model';
 
 import InputField from 'src/components/InputField';
-import ProfileImageUpload from 'src/pages/ProfileConfig/EditProfile/ProfileImageUpload';
+import EditProfileImage from 'src/pages/ProfileConfig/EditProfile/EditProfileImage';
 
 interface Props {}
 
@@ -64,9 +65,10 @@ const EditProfile: React.FC<Props> = () => {
           'confirmPassword',
         ]);
 
-        if (authenticatedUser) {
+        if (authenticatedUser && authenticatedUser.token) {
           const serviceResponse = await updateUser(
-            authenticatedUser,
+            authenticatedUser.token,
+            authenticatedUser.user.id,
             changedValues,
           );
 
@@ -88,10 +90,12 @@ const EditProfile: React.FC<Props> = () => {
       {(formik) => (
         <FormContainer autoComplete="off" onSubmit={formik.handleSubmit}>
           {updateUserResponse.errorResponse && !formik.isValidating ? (
-            <div>{updateUserResponse.errorResponse.message}</div>
+            <ServiceError>
+              {updateUserResponse.errorResponse.message}
+            </ServiceError>
           ) : null}
 
-          <ProfileImageUpload
+          <EditProfileImage
             initialImage={getProfilePicture(authenticatedUser)}
           />
 
