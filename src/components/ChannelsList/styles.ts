@@ -8,7 +8,7 @@ export const ChannelsListContainer = styled.div`
   column-gap: 16px;
 `;
 
-export const ChannelContainer = styled.div`
+export const ChannelItemContainer = styled.div`
   display: flex;
   width: 100%;
   height: 180px;
@@ -22,7 +22,7 @@ export const ChannelContainer = styled.div`
   }
 `;
 
-export const ChannelImage = styled.img`
+export const ChannelItemImage = styled.img`
   width: 74px;
   height: 74px;
   border-radius: 50%;
@@ -31,7 +31,7 @@ export const ChannelImage = styled.img`
   background-color: ${(props) => transparentize(0.92, props.theme.colors.text)};
 `;
 
-export const ChannelHeader = styled.div`
+export const ChannelItemHeader = styled.div`
   display: flex;
   flex-direction: column;
   margin-left: 16px;

@@ -34,6 +34,24 @@ export async function findAllChannels(): Promise<ServiceResponse<ChannelI[]>> {
   return serviceResponse;
 }
 
+export async function findChannel(
+  channelId: number,
+): Promise<ServiceResponse<ChannelI>> {
+  const serviceResponse = {} as ServiceResponse<ChannelI>;
+
+  const request = api.get(`${url}/${channelId}`);
+
+  await request
+    .then((response: AxiosResponse) => {
+      serviceResponse.data = response.data;
+    })
+    .catch((e: AxiosError) => {
+      if (e.response) serviceResponse.errorResponse = e.response.data;
+    });
+
+  return serviceResponse;
+}
+
 export async function createChannel(
   access_token: string,
   createChannel: CreateChannelI,

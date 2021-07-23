@@ -1,15 +1,15 @@
 import { ChannelI } from 'src/models/Channel.model';
 import {
-  ChannelContainer,
-  ChannelHeader,
-  ChannelImage,
+  ChannelItemContainer,
+  ChannelItemHeader,
+  ChannelItemImage,
   ChannelsListContainer,
 } from './styles';
 
 import formatDate from 'src/helpers/formatDate';
 
-import { getBannerPicture } from 'src/services/channel.service';
 import { useHistory } from 'react-router-dom';
+import { getProfilePicture } from 'src/services/user.service';
 
 interface Props {
   channelsList: ChannelI[];
@@ -26,12 +26,12 @@ const ChannelsList: React.FC<Props> = ({ channelsList }) => {
     <ChannelsListContainer>
       {channelsList.map((channel) => {
         return (
-          <ChannelContainer
+          <ChannelItemContainer
             key={channel.id}
             onClick={() => navigateTo(channel.id)}
           >
-            <ChannelImage src={getBannerPicture(channel)} />
-            <ChannelHeader>
+            <ChannelItemImage src={getProfilePicture(channel.user)} />
+            <ChannelItemHeader>
               <h1 title={channel.name}>{channel.name}</h1>
               <span>{formatDate('pt-br', channel.created_at)}</span>
               <p>
@@ -39,8 +39,8 @@ const ChannelsList: React.FC<Props> = ({ channelsList }) => {
                   ? channel.description
                   : 'Este canal ainda não possui uma descrição.'}
               </p>
-            </ChannelHeader>
-          </ChannelContainer>
+            </ChannelItemHeader>
+          </ChannelItemContainer>
         );
       })}
     </ChannelsListContainer>

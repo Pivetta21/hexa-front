@@ -9,7 +9,7 @@ export const ChannelListSk = styled.div`
   column-gap: 16px;
 `;
 
-export const ChannelContainerSk = styled.div`
+export const ChannelItemContainerSk = styled.div`
   display: flex;
   width: 100%;
   height: 180px;
@@ -20,7 +20,7 @@ export const ChannelContainerSk = styled.div`
   pointer-events: none;
 `;
 
-export const ChannelHeaderSk = styled.div`
+export const ChannelItemHeaderSk = styled.div`
   display: flex;
   flex-direction: column;
 `;

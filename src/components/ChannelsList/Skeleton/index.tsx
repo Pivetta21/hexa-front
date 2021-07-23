@@ -1,4 +1,8 @@
-import { ChannelListSk, ChannelContainerSk, ChannelHeaderSk } from './styles';
+import {
+  ChannelListSk,
+  ChannelItemContainerSk,
+  ChannelItemHeaderSk,
+} from './styles';
 
 import { BasicLoader } from 'src/styled/Loaders';
 
@@ -9,11 +13,11 @@ const ChannelsListSkeleton: React.FC = () => {
     <ChannelListSk>
       {channels.map((channel) => {
         return (
-          <ChannelContainerSk key={channel}>
-            <ChannelHeaderSk>
+          <ChannelItemContainerSk key={channel}>
+            <ChannelItemHeaderSk>
               <BasicLoader />
-            </ChannelHeaderSk>
-          </ChannelContainerSk>
+            </ChannelItemHeaderSk>
+          </ChannelItemContainerSk>
         );
       })}
     </ChannelListSk>
