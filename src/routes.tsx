@@ -11,6 +11,8 @@ import Channel from './pages/Channel';
 const Routes = () => {
   return (
     <Switch key="routes">
+      <ProtectedRoute path="/dashboard" component={Dashboard} exact />
+
       <ProtectedRoute path="/profile/config" component={ProfileConfig} />
 
       <ProtectedRoute
@@ -19,11 +21,9 @@ const Routes = () => {
         exact
       />
 
-      <ProtectedRoute path="/dashboard" component={Dashboard} exact />
+      <Route path="/discover/channels/:id" component={Channel} />
 
-      <Route path="/discover/channels/:id" component={Channel} exact />
-
-      <Route path="/discover/courses/:id" exact>
+      <Route path="/discover/courses/:id">
         <div>Public Course Component</div>
       </Route>
 

@@ -68,7 +68,7 @@ const CreateChannel: React.FC<Props> = () => {
               const serviceResponse = await createChannel(
                 authenticatedUser.token,
                 {
-                  user: authenticatedUser.user.id,
+                  user: authenticatedUser.user,
                   ...values,
                 },
               );

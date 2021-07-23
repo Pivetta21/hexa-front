@@ -144,13 +144,13 @@ export const deleteUser = async function (
   return serviceResponse;
 };
 
-export function getProfilePicture(
-  authenticatedUser: AuthenticatedUser | null,
-): string {
-  const userPicture = authenticatedUser?.user.pictureUrl;
+export function getProfilePicture(user: User | null | undefined): string {
+  if (user) {
+    const userPicture = user.pictureUrl;
 
-  if (userPicture && userPicture.length > 0) {
-    return `${process.env.REACT_APP_SERVER_URL}/${userPicture}`;
+    if (userPicture && userPicture.length > 0) {
+      return `${process.env.REACT_APP_SERVER_URL}/${userPicture}`;
+    }
   }
 
   return nopic;
