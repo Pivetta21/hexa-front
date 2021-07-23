@@ -7,6 +7,11 @@ export const ChannelListSk = styled.div`
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   row-gap: 16px;
   column-gap: 16px;
+
+  @media (max-width: ${(props) => props.theme.breakpoints.nav.mobile}) {
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 export const ChannelItemContainerSk = styled.div`

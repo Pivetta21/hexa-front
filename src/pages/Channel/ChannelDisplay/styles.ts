@@ -33,12 +33,13 @@ export const ChannelHeader = styled.div`
 export const ChannelAuthorImage = styled.img`
   position: relative;
   top: -58px;
-
-  background-color: ${(props) => transparentize(0.92, props.theme.colors.text)};
+  background-color: ${(props) => props.theme.colors.text};
   width: 160px;
+  min-width: 160px;
   height: 160px;
+  min-height: 160px;
   border-radius: 50%;
-  border: 4px solid ${(props) => props.theme.colors.text};
+  padding: 6px;
   object-fit: cover;
   object-position: center;
 `;
@@ -49,11 +50,8 @@ export const ChannelInfo = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin-left: ${(props) => props.theme.spacings.medium};
+  margin-left: 24px;
   align-self: flex-end;
-
-  section {
-  }
 
   h1 {
     font-size: ${(props) => props.theme.fontSizes.heading.normal};
