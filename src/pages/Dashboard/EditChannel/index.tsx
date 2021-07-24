@@ -1,82 +1,83 @@
-import { useState, useContext } from 'react';
+import { useContext, useState } from 'react';
 
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+
+import ChannelContext from 'src/providers/ChannelContext';
+
+import { getBannerPicture, updateChannel } from 'src/services/channel.service';
+
+import getFormikChangedValues from 'src/helpers/getFormikChangedValues';
 
 import {
   ButtonPrimary,
   ButtonSecondary,
   ButtonsRowContainer,
 } from 'src/styled/Buttons';
+import { Header, HeaderCaption } from 'src/styled/Texts';
+import { FormContainer, Section } from 'src/styled/Blocks';
 
 import InputField from 'src/components/InputField';
 
-import { FormContainer, Section } from 'src/styled/Blocks';
-import { Header, HeaderCaption } from 'src/styled/Texts';
+import EditChannelBanner from './EditChannelBanner';
+import DeleteChannel from './DeleteChannel';
 import { ButtonLoader } from 'src/styled/Loaders';
+import { useHistory } from 'react-router-dom';
+import AuthContext from 'src/providers/AuthContext';
+import { ChannelI } from 'src/models/Channel.model';
+import { ServiceResponse } from 'src/models/ServiceResponse.model';
 import { ServiceError } from 'src/styled/Inputs';
 
-import AuthContext from 'src/providers/AuthContext';
-import ChannelContext from 'src/providers/ChannelContext';
-
-import { createChannel } from 'src/services/channel.service';
-
-import { ServiceResponse } from 'src/models/ServiceResponse.model';
-import { ChannelI } from 'src/models/Channel.model';
-
-import { useHistory } from 'react-router-dom';
-
-interface Props {}
-
-const CreateChannel: React.FC<Props> = () => {
+const EditChannel: React.FC = () => {
   const history = useHistory();
 
   const { authenticatedUser } = useContext(AuthContext);
-  const { setChannel } = useContext(ChannelContext);
+  const { channel, setChannel } = useContext(ChannelContext);
 
-  const [createChannelRes, setCreateChannelRes] = useState(
+  const [updateChannelResponse, setUpdateChannelResponse] = useState(
     {} as ServiceResponse<ChannelI>,
   );
 
   const initialValues = {
-    name: '',
-    description: '',
+    name: channel.name,
+    description: channel.description,
   };
 
   const validationSchema = Yup.object({
-    name: Yup.string()
-      .min(5, 'O nome do canal deve ser maior.')
-      .required('Esse campo é obrigatório!'),
+    name: Yup.string().min(5, 'Nome do canal é muito curto!'),
     description: Yup.string().optional(),
   });
 
   return (
     <div className="main-padding">
       <Section>
-        <Header>Criar Canal</Header>
+        <Header>Editar Canal</Header>
         <HeaderCaption>
-          Para criar e publicar cursos/vídeos é necessário que você crie um
-          canal.
+          Nessa página você pode editar as informações sobre seu canal.
         </HeaderCaption>
+
+        <EditChannelBanner initialImage={getBannerPicture(channel)} />
 
         <Formik
           enableReinitialize
           initialValues={initialValues}
           validationSchema={validationSchema}
           onSubmit={async (values, actions) => {
-            if (authenticatedUser?.user && authenticatedUser.token) {
-              const serviceResponse = await createChannel(
+            const changedValues = getFormikChangedValues(values, initialValues);
+
+            if (authenticatedUser && authenticatedUser.token) {
+              const serviceResponse = await updateChannel(
                 authenticatedUser.token,
-                {
-                  user: authenticatedUser.user.id,
-                  ...values,
-                },
+                channel.id,
+                changedValues,
               );
 
-              setCreateChannelRes(serviceResponse);
+              setUpdateChannelResponse(serviceResponse);
 
               if (!serviceResponse.errorResponse && serviceResponse.data) {
                 setChannel(serviceResponse.data);
+
+                actions.resetForm();
               }
             }
 
@@ -85,26 +86,28 @@ const CreateChannel: React.FC<Props> = () => {
         >
           {(formik) => (
             <FormContainer autoComplete="off" onSubmit={formik.handleSubmit}>
-              {createChannelRes.errorResponse && !formik.isValidating ? (
+              {updateChannelResponse.errorResponse && !formik.isValidating ? (
                 <ServiceError>
-                  {createChannelRes.errorResponse.message}
+                  {updateChannelResponse.errorResponse.message}
                 </ServiceError>
               ) : null}
 
               <InputField
-                fullWidth
+                fullWidth={true}
                 label="Nome"
                 name="name"
                 placeholder="Digite aqui o nome do canal"
               />
 
               <InputField
-                fullWidth
+                isTextarea={true}
+                fullWidth={true}
                 label="Descrição"
                 name="description"
-                placeholder="Digite aqui a descrição do canal"
-                isTextarea={true}
+                placeholder="Digite aqui a descrição do canal..."
               />
+
+              <DeleteChannel />
 
               <ButtonsRowContainer>
                 <ButtonPrimary
@@ -113,10 +116,13 @@ const CreateChannel: React.FC<Props> = () => {
                     !(formik.isValid && formik.dirty) ? true : undefined
                   }
                 >
-                  {formik.isSubmitting ? <ButtonLoader /> : 'Criar Canal'}
+                  {formik.isSubmitting ? <ButtonLoader /> : 'Salvar Alterações'}
                 </ButtonPrimary>
 
-                <ButtonSecondary onClick={() => history.push('/')}>
+                <ButtonSecondary
+                  type="button"
+                  onClick={() => history.push('/')}
+                >
                   Voltar
                 </ButtonSecondary>
               </ButtonsRowContainer>
@@ -128,4 +134,4 @@ const CreateChannel: React.FC<Props> = () => {
   );
 };
 
-export default CreateChannel;
+export default EditChannel;

@@ -31,6 +31,7 @@ declare module 'styled-components' {
     };
     shadows: {
       primary: string;
+      big: string;
     };
     fontSizes: {
       heading: {

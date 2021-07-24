@@ -95,10 +95,16 @@ const DeleteChannel: React.FC = () => {
               ) : null}
 
               <ButtonsRowContainer>
-                <ButtonPrimary onClick={() => setConfirmDeleteChannel(false)}>
+                <ButtonPrimary
+                  type="button"
+                  onClick={() => setConfirmDeleteChannel(false)}
+                >
                   CANCELAR
                 </ButtonPrimary>
-                <ButtonSecondary onClick={() => handleDeleteChannel()}>
+                <ButtonSecondary
+                  type="button"
+                  onClick={() => handleDeleteChannel()}
+                >
                   Sim, excluir canal!
                 </ButtonSecondary>
               </ButtonsRowContainer>

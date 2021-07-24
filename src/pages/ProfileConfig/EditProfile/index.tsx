@@ -96,7 +96,7 @@ const EditProfile: React.FC<Props> = () => {
           ) : null}
 
           <EditProfileImage
-            initialImage={getProfilePicture(authenticatedUser)}
+            initialImage={getProfilePicture(authenticatedUser?.user)}
           />
 
           <InputField

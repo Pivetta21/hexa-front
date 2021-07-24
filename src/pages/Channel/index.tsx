@@ -1,57 +1,92 @@
-import { useState, useContext, useEffect } from 'react';
+import { Fragment, useState, useEffect } from 'react';
+import { useParams, Redirect, Switch, Route } from 'react-router-dom';
 
-import AuthContext from 'src/providers/AuthContext';
-
-import { findChannelByUserId } from 'src/services/channel.service';
+import { findChannel } from 'src/services/channel.service';
 
 import { ChannelI } from 'src/models/Channel.model';
+import { ServiceResponse } from 'src/models/ServiceResponse.model';
 
 import Loading from 'src/components/Loading';
 
-import EditChannel from './EditChannel';
-import ChannelContext from 'src/providers/ChannelContext';
-import CreateChannel from './CreateChannel';
+import ChannelDisplay from './ChannelDisplay';
+import { InternalLinksContainer } from 'src/styled/Blocks';
+import { InternalLink } from 'src/styled/Texts';
+import { ChannelContainer, ChannelNavigation } from './styles';
+import ChannelHomeSkeleton from './ChannelHome/Skeleton';
 
-const Channel: React.FC = () => {
-  const { authenticatedUser } = useContext(AuthContext);
+interface Props {}
+
+const Channel: React.FC<Props> = () => {
+  const { id } = useParams() as any;
 
   const [isLoading, setIsLoading] = useState(true);
-  const [channel, setChannel] = useState({} as ChannelI);
+  const [channelResponse, setChannelResponse] = useState(
+    {} as ServiceResponse<ChannelI>,
+  );
 
-  function handleSetChannel(updatedChannel: ChannelI) {
-    setChannel(updatedChannel);
+  async function fetchChannel() {
+    const serviceResponse = await findChannel(id);
+
+    setChannelResponse(serviceResponse);
+
+    setIsLoading(false);
   }
-
-  const redirectChannel = async () => {
-    if (authenticatedUser) {
-      const serviceResponse = await findChannelByUserId(
-        authenticatedUser.user.id,
-      );
-
-      if (!serviceResponse.errorResponse && serviceResponse.data) {
-        await setChannel(serviceResponse.data);
-      }
-
-      await setIsLoading(false);
-    }
-  };
 
   useEffect(() => {
     setTimeout(() => {
-      redirectChannel();
-    }, 1000);
+      fetchChannel();
+    }, 500);
   }, []);
 
   return (
-    <ChannelContext.Provider
-      value={{ channel: channel, setChannel: handleSetChannel }}
-    >
-      <div style={{ height: '100%' }}>
-        {isLoading ? <Loading /> : undefined}
-        {channel.id && !isLoading ? <EditChannel /> : undefined}
-        {!channel.id && !isLoading ? <CreateChannel /> : undefined}
-      </div>
-    </ChannelContext.Provider>
+    <Fragment>
+      {!isLoading && (
+        <Fragment>
+          {channelResponse.data ? (
+            <ChannelContainer>
+              <ChannelDisplay channel={channelResponse.data} />
+
+              <ChannelNavigation className="main-padding">
+                <InternalLinksContainer>
+                  <InternalLink
+                    to={`/discover/channels/${channelResponse.data.id}`}
+                    activeClassName="active"
+                    exact
+                  >
+                    Início
+                  </InternalLink>
+                  <InternalLink
+                    to={`/discover/channels/${channelResponse.data.id}/about`}
+                    activeClassName="active"
+                    exact
+                  >
+                    Sobre
+                  </InternalLink>
+                </InternalLinksContainer>
+
+                <Switch key="channel">
+                  <Route
+                    path={`/discover/channels/${channelResponse.data.id}`}
+                    exact
+                  >
+                    <ChannelHomeSkeleton />
+                  </Route>
+                  <Route
+                    path={`/discover/channels/${channelResponse.data.id}/about`}
+                    exact
+                  >
+                    <div>Carregar sobre e estatísticas aqui</div>
+                  </Route>
+                </Switch>
+              </ChannelNavigation>
+            </ChannelContainer>
+          ) : (
+            <Redirect to="/oops" />
+          )}
+        </Fragment>
+      )}
+      {isLoading && <Loading />}
+    </Fragment>
   );
 };
 
