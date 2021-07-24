@@ -12,6 +12,7 @@ import ChannelDisplay from './ChannelDisplay';
 import { InternalLinksContainer } from 'src/styled/Blocks';
 import { InternalLink } from 'src/styled/Texts';
 import { ChannelContainer, ChannelNavigation } from './styles';
+import ChannelHomeSkeleton from './ChannelHome/Skeleton';
 
 interface Props {}
 
@@ -68,7 +69,7 @@ const Channel: React.FC<Props> = () => {
                     path={`/discover/channels/${channelResponse.data.id}`}
                     exact
                   >
-                    <div>Carregar vídeos aqui</div>
+                    <ChannelHomeSkeleton />
                   </Route>
                   <Route
                     path={`/discover/channels/${channelResponse.data.id}/about`}

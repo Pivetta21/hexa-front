@@ -1,7 +1,7 @@
 import api from './api';
 import { AxiosResponse, AxiosError } from 'axios';
 
-import nopic from 'src/assets/images/nopic.webp';
+import nobanner from 'src/assets/images/nobanner.jpeg';
 
 import {
   deleteImage,
@@ -136,7 +136,7 @@ export function getBannerPicture(channel: ChannelI) {
     return process.env.REACT_APP_SERVER_URL + '/' + channel.banner_url;
   }
 
-  return nopic;
+  return nobanner;
 }
 
 export function deleteBannerPicture(access_token: string, channel: ChannelI) {

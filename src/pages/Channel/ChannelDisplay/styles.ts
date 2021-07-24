@@ -5,9 +5,12 @@ import { transparentize } from 'polished';
 export const ChannelDisplayContainer = styled.div`
   display: flex;
   flex-direction: column;
+  margin-bottom: 12px;
 `;
 
 export const ChannelBanner = styled.img`
+  pointer-events: none;
+  user-select: none;
   width: 100%;
   height: 240px;
   object-fit: cover;
@@ -31,6 +34,8 @@ export const ChannelHeader = styled.div`
 `;
 
 export const ChannelAuthorImage = styled.img`
+  pointer-events: none;
+  user-select: none;
   position: relative;
   top: -58px;
   background-color: ${(props) => props.theme.colors.text};
@@ -56,11 +61,13 @@ export const ChannelInfo = styled.div`
   h1 {
     font-size: ${(props) => props.theme.fontSizes.heading.normal};
     font-weight: 700;
+    letter-spacing: 0.5px;
   }
 
   span {
     color: ${(props) => props.theme.colors.caption};
     font-size: ${(props) => props.theme.fontSizes.body.large};
     font-weight: 400;
+    letter-spacing: 0.35px;
   }
 `;
