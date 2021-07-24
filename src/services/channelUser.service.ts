@@ -46,8 +46,11 @@ export function checkIfUserIsFollowingChannel(
 
 export async function findFollowingChannels(
   userId: number,
+  access_token: string,
 ): Promise<ServiceResponse<ChannelUser[]>> {
-  const request = api.get(`${url}/channels/${userId}`);
+  const request = api.get(`${url}/channels/${userId}`, {
+    headers: { Authorization: `Bearer ${access_token}` },
+  });
 
   return axiosFetch<ChannelUser[]>(request);
 }
