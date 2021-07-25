@@ -6,8 +6,6 @@ import {
   ChannelsListContainer,
 } from './styles';
 
-import formatDate from 'src/helpers/formatDate';
-
 import { useHistory } from 'react-router-dom';
 import { getProfilePicture } from 'src/services/user.service';
 
@@ -33,7 +31,7 @@ const ChannelsList: React.FC<Props> = ({ channelsList }) => {
             <ChannelItemImage src={getProfilePicture(channel.user)} />
             <ChannelItemHeader>
               <h1 title={channel.name}>{channel.name}</h1>
-              <span>{formatDate('pt-br', channel.created_at)}</span>
+              <span>{channel.user.name}</span>
               <p>
                 {channel.description
                   ? channel.description

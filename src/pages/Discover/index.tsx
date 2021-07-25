@@ -1,4 +1,4 @@
-import { Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import { InternalLinksContainer } from 'src/styled/Blocks';
 import { Header, InternalLink } from 'src/styled/Texts';
 import DiscoverCourses from './DiscoverCourses';
@@ -24,6 +24,9 @@ const Discover: React.FC<Props> = () => {
         </Route>
         <Route path="/discover/channels" exact>
           <DiscoverChannels />
+        </Route>
+        <Route path="/discover/*" exact>
+          <Redirect to="/oops" />
         </Route>
       </Switch>
     </div>

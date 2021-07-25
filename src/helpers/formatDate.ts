@@ -1,5 +1,5 @@
 export default function formatDate(
-  intlLocale: string,
+  intlLocale: 'pt-br' | 'en',
   date: string | Date,
 ): string {
   if (!(date instanceof Date)) {

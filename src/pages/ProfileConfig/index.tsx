@@ -1,4 +1,4 @@
-import { Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import { Section, InternalLinksContainer } from 'src/styled/Blocks';
 import { Header, HeaderCaption, InternalLink } from 'src/styled/Texts';
 import EditProfile from './EditProfile';
@@ -31,8 +31,11 @@ const ProfileConfig: React.FC<Props> = () => {
           <Route path="/profile/config" exact>
             <EditProfile />
           </Route>
-          <Route path="/profile/config/preferences">
+          <Route path="/profile/config/preferences" exact>
             <PreferencesProfile />
+          </Route>
+          <Route path="/profile/config/*" exact>
+            <Redirect to="/oops" />
           </Route>
         </Switch>
       </Section>
