@@ -1,12 +1,24 @@
-import { SidenavContainer, SidenavLinks, SidenavLink } from './styles';
+import { useContext } from 'react';
+
+import {
+  SidenavContainer,
+  SidenavLinks,
+  SidenavLink,
+  SideNavDivider,
+} from './styles';
 
 import { ReactComponent as Home } from 'src/assets/svg/icons/Home.svg';
 import { ReactComponent as Star } from 'src/assets/svg/icons/Star.svg';
 import { ReactComponent as Eye } from 'src/assets/svg/icons/Eye.svg';
 
+import FollowingChannels from './FollowingChannels';
+import AuthContext from 'src/providers/AuthContext';
+
 interface Props {}
 
 const Sidenav: React.FC<Props> = () => {
+  const { isUserLoggedIn } = useContext(AuthContext);
+
   return (
     <SidenavContainer className="scroller">
       <SidenavLinks>
@@ -23,6 +35,12 @@ const Sidenav: React.FC<Props> = () => {
           <span>Descobrir</span>
         </SidenavLink>
       </SidenavLinks>
+
+      <SideNavDivider />
+
+      {isUserLoggedIn && <FollowingChannels />}
+
+      <SideNavDivider />
     </SidenavContainer>
   );
 };

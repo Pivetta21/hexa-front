@@ -91,3 +91,18 @@ export const SidenavLink = styled(NavLink)`
     }
   }
 `;
+
+export const SideNavDivider = styled.hr`
+  position: relative;
+  border: none;
+  height: 2px;
+  width: 100%;
+  margin: 0 auto;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  background-color: ${(props) => transparentize(0.92, props.theme.colors.text)};
+
+  @media (max-width: ${(props) => props.theme.breakpoints.nav.mobile}) {
+    display: none;
+  }
+`;
