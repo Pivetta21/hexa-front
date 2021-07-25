@@ -44,7 +44,9 @@ const EditProfile: React.FC<Props> = () => {
   };
 
   const validationSchema = Yup.object({
-    name: Yup.string().min(3, 'Seu nome é muito curto.'),
+    name: Yup.string()
+      .min(3, 'O nome deve ser maior.')
+      .max(64, 'O nome deve ser menor.'),
     email: Yup.string().email('Endereço de e-mail inválido.'),
     password: Yup.string().min(5, 'Sua senha é muito curta.'),
     confirmPassword: Yup.string()

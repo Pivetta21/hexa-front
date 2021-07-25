@@ -29,7 +29,9 @@ export const ChannelItemContainer = styled.div`
 
 export const ChannelItemImage = styled.img`
   width: 74px;
+  min-width: 74px;
   height: 74px;
+  min-height: 74px;
   border-radius: 50%;
   object-fit: cover;
   object-position: center;

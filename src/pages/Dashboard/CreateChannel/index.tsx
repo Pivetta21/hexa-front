@@ -46,6 +46,7 @@ const CreateChannel: React.FC<Props> = () => {
   const validationSchema = Yup.object({
     name: Yup.string()
       .min(5, 'O nome do canal deve ser maior.')
+      .max(64, 'O nome do canal deve ser menor.')
       .required('Esse campo é obrigatório!'),
     description: Yup.string().optional(),
   });

@@ -44,7 +44,8 @@ const SignUp: React.FC<Props> = () => {
 
   const validationSchema = Yup.object({
     name: Yup.string()
-      .min(3, 'Seu nome é muito curto.')
+      .min(3, 'O nome deve ser maior.')
+      .max(64, 'O nome deve ser menor.')
       .required('Esse campo é obrigatório!'),
     email: Yup.string()
       .email('Endereço de e-mail inválido.')

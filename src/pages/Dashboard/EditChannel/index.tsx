@@ -44,7 +44,9 @@ const EditChannel: React.FC = () => {
   };
 
   const validationSchema = Yup.object({
-    name: Yup.string().min(5, 'Nome do canal é muito curto!'),
+    name: Yup.string()
+      .min(5, 'O nome do canal deve ser maior.')
+      .max(64, 'O nome do canal deve ser menor.'),
     description: Yup.string().optional(),
   });
 

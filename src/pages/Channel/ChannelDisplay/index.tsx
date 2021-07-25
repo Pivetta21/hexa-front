@@ -32,7 +32,6 @@ const ChannelDisplay: React.FC<Props> = ({ channel }) => {
   const { authenticatedUser } = useContext(AuthContext);
 
   const [isFollowing, setIsFollowing] = useState(false);
-  const [openUnfollow, setOpenUnfollow] = useState(false);
 
   async function handleFollowChannel() {
     if (authenticatedUser && authenticatedUser.token) {
@@ -102,27 +101,19 @@ const ChannelDisplay: React.FC<Props> = ({ channel }) => {
                 {!isFollowing ? (
                   <ButtonPrimary
                     type="button"
+                    title="Começar a Seguir"
                     onClick={() => handleFollowChannel()}
                   >
-                    Seguir Canal
+                    SEGUIR
                   </ButtonPrimary>
                 ) : (
-                  <Fragment>
-                    {openUnfollow ? (
-                      <ButtonSecondary
-                        onMouseLeave={() => setOpenUnfollow(!openUnfollow)}
-                        onClick={() => handleUnfollow()}
-                      >
-                        Deixar de Seguir
-                      </ButtonSecondary>
-                    ) : (
-                      <ButtonPrimary
-                        onMouseEnter={() => setOpenUnfollow(!openUnfollow)}
-                      >
-                        SEGUINDO
-                      </ButtonPrimary>
-                    )}
-                  </Fragment>
+                  <ButtonSecondary
+                    type="button"
+                    title="Deixar de Seguir"
+                    onClick={() => handleUnfollow()}
+                  >
+                    SEGUINDO
+                  </ButtonSecondary>
                 )}
               </Fragment>
             ) : (
