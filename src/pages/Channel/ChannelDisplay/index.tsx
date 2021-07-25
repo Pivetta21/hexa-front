@@ -20,12 +20,15 @@ import {
 } from 'src/services/channelUser.service';
 
 import AuthContext from 'src/providers/AuthContext';
+import { useDispatch } from 'react-redux';
+import { follow, unfollow } from 'src/redux/subscriptionsSlice';
 
 interface Props {
   channel: ChannelI;
 }
 
 const ChannelDisplay: React.FC<Props> = ({ channel }) => {
+  const dispatch = useDispatch();
   const { authenticatedUser } = useContext(AuthContext);
 
   const [isFollowing, setIsFollowing] = useState(false);
@@ -42,6 +45,7 @@ const ChannelDisplay: React.FC<Props> = ({ channel }) => {
       );
 
       if (!serviceResponse.errorResponse && serviceResponse.data) {
+        dispatch(follow(channel));
         setIsFollowing(true);
       }
     }
@@ -55,6 +59,7 @@ const ChannelDisplay: React.FC<Props> = ({ channel }) => {
       );
 
       if (!serviceResponse.errorResponse) {
+        dispatch(unfollow(channel));
         setIsFollowing(false);
       }
     }

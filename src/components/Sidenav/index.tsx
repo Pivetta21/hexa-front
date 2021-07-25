@@ -39,8 +39,6 @@ const Sidenav: React.FC<Props> = () => {
       <SideNavDivider />
 
       {isUserLoggedIn && <FollowingChannels />}
-
-      <SideNavDivider />
     </SidenavContainer>
   );
 };

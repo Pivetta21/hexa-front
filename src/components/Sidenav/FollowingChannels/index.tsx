@@ -1,7 +1,5 @@
 import { useContext, useState, useEffect } from 'react';
 
-import { ChannelI } from 'src/models/Channel.model';
-
 import AuthContext from 'src/providers/AuthContext';
 
 import { findFollowingChannels } from 'src/services/channelUser.service';
@@ -16,14 +14,21 @@ import {
 } from './styles';
 
 import ChannelPortraitList from '../ChannelPortraitList';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'src/redux/store';
+import { addChannels } from 'src/redux/subscriptionsSlice';
 
 interface Props {}
 
 const FollowingChannels: React.FC<Props> = () => {
+  const dispatch = useDispatch();
+  const channels = useSelector(
+    (state: RootState) => state.subscriptions.channels,
+  );
+
   const { authenticatedUser } = useContext(AuthContext);
 
   const [isLoading, setIsLoading] = useState(true);
-  const [channels, setChannels] = useState([] as ChannelI[]);
 
   async function handleFetchUserChannels() {
     if (authenticatedUser && authenticatedUser.token) {
@@ -37,7 +42,7 @@ const FollowingChannels: React.FC<Props> = () => {
           return channelUser.channel!;
         });
 
-        setChannels(channels);
+        dispatch(addChannels(channels));
       }
     }
   }
@@ -51,7 +56,7 @@ const FollowingChannels: React.FC<Props> = () => {
 
   return (
     <FollowingChannelsContainer>
-      <FollowingChannelsHeader>Canais que você segue</FollowingChannelsHeader>
+      <FollowingChannelsHeader>Suas inscrições</FollowingChannelsHeader>
 
       {!isLoading && channels && (
         <FollowingChannelsSection>

@@ -26,6 +26,10 @@ export const ChannelPortraitItem = styled(Link)`
     object-fit: cover;
     object-position: center;
   }
+
+  @media (max-width: ${(props) => props.theme.breakpoints.nav.tablet}) {
+    justify-content: center;
+  }
 `;
 
 export const ChannelPortraitBody = styled.div`
@@ -54,5 +58,9 @@ export const ChannelPortraitBody = styled.div`
     -webkit-line-clamp: 1;
     white-space: nowrap;
     overflow: hidden;
+  }
+
+  @media (max-width: ${(props) => props.theme.breakpoints.nav.tablet}) {
+    display: none;
   }
 `;
