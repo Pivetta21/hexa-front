@@ -1,8 +1,6 @@
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/redux/store';
 
-import { BasicLoader } from 'src/styled/Loaders';
-
 import {
   FollowingChannelsContainer,
   FollowingChannelsHeader,
@@ -10,6 +8,7 @@ import {
 } from './styles';
 
 import ChannelPortraitList from '../ChannelPortraitList';
+import ChannelPortraitListSkeleton from '../ChannelPortraitList/Skeleton';
 
 interface Props {}
 
@@ -26,7 +25,7 @@ const FollowingChannels: React.FC<Props> = () => {
         </FollowingChannelsContent>
       )}
 
-      {subscriptions.status === 'loading' && <BasicLoader />}
+      {subscriptions.status === 'loading' && <ChannelPortraitListSkeleton />}
     </FollowingChannelsContainer>
   );
 };

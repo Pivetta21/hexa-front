@@ -1,5 +1,5 @@
-import { useContext } from 'react';
-import { useSelector } from 'react-redux';
+import { useContext, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState } from 'src/redux/store';
 
@@ -18,15 +18,21 @@ import { ReactComponent as Eye } from 'src/assets/svg/icons/Eye.svg';
 
 import FollowingChannels from './FollowingChannels';
 import RecentChannels from './RecentChannels';
+import { getSubscriptions } from 'src/redux/subscriptionsSlice';
 
 interface Props {}
 
 const Sidenav: React.FC<Props> = () => {
-  const { isUserLoggedIn } = useContext(AuthContext);
+  const { authenticatedUser, isUserLoggedIn } = useContext(AuthContext);
 
+  const dispatch = useDispatch();
   const channels = useSelector(
     (state: RootState) => state.subscriptions.channels,
   );
+
+  useEffect(() => {
+    if (authenticatedUser) dispatch(getSubscriptions(authenticatedUser));
+  }, []);
 
   return (
     <SidenavContainer className="scroller">

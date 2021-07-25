@@ -50,8 +50,7 @@ export const subscriptionsSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(getSubscriptions.pending, (state, action) => {
-      console.log(action);
+    builder.addCase(getSubscriptions.pending, (state) => {
       state.status = 'loading';
     });
 

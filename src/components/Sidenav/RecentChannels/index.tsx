@@ -1,16 +1,17 @@
 import { useState, useEffect } from 'react';
 
-import { BasicLoader } from 'src/styled/Loaders';
-
 import {
   RecentChannelsContainer,
   RecentChannelsHeader,
   RecentChannelsContent,
 } from './styles';
 
-import ChannelPortraitList from '../ChannelPortraitList';
 import { findAllChannels } from 'src/services/channel.service';
+
+import ChannelPortraitList from '../ChannelPortraitList';
+
 import { ChannelI } from 'src/models/Channel.model';
+import ChannelPortraitListSkeleton from '../ChannelPortraitList/Skeleton';
 
 interface Props {}
 
@@ -43,7 +44,7 @@ const RecentChannels: React.FC<Props> = () => {
         </RecentChannelsContent>
       )}
 
-      {isLoading && <BasicLoader />}
+      {isLoading && <ChannelPortraitListSkeleton />}
     </RecentChannelsContainer>
   );
 };
