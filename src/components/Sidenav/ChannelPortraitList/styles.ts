@@ -1,5 +1,7 @@
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { transparentize } from 'polished';
+
+import { Link } from 'react-router-dom';
 
 export const ChannelPortraitListContainer = styled.div`
   display: flex;
@@ -18,6 +20,8 @@ export const ChannelPortraitItem = styled(Link)`
   }
 
   img {
+    background-color: ${(props) =>
+      transparentize(0.92, props.theme.colors.text)};
     width: 50px;
     min-width: 50px;
     height: 50px;

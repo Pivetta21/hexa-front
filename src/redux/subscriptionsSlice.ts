@@ -1,16 +1,44 @@
 import { ChannelI } from './../models/Channel.model';
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+
+import { AuthenticatedUser } from 'src/models/AuthenticatedUser.model';
+import { findFollowingChannels } from 'src/services/channelUser.service';
+
+type StatusType = 'success' | 'loading' | 'failed';
 
 const initialState = {
   channels: [] as ChannelI[],
+  status: '' as StatusType,
 };
+
+export const getSubscriptions = createAsyncThunk(
+  'subscriptions/get',
+  async (authenticatedUser: AuthenticatedUser) => {
+    let channels = [] as ChannelI[];
+
+    if (authenticatedUser && authenticatedUser.token) {
+      const serviceResponse = await findFollowingChannels(
+        authenticatedUser.user.id,
+        authenticatedUser.token,
+      );
+
+      if (!serviceResponse.errorResponse && serviceResponse.data) {
+        channels = serviceResponse.data.map((channelUser) => {
+          return channelUser.channel!;
+        });
+      }
+    }
+
+    return channels;
+  },
+);
 
 export const subscriptionsSlice = createSlice({
   name: 'subscriptions',
   initialState,
   reducers: {
-    addChannels: (state, action: PayloadAction<ChannelI[]>) => {
-      state.channels = action.payload;
+    reset: (state) => {
+      state.channels = [] as ChannelI[];
     },
     follow: (state, action: PayloadAction<ChannelI>) => {
       state.channels.push(action.payload);
@@ -21,8 +49,23 @@ export const subscriptionsSlice = createSlice({
       );
     },
   },
+  extraReducers: (builder) => {
+    builder.addCase(getSubscriptions.pending, (state, action) => {
+      console.log(action);
+      state.status = 'loading';
+    });
+
+    builder.addCase(getSubscriptions.fulfilled, (state, { payload }) => {
+      state.channels = payload;
+      state.status = 'success';
+    });
+
+    builder.addCase(getSubscriptions.rejected, (state) => {
+      state.status = 'failed';
+    });
+  },
 });
 
-export const { addChannels, follow, unfollow } = subscriptionsSlice.actions;
+export const { follow, unfollow, reset } = subscriptionsSlice.actions;
 
 export default subscriptionsSlice.reducer;

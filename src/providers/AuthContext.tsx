@@ -1,6 +1,8 @@
 import { createContext } from 'react';
+import { useDispatch } from 'react-redux';
 
 import usePersistedState from 'src/hooks/usePersistedState';
+import { getSubscriptions, reset } from 'src/redux/subscriptionsSlice';
 
 import { login } from 'src/services/user.service';
 import { ServiceResponse } from 'src/models/ServiceResponse.model';
@@ -20,6 +22,8 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
 export const AuthProvider: React.FC = ({ children }) => {
+  const dispatch = useDispatch();
+
   const [authenticatedUser, setAuthenticatedUser] =
     usePersistedState<AuthenticatedUser | null>('auth', null);
 
@@ -27,6 +31,7 @@ export const AuthProvider: React.FC = ({ children }) => {
     const loginResponse = await login(email, password);
 
     if (loginResponse.data) {
+      dispatch(getSubscriptions(loginResponse.data));
       setAuthenticatedUser(loginResponse.data);
     } else {
       setAuthenticatedUser(null);
@@ -42,6 +47,8 @@ export const AuthProvider: React.FC = ({ children }) => {
   };
 
   const handleLogout = async () => {
+    dispatch(reset());
+
     await setAuthenticatedUser(null);
   };
 

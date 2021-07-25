@@ -9,9 +9,9 @@ import { ServiceResponse } from 'src/models/ServiceResponse.model';
 import Loading from 'src/components/Loading';
 
 import ChannelDisplay from './ChannelDisplay';
-import { InternalLinksContainer } from 'src/styled/Blocks';
+import { ContentBlock, InternalLinksContainer } from 'src/styled/Blocks';
 import { InternalLink } from 'src/styled/Texts';
-import { ChannelContainer, ChannelNavigation } from './styles';
+
 import ChannelHomeSkeleton from './ChannelHome/Skeleton';
 
 interface Props {}
@@ -43,10 +43,10 @@ const Channel: React.FC<Props> = () => {
       {!isLoading && (
         <Fragment>
           {channelResponse.data ? (
-            <ChannelContainer>
+            <Fragment>
               <ChannelDisplay channel={channelResponse.data} />
 
-              <ChannelNavigation className="main-padding">
+              <ContentBlock>
                 <InternalLinksContainer>
                   <InternalLink
                     to={`/discover/channels/${channelResponse.data.id}`}
@@ -78,8 +78,8 @@ const Channel: React.FC<Props> = () => {
                     <div>Carregar sobre e estatísticas aqui</div>
                   </Route>
                 </Switch>
-              </ChannelNavigation>
-            </ChannelContainer>
+              </ContentBlock>
+            </Fragment>
           ) : (
             <Redirect to="/oops" />
           )}

@@ -53,6 +53,16 @@ export const ImageUploadContainer = styled.div`
   }
 `;
 
+export const ContentBlock = styled.div`
+  padding: ${(props) => props.theme.spacings.medium};
+  padding-top: 0px;
+
+  @media (max-width: ${(props) => props.theme.breakpoints.nav.tablet}) {
+    padding: ${(props) => props.theme.spacings.normal};
+    padding-top: 8px;
+  }
+`;
+
 export const ListBlock = styled.div`
   margin-top: 24px;
   margin-right: 0px;

@@ -1,4 +1,9 @@
 import { useContext } from 'react';
+import { useSelector } from 'react-redux';
+
+import { RootState } from 'src/redux/store';
+
+import AuthContext from 'src/providers/AuthContext';
 
 import {
   SidenavContainer,
@@ -12,12 +17,16 @@ import { ReactComponent as Star } from 'src/assets/svg/icons/Star.svg';
 import { ReactComponent as Eye } from 'src/assets/svg/icons/Eye.svg';
 
 import FollowingChannels from './FollowingChannels';
-import AuthContext from 'src/providers/AuthContext';
+import RecentChannels from './RecentChannels';
 
 interface Props {}
 
 const Sidenav: React.FC<Props> = () => {
   const { isUserLoggedIn } = useContext(AuthContext);
+
+  const channels = useSelector(
+    (state: RootState) => state.subscriptions.channels,
+  );
 
   return (
     <SidenavContainer className="scroller">
@@ -38,7 +47,8 @@ const Sidenav: React.FC<Props> = () => {
 
       <SideNavDivider />
 
-      {isUserLoggedIn && <FollowingChannels />}
+      {isUserLoggedIn && channels.length > 0 && <FollowingChannels />}
+      {(!isUserLoggedIn || channels.length == 0) && <RecentChannels />}
     </SidenavContainer>
   );
 };
