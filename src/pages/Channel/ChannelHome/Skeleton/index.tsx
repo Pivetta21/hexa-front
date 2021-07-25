@@ -1,4 +1,9 @@
-import { ChannelHomeContainerSk, ChannelHomeSk } from './styles';
+import { ListBlock } from 'src/styled/Blocks';
+import {
+  ChannelHomeContainerSk,
+  ChannelHomeListSk,
+  ChannelHomeTitleSk,
+} from './styles';
 
 interface Props {}
 
@@ -7,12 +12,15 @@ const ChannelHomeSkeleton: React.FC<Props> = () => {
 
   return (
     <ChannelHomeContainerSk>
-      <h1>Cursos Publicados</h1>
-      <ChannelHomeSk>
-        {courses.map((course) => {
-          return <span key={course}></span>;
-        })}
-      </ChannelHomeSk>
+      <ChannelHomeTitleSk>Cursos Publicados</ChannelHomeTitleSk>
+
+      <ListBlock>
+        <ChannelHomeListSk>
+          {courses.map((course) => {
+            return <span key={course}></span>;
+          })}
+        </ChannelHomeListSk>
+      </ListBlock>
     </ChannelHomeContainerSk>
   );
 };

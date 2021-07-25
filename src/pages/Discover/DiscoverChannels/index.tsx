@@ -7,6 +7,7 @@ import { ChannelI } from 'src/models/Channel.model';
 import { useState } from 'react';
 import ChannelsList from 'src/components/ChannelsList';
 import ChannelListSkeleton from 'src/components/ChannelsList/Skeleton';
+import { ListBlock } from 'src/styled/Blocks';
 
 interface Props {}
 
@@ -28,13 +29,13 @@ const DiscoverChannels: React.FC<Props> = () => {
   }, []);
 
   return (
-    <div style={{ margin: '32px 0px', height: '100%', maxHeight: '100vh' }}>
+    <ListBlock>
       {!channelsResponse.errorResponse && channelsResponse.data && (
         <ChannelsList channelsList={channelsResponse.data} />
       )}
 
       {!channelsResponse.data && <ChannelListSkeleton />}
-    </div>
+    </ListBlock>
   );
 };
 

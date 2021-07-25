@@ -52,3 +52,10 @@ export const ImageUploadContainer = styled.div`
     display: none;
   }
 `;
+
+export const ListBlock = styled.div`
+  margin-top: 24px;
+  margin-right: 0px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+`;
