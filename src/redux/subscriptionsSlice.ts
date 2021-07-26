@@ -37,7 +37,7 @@ export const subscriptionsSlice = createSlice({
   name: 'subscriptions',
   initialState,
   reducers: {
-    reset: (state) => {
+    resetSubscriptions: (state) => {
       state.channels = [] as ChannelI[];
     },
     follow: (state, action: PayloadAction<ChannelI>) => {
@@ -65,6 +65,7 @@ export const subscriptionsSlice = createSlice({
   },
 });
 
-export const { follow, unfollow, reset } = subscriptionsSlice.actions;
+export const { follow, unfollow, resetSubscriptions } =
+  subscriptionsSlice.actions;
 
 export default subscriptionsSlice.reducer;

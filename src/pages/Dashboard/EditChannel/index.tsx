@@ -1,13 +1,22 @@
 import { useContext, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
-import ChannelContext from 'src/providers/ChannelContext';
+import getFormikChangedValues from 'src/helpers/getFormikChangedValues';
+
+import { RootState } from 'src/redux/store';
+import { setChannel } from 'src/redux/channelSlice';
+
+import AuthContext from 'src/providers/AuthContext';
 
 import { getBannerPicture, updateChannel } from 'src/services/channel.service';
 
-import getFormikChangedValues from 'src/helpers/getFormikChangedValues';
+import { ServiceResponse } from 'src/models/ServiceResponse.model';
+import { ChannelI } from 'src/models/Channel.model';
 
 import {
   ButtonPrimary,
@@ -16,23 +25,21 @@ import {
 } from 'src/styled/Buttons';
 import { Header, HeaderCaption } from 'src/styled/Texts';
 import { FormContainer, Section } from 'src/styled/Blocks';
+import { ButtonLoader } from 'src/styled/Loaders';
+import { ServiceError } from 'src/styled/Inputs';
 
 import InputField from 'src/components/InputField';
 
 import EditChannelBanner from './EditChannelBanner';
 import DeleteChannel from './DeleteChannel';
-import { ButtonLoader } from 'src/styled/Loaders';
-import { useHistory } from 'react-router-dom';
-import AuthContext from 'src/providers/AuthContext';
-import { ChannelI } from 'src/models/Channel.model';
-import { ServiceResponse } from 'src/models/ServiceResponse.model';
-import { ServiceError } from 'src/styled/Inputs';
 
 const EditChannel: React.FC = () => {
   const history = useHistory();
 
+  const dispatch = useDispatch();
+  const { channel } = useSelector((state: RootState) => state.channel);
+
   const { authenticatedUser } = useContext(AuthContext);
-  const { channel, setChannel } = useContext(ChannelContext);
 
   const [updateChannelResponse, setUpdateChannelResponse] = useState(
     {} as ServiceResponse<ChannelI>,
@@ -77,7 +84,7 @@ const EditChannel: React.FC = () => {
               setUpdateChannelResponse(serviceResponse);
 
               if (!serviceResponse.errorResponse && serviceResponse.data) {
-                setChannel(serviceResponse.data);
+                dispatch(setChannel(serviceResponse.data));
 
                 actions.resetForm();
               }

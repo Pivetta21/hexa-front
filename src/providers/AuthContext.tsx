@@ -2,9 +2,15 @@ import { createContext } from 'react';
 import { useDispatch } from 'react-redux';
 
 import usePersistedState from 'src/hooks/usePersistedState';
-import { getSubscriptions, reset } from 'src/redux/subscriptionsSlice';
+
+import {
+  getSubscriptions,
+  resetSubscriptions,
+} from 'src/redux/subscriptionsSlice';
+import { resetChannel } from 'src/redux/channelSlice';
 
 import { login } from 'src/services/user.service';
+
 import { ServiceResponse } from 'src/models/ServiceResponse.model';
 import { AuthenticatedUser } from 'src/models/AuthenticatedUser.model';
 
@@ -47,7 +53,8 @@ export const AuthProvider: React.FC = ({ children }) => {
   };
 
   const handleLogout = async () => {
-    dispatch(reset());
+    dispatch(resetSubscriptions());
+    dispatch(resetChannel());
 
     await setAuthenticatedUser(null);
   };

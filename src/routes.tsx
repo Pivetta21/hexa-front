@@ -1,32 +1,36 @@
 import { Switch, Route } from 'react-router-dom';
 
-import NotFound from './pages/NotFound';
-import Home from './pages/Home';
-import ProfileConfig from './pages/ProfileConfig';
 import ProtectedRoute from './components/ProtectedRoute';
-import Dashboard from './pages/Dashboard';
+import DashboardProtectedRoute from './components/DashboardProtectedRoute';
+
+import NotFound from './pages/NotFound';
+
+import Home from './pages/Home';
 import Discover from './pages/Discover';
 import Channel from './pages/Channel';
+
+import ProfileConfig from './pages/ProfileConfig';
+
+import Dashboard from './pages/Dashboard';
+import EditChannel from './pages/Dashboard/EditChannel';
 
 const Routes = () => {
   return (
     <Switch key="routes">
-      <ProtectedRoute path="/dashboard" component={Dashboard} exact />
-
       <ProtectedRoute path="/profile/config" component={ProfileConfig} />
-
       <ProtectedRoute
         path="/profile"
         component={() => <h1 className="main-padding">Perfil</h1>}
         exact
       />
 
-      <Route path="/discover/channels/:id" component={Channel} />
+      <DashboardProtectedRoute path="/dashboard/edit" component={EditChannel} />
+      <DashboardProtectedRoute path="/dashboard" component={Dashboard} exact />
 
+      <Route path="/discover/channels/:id" component={Channel} />
       <Route path="/discover/courses/:id">
         <div>Public Course Component</div>
       </Route>
-
       <Route path="/discover" component={Discover} />
 
       <Route path="/subscriptions">

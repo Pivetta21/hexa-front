@@ -1,4 +1,5 @@
 import { useRef, useState, useContext } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import {
   ButtonPrimary,
@@ -19,16 +20,21 @@ import {
 
 import { ServiceResponse } from 'src/models/ServiceResponse.model';
 import { ChannelI } from 'src/models/Channel.model';
-import ChannelContext from 'src/providers/ChannelContext';
+
 import { isFileImage, isFileImageAccepted } from 'src/services/storage.service';
+
+import { RootState } from 'src/redux/store';
+import { setChannel } from 'src/redux/channelSlice';
 
 interface Props {
   initialImage: string;
 }
 
 const EditChannelBanner: React.FC<Props> = ({ initialImage }) => {
+  const dispatch = useDispatch();
+  const { channel } = useSelector((state: RootState) => state.channel);
+
   const { authenticatedUser } = useContext(AuthContext);
-  const { channel, setChannel } = useContext(ChannelContext);
 
   const [uploadProfilePictureRes, setUploadProfilePictureRes] = useState(
     {} as ServiceResponse<ChannelI>,
@@ -82,7 +88,7 @@ const EditChannelBanner: React.FC<Props> = ({ initialImage }) => {
         setUploadProfilePictureRes(serviceResponse);
 
         if (!serviceResponse.errorResponse && serviceResponse.data) {
-          setChannel(serviceResponse.data);
+          dispatch(setChannel(serviceResponse.data));
         }
       } else {
         uploadProfilePictureRes.errorResponse = {

@@ -94,3 +94,20 @@ export const ChannelInfo = styled.div`
     letter-spacing: 0.5px;
   }
 `;
+
+export const ChannelDisplayActions = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  svg {
+    fill: ${(props) => props.theme.colors.icon};
+    width: 40px;
+    height: 40px;
+    margin-right: 12px;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+`;

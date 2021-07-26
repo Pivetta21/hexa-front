@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 
 import subscriptionsReducer from './subscriptionsSlice';
+import channelReducer from './channelSlice';
 
 export const store = configureStore({
   reducer: {
     subscriptions: subscriptionsReducer,
+    channel: channelReducer,
   },
 });
 
