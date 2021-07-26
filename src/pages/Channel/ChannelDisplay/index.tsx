@@ -36,7 +36,7 @@ const ChannelDisplay: React.FC<Props> = ({ channel }) => {
   const history = useHistory();
 
   const dispatch = useDispatch();
-  const { authenticatedUser } = useContext(AuthContext);
+  const { authenticatedUser, isUserLoggedIn } = useContext(AuthContext);
 
   const [isFollowing, setIsFollowing] = useState(false);
 
@@ -83,6 +83,8 @@ const ChannelDisplay: React.FC<Props> = ({ channel }) => {
 
       if (!serviceResponse.errorResponse && serviceResponse.data) {
         setIsFollowing(true);
+      } else {
+        setIsFollowing(false);
       }
     }
   }
@@ -93,7 +95,11 @@ const ChannelDisplay: React.FC<Props> = ({ channel }) => {
 
   useEffect(() => {
     handleFindFollowingChannels();
-  }, []);
+
+    return () => {
+      setIsFollowing(false);
+    };
+  }, [isUserLoggedIn]);
 
   return (
     <ChannelDisplayContainer>

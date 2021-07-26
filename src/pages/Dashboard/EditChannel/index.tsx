@@ -130,7 +130,7 @@ const EditChannel: React.FC = () => {
 
                 <ButtonSecondary
                   type="button"
-                  onClick={() => history.push('/')}
+                  onClick={() => history.push('/dashboard')}
                 >
                   Voltar
                 </ButtonSecondary>
