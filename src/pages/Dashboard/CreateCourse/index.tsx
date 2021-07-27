@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 
 import { FormContainer, Section } from 'src/styled/Blocks';
 import { Header, HeaderCaption } from 'src/styled/Texts';
-import { ServiceError } from 'src/styled/Inputs';
+import { InputRow, ServiceError } from 'src/styled/Inputs';
 import { useHistory } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import AuthContext from 'src/providers/AuthContext';
@@ -16,7 +16,7 @@ import {
 } from 'src/styled/Buttons';
 import { ButtonLoader } from 'src/styled/Loaders';
 
-import CheckField from 'src/components/CheckField';
+import SelectField from 'src/components/InputField/SelectField';
 
 interface Props {}
 
@@ -31,6 +31,11 @@ const CreateCourse: React.FC<Props> = () => {
     {} as ServiceResponse<any>,
   );
 
+  const visibilityOption = [
+    { value: true, label: 'Listado' },
+    { value: false, label: 'Não Listado' },
+  ];
+
   const initialValues = {
     name: '',
     description: '',
@@ -44,7 +49,7 @@ const CreateCourse: React.FC<Props> = () => {
       .max(64, 'O nome do canal deve ser menor.')
       .required('Esse campo é obrigatório!'),
     description: Yup.string().optional(),
-    isPublic: Yup.string().required('Esse campo é obrigatório!'),
+    isPublic: Yup.boolean().required('Esse campo é obrigatório!'),
     price: Yup.number()
       .typeError('Digite um número.')
       .min(0, 'Apenas preço positivo.')
@@ -92,17 +97,20 @@ const CreateCourse: React.FC<Props> = () => {
                 isTextarea={true}
               />
 
-              <InputField
-                label="Preço (R$)"
-                name="price"
-                type="number"
-                placeholder="Digite aqui o preço"
-              />
+              <InputRow>
+                <InputField
+                  label="Preço (R$)"
+                  name="price"
+                  type="number"
+                  placeholder="Digite aqui o preço"
+                />
 
-              <CheckField
-                label="Marcar o curso como público?"
-                name="isPublic"
-              />
+                <SelectField
+                  label="Visibilidade"
+                  name="isPublic"
+                  options={visibilityOption}
+                />
+              </InputRow>
 
               <ButtonsRowContainer>
                 <ButtonPrimary
