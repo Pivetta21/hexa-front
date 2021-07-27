@@ -10,6 +10,7 @@ const url = '/storage';
 export enum DeleteImageOptions {
   PROFILE_PICTURE = 'profile',
   CHANNEL_IMAGE = 'channel',
+  COURSE_IMAGE = 'course',
 }
 
 export const uploadImage = async (
@@ -56,16 +57,15 @@ export const deleteImage = async (
   return serviceResponse;
 };
 
+// Storage helpers methods.
 export const parseFilename = (url: string) => {
   return url.substring(url.lastIndexOf('/') + 1);
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const isFileVideo = (file: File) => {
   return file && file['type'].split('/')[0] == 'video';
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const isFileVideoAccepted = (file: File) => {
   const acceptedVideoTypes = [
     'video/mp4',

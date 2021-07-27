@@ -1,14 +1,26 @@
+import { useContext, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+
+import { useSelector } from 'react-redux';
+import { RootState } from 'src/redux/store';
 
 import { FormContainer, Section } from 'src/styled/Blocks';
 import { Header, HeaderCaption } from 'src/styled/Texts';
 import { InputRow, ServiceError } from 'src/styled/Inputs';
-import { useHistory } from 'react-router-dom';
-import { useContext, useState } from 'react';
+
 import AuthContext from 'src/providers/AuthContext';
+
+import { createCourse } from 'src/services/course.service';
+
 import { ServiceResponse } from 'src/models/ServiceResponse.model';
+import { Course } from 'src/models/Course.model';
+
 import InputField from 'src/components/InputField';
+import SelectField from 'src/components/InputField/SelectField';
+
 import {
   ButtonPrimary,
   ButtonSecondary,
@@ -16,19 +28,16 @@ import {
 } from 'src/styled/Buttons';
 import { ButtonLoader } from 'src/styled/Loaders';
 
-import SelectField from 'src/components/InputField/SelectField';
-
 interface Props {}
 
 const CreateCourse: React.FC<Props> = () => {
   const history = useHistory();
+  const { channel } = useSelector((state: RootState) => state.channel);
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { authenticatedUser } = useContext(AuthContext);
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [createCourseRes, setCreateCourseRes] = useState(
-    {} as ServiceResponse<any>,
+    {} as ServiceResponse<Course>,
   );
 
   const visibilityOption = [
@@ -46,7 +55,7 @@ const CreateCourse: React.FC<Props> = () => {
   const validationSchema = Yup.object({
     name: Yup.string()
       .min(5, 'O nome do canal deve ser maior.')
-      .max(64, 'O nome do canal deve ser menor.')
+      .max(54, 'O nome do canal deve ser menor.')
       .required('Esse campo é obrigatório!'),
     description: Yup.string().optional(),
     isPublic: Yup.boolean().required('Esse campo é obrigatório!'),
@@ -69,7 +78,21 @@ const CreateCourse: React.FC<Props> = () => {
           initialValues={initialValues}
           validationSchema={validationSchema}
           onSubmit={async (values, actions) => {
-            console.log(values);
+            if (authenticatedUser && authenticatedUser.token) {
+              const serviceResponse = await createCourse(
+                {
+                  channel: channel,
+                  ...values,
+                },
+                authenticatedUser.token,
+              );
+
+              if (!serviceResponse.errorResponse && serviceResponse.data) {
+                history.push('/dashboard');
+              }
+
+              setCreateCourseRes(serviceResponse);
+            }
 
             actions.setSubmitting(false);
           }}

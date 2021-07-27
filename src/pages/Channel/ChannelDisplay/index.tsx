@@ -137,7 +137,7 @@ const ChannelDisplay: React.FC<Props> = ({ channel }) => {
                   <ChannelDisplayActions>
                     <Cog
                       title="Editar canal"
-                      onClick={() => history.push('/dashboard/edit')}
+                      onClick={() => history.push('/dashboard/edit-channel')}
                     />
                     <ButtonPrimary
                       type="button"
