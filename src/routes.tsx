@@ -13,6 +13,7 @@ import ProfileConfig from './pages/ProfileConfig';
 
 import Dashboard from './pages/Dashboard';
 import EditChannel from './pages/Dashboard/EditChannel';
+import CreateCourse from './pages/Dashboard/CreateCourse';
 
 const Routes = () => {
   return (
@@ -24,7 +25,14 @@ const Routes = () => {
         exact
       />
 
-      <DashboardProtectedRoute path="/dashboard/edit" component={EditChannel} />
+      <DashboardProtectedRoute
+        path="/dashboard/create-course"
+        component={CreateCourse}
+      />
+      <DashboardProtectedRoute
+        path="/dashboard/edit-channel"
+        component={EditChannel}
+      />
       <DashboardProtectedRoute path="/dashboard" component={Dashboard} exact />
 
       <Route path="/discover/channels/:id" component={Channel} />

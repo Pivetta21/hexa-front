@@ -31,10 +31,48 @@ const inputError = css`
   }
 `;
 
+export const InputRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  input {
+    min-width: unset !important;
+  }
+`;
+
+export const DefaultCheckbox = styled.label`
+  display: flex;
+  align-items: center;
+  user-select: none;
+  cursor: pointer;
+  font-family: inherit;
+  color: ${(props) => props.theme.colors.text};
+  font-size: ${(props) => props.theme.fontSizes.body.normal};
+  font-weight: 400;
+
+  cursor: default;
+
+  input {
+    cursor: pointer;
+    margin-right: 12px;
+  }
+`;
+
 export const DefaultInput = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: ${(props) => props.theme.spacings.default};
+
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none !important;
+    margin: 0 !important;
+  }
+
+  input[type='number'] {
+    -moz-appearance: textfield !important;
+  }
 
   label {
     font-size: ${(props) => props.theme.fontSizes.body.normal};

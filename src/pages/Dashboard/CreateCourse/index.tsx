@@ -1,47 +1,41 @@
-import { useState, useContext } from 'react';
-import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
+import { FormContainer, Section } from 'src/styled/Blocks';
+import { Header, HeaderCaption } from 'src/styled/Texts';
+import { ServiceError } from 'src/styled/Inputs';
+import { useHistory } from 'react-router-dom';
+import { useContext, useState } from 'react';
+import AuthContext from 'src/providers/AuthContext';
+import { ServiceResponse } from 'src/models/ServiceResponse.model';
+import InputField from 'src/components/InputField';
 import {
   ButtonPrimary,
   ButtonSecondary,
   ButtonsRowContainer,
 } from 'src/styled/Buttons';
-
-import InputField from 'src/components/InputField';
-
-import { FormContainer, Section } from 'src/styled/Blocks';
-import { Header, HeaderCaption } from 'src/styled/Texts';
 import { ButtonLoader } from 'src/styled/Loaders';
-import { ServiceError } from 'src/styled/Inputs';
 
-import AuthContext from 'src/providers/AuthContext';
-
-import { createChannel } from 'src/services/channel.service';
-
-import { ServiceResponse } from 'src/models/ServiceResponse.model';
-import { ChannelI } from 'src/models/Channel.model';
-
-import { setChannel } from 'src/redux/channelSlice';
+import CheckField from 'src/components/CheckField';
 
 interface Props {}
 
-const CreateChannel: React.FC<Props> = () => {
+const CreateCourse: React.FC<Props> = () => {
   const history = useHistory();
-  const dispatch = useDispatch();
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { authenticatedUser } = useContext(AuthContext);
 
-  const [createChannelRes, setCreateChannelRes] = useState(
-    {} as ServiceResponse<ChannelI>,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [createCourseRes, setCreateCourseRes] = useState(
+    {} as ServiceResponse<any>,
   );
 
   const initialValues = {
     name: '',
     description: '',
+    isPublic: false,
+    price: 0.0,
   };
 
   const validationSchema = Yup.object({
@@ -50,15 +44,19 @@ const CreateChannel: React.FC<Props> = () => {
       .max(64, 'O nome do canal deve ser menor.')
       .required('Esse campo é obrigatório!'),
     description: Yup.string().optional(),
+    isPublic: Yup.string().required('Esse campo é obrigatório!'),
+    price: Yup.number()
+      .typeError('Digite um número.')
+      .min(0, 'Apenas preço positivo.')
+      .required('Esse campo é obrigatório!'),
   });
 
   return (
     <div className="main-padding">
       <Section>
-        <Header>Criar Canal</Header>
+        <Header>Criar Curso</Header>
         <HeaderCaption>
-          Para criar e publicar cursos/vídeos é necessário que você crie um
-          canal.
+          Pense em um bom nome e uma boa descrição para o seu curso.
         </HeaderCaption>
 
         <Formik
@@ -66,30 +64,16 @@ const CreateChannel: React.FC<Props> = () => {
           initialValues={initialValues}
           validationSchema={validationSchema}
           onSubmit={async (values, actions) => {
-            if (authenticatedUser?.user && authenticatedUser.token) {
-              const serviceResponse = await createChannel(
-                authenticatedUser.token,
-                {
-                  user: authenticatedUser.user,
-                  ...values,
-                },
-              );
-
-              setCreateChannelRes(serviceResponse);
-
-              if (!serviceResponse.errorResponse && serviceResponse.data) {
-                dispatch(setChannel(serviceResponse.data));
-              }
-            }
+            console.log(values);
 
             actions.setSubmitting(false);
           }}
         >
           {(formik) => (
             <FormContainer autoComplete="off" onSubmit={formik.handleSubmit}>
-              {createChannelRes.errorResponse && !formik.isValidating ? (
+              {createCourseRes.errorResponse && !formik.isValidating ? (
                 <ServiceError>
-                  {createChannelRes.errorResponse.message}
+                  {createCourseRes.errorResponse.message}
                 </ServiceError>
               ) : null}
 
@@ -108,6 +92,18 @@ const CreateChannel: React.FC<Props> = () => {
                 isTextarea={true}
               />
 
+              <InputField
+                label="Preço (R$)"
+                name="price"
+                type="number"
+                placeholder="Digite aqui o preço"
+              />
+
+              <CheckField
+                label="Marcar o curso como público?"
+                name="isPublic"
+              />
+
               <ButtonsRowContainer>
                 <ButtonPrimary
                   type="submit"
@@ -118,10 +114,7 @@ const CreateChannel: React.FC<Props> = () => {
                   {formik.isSubmitting ? <ButtonLoader /> : 'Criar Canal'}
                 </ButtonPrimary>
 
-                <ButtonSecondary
-                  type="button"
-                  onClick={() => history.push('/')}
-                >
+                <ButtonSecondary onClick={() => history.push('/dashboard')}>
                   Voltar
                 </ButtonSecondary>
               </ButtonsRowContainer>
@@ -133,4 +126,4 @@ const CreateChannel: React.FC<Props> = () => {
   );
 };
 
-export default CreateChannel;
+export default CreateCourse;
