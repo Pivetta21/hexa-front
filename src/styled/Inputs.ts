@@ -41,6 +41,12 @@ export const InputRow = styled.div`
     width: 100%;
     min-width: unset !important;
   }
+
+  &.reset-margin {
+    div {
+      margin-bottom: 0px;
+    }
+  }
 `;
 
 export const DefaultSelect = styled.div`

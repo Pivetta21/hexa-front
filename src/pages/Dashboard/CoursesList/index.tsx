@@ -37,16 +37,16 @@ const DashboardCoursesList: React.FC<Props> = ({ coursesList }) => {
               </p>
               <DashboardCoursesListOptions className="course-options">
                 <DashboardCoursesListOption
-                  onClick={() => history.push(`/dashboard/course/${course.id}`)}
-                >
-                  <Cog />
-                  Editar Curso
-                </DashboardCoursesListOption>
-                <DashboardCoursesListOption
                   onClick={() => history.push(`/discover/courses/${course.id}`)}
                 >
                   <Eye />
                   Visualizar Curso
+                </DashboardCoursesListOption>
+                <DashboardCoursesListOption
+                  onClick={() => history.push(`/dashboard/course/${course.id}`)}
+                >
+                  <Cog />
+                  Editar Curso
                 </DashboardCoursesListOption>
               </DashboardCoursesListOptions>
             </DashboardCoursesListInfo>

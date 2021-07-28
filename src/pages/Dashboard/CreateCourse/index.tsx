@@ -121,7 +121,7 @@ const CreateCourse: React.FC<Props> = () => {
                 isTextarea={true}
               />
 
-              <InputRow>
+              <InputRow className="reset-margin">
                 <InputField
                   label="Preço (R$)"
                   name="price"

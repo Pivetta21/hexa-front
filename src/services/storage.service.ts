@@ -1,6 +1,6 @@
 import api from './api';
 
-import { AxiosResponse, AxiosError } from 'axios';
+import { AxiosResponse, AxiosError, AxiosRequestConfig } from 'axios';
 
 import { ServiceResponse } from './../models/ServiceResponse.model';
 import { FileStorage } from './../models/FileStorage.model';
@@ -46,6 +46,28 @@ export const deleteImage = async (
 
   const request = api.delete(`${url}/images/${deleteOption}/${filename}`, {
     headers: { Authorization: `Bearer ${access_token}` },
+  });
+
+  const serviceResponse: ServiceResponse<void> = {};
+
+  await request.then().catch((e: AxiosError) => {
+    if (e.response) serviceResponse.errorResponse = e.response.data;
+  });
+
+  return serviceResponse;
+};
+
+export const deleteImageWithParams = async (
+  access_token: string,
+  deleteOption: DeleteImageOptions,
+  fileUrl: string,
+  config: AxiosRequestConfig,
+): Promise<ServiceResponse<void>> => {
+  const filename = parseFilename(fileUrl);
+
+  const request = api.delete(`${url}/images/${deleteOption}/${filename}`, {
+    headers: { Authorization: `Bearer ${access_token}` },
+    params: config.params,
   });
 
   const serviceResponse: ServiceResponse<void> = {};

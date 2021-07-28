@@ -8,7 +8,9 @@ import { RootState } from 'src/redux/store';
 import { findCourse } from 'src/services/course.service';
 import { InternalLinksContainer, Section } from 'src/styled/Blocks';
 import { Header, HeaderCaption, InternalLink } from 'src/styled/Texts';
-import EditCourseInfo from './EditCourseInfo';
+
+import EditCourseGeneral from './EditCourseGeneral';
+import EditCourseOthers from './EditCourseOthers';
 
 interface Props {}
 
@@ -57,7 +59,7 @@ const EditCourse: React.FC<Props> = () => {
                   activeClassName="active"
                   exact
                 >
-                  Informações
+                  Geral
                 </InternalLink>
                 <InternalLink
                   to={`/dashboard/course/${course.id}/modules`}
@@ -71,17 +73,26 @@ const EditCourse: React.FC<Props> = () => {
                 >
                   Vídeos
                 </InternalLink>
+                <InternalLink
+                  to={`/dashboard/course/${course.id}/others`}
+                  activeClassName="active"
+                >
+                  Outros
+                </InternalLink>
               </InternalLinksContainer>
 
               <Switch key="course-dashboard">
                 <Route path={`/dashboard/course/${course.id}`} exact>
-                  <EditCourseInfo />
+                  <EditCourseGeneral />
                 </Route>
                 <Route path={`/dashboard/course/${course.id}/modules`} exact>
                   <div>Módulos Component</div>
                 </Route>
                 <Route path={`/dashboard/course/${course.id}/videos`} exact>
                   <div>Vídeos Component</div>
+                </Route>
+                <Route path={`/dashboard/course/${course.id}/others`} exact>
+                  <EditCourseOthers />
                 </Route>
               </Switch>
             </Section>

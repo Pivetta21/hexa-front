@@ -4,6 +4,11 @@ import noimage from 'src/assets/images/noimage.jpg';
 
 import { Course, CreateCourse, UpdateCourse } from 'src/models/Course.model';
 import { ServiceResponse } from 'src/models/ServiceResponse.model';
+import {
+  DeleteImageOptions,
+  deleteImageWithParams,
+  uploadImage,
+} from './storage.service';
 
 const url = '/courses';
 
@@ -47,11 +52,15 @@ export function updateCourse(
 }
 
 export function deleteCourse(
-  courseId: number,
+  args: {
+    courseId: number;
+    channelId: number;
+  },
   access_token: string,
 ): Promise<ServiceResponse<any>> {
-  const request = api.delete(`${url}/${courseId}`, {
+  const request = api.delete(`${url}/${args.courseId}`, {
     headers: { Authorization: `Bearer ${access_token}` },
+    params: { channelId: args.channelId },
   });
 
   return axiosFetch<any>(request);
@@ -65,6 +74,38 @@ export function getImagePicture(course: Course) {
   return noimage;
 }
 
-export function deleteImagePicture() {}
+export function deleteImagePicture(course: Course, access_token: string) {
+  const filePath = course.image_url;
+  if (filePath && filePath.length > 0) {
+    deleteImageWithParams(
+      access_token,
+      DeleteImageOptions.COURSE_IMAGE,
+      filePath,
+      { params: { courseId: course.id } },
+    );
+  }
+}
 
-export function uploadImagePicture() {}
+export async function uploadImagePicture(
+  courseId: number,
+  file: File,
+  access_token: string,
+): Promise<ServiceResponse<Course>> {
+  let serviceResponse = {} as ServiceResponse<Course>;
+
+  const uploadImageResponse = await uploadImage(access_token, file);
+
+  if (uploadImageResponse.data) {
+    serviceResponse = await updateCourse(
+      courseId,
+      {
+        image_url: uploadImageResponse.data.path,
+      },
+      access_token,
+    );
+  } else {
+    serviceResponse.errorResponse = uploadImageResponse.errorResponse;
+  }
+
+  return serviceResponse;
+}

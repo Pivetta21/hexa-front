@@ -21,11 +21,12 @@ import { ButtonLoader } from 'src/styled/Loaders';
 import SelectField from 'src/components/InputField/SelectField';
 import InputField from 'src/components/InputField';
 import { useHistory } from 'react-router-dom';
-import { updateCourse } from 'src/services/course.service';
+import { getImagePicture, updateCourse } from 'src/services/course.service';
+import EditCourseImage from './EditCourseImage';
 
 interface Props {}
 
-const EditCourseInfo: React.FC<Props> = () => {
+const EditCourseGeneral: React.FC<Props> = () => {
   const history = useHistory();
 
   const [editCourseResponse, setEditCourseResponse] = useState(
@@ -91,6 +92,8 @@ const EditCourseInfo: React.FC<Props> = () => {
               {editCourseResponse.errorResponse.message}
             </ServiceError>
           ) : null}
+          <EditCourseImage initialImage={getImagePicture(course)} />
+
           <InputField
             fullWidth
             label="Nome"
@@ -106,7 +109,7 @@ const EditCourseInfo: React.FC<Props> = () => {
             isTextarea={true}
           />
 
-          <InputRow>
+          <InputRow className="reset-margin">
             <InputField
               label="Preço (R$)"
               name="price"
@@ -142,4 +145,4 @@ const EditCourseInfo: React.FC<Props> = () => {
   );
 };
 
-export default EditCourseInfo;
+export default EditCourseGeneral;
