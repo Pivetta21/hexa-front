@@ -9,6 +9,7 @@ import { RootState } from 'src/redux/store';
 
 import CreateChannel from 'src/pages/Dashboard/CreateChannel';
 import Loading from '../Loading';
+import { useState } from 'react';
 
 interface Props {
   path: string;
@@ -18,6 +19,7 @@ interface Props {
 
 const DashboardProtectedRoute: React.FC<Props> = (props) => {
   const { authenticatedUser, isUserLoggedIn } = useContext(AuthContext);
+  const [isLoading, setIsLoading] = useState(true);
 
   const dispatch = useDispatch();
   const { channel, isChannelMemoized, status } = useSelector(
@@ -28,15 +30,21 @@ const DashboardProtectedRoute: React.FC<Props> = (props) => {
     if (authenticatedUser && !isChannelMemoized) {
       dispatch(await getChannel(authenticatedUser));
     }
+
+    setIsLoading(false);
   }
 
   useEffect(() => {
     setTimeout(() => {
       handleFetchChannel();
-    }, 400);
+    }, 600);
+
+    return () => {
+      setIsLoading(true);
+    };
   }, []);
 
-  if (status === 'success') {
+  if (status === 'success' && !isLoading) {
     if (isUserLoggedIn && channel.id) {
       return <Route {...props} />;
     }

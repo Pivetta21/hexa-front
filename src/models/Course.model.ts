@@ -20,4 +20,10 @@ export interface CreateCourse {
   isPublic: boolean;
 }
 
-export interface UpdateCourse {}
+export interface UpdateCourse {
+  name?: string;
+  description?: string;
+  image_url?: string;
+  price?: number;
+  isPublic?: boolean;
+}

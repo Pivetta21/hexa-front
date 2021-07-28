@@ -146,7 +146,10 @@ const CreateCourse: React.FC<Props> = () => {
                   {formik.isSubmitting ? <ButtonLoader /> : 'Criar Canal'}
                 </ButtonPrimary>
 
-                <ButtonSecondary onClick={() => history.push('/dashboard')}>
+                <ButtonSecondary
+                  type="button"
+                  onClick={() => history.push('/dashboard')}
+                >
                   Voltar
                 </ButtonSecondary>
               </ButtonsRowContainer>
