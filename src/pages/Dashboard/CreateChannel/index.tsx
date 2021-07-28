@@ -79,7 +79,7 @@ const CreateChannel: React.FC<Props> = () => {
 
               if (!serviceResponse.errorResponse && serviceResponse.data) {
                 dispatch(setChannel(serviceResponse.data));
-                history.push('/dashboard/edit-channel');
+                history.push('/dashboard');
               }
             }
 

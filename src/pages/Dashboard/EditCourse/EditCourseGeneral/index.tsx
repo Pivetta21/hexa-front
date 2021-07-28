@@ -65,7 +65,14 @@ const EditCourseGeneral: React.FC<Props> = () => {
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={async (values, actions) => {
-        const changedValues = getFormikChangedValues(values, initialValues);
+        let changedValues = getFormikChangedValues(values, initialValues);
+
+        if (changedValues.isPublic) {
+          changedValues = {
+            ...changedValues,
+            isPublic: changedValues.isPublic === 'true' ? true : false,
+          };
+        }
 
         if (authenticatedUser && authenticatedUser.token) {
           const serviceResponse = await updateCourse(
