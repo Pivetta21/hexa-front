@@ -9,7 +9,13 @@ const url = '/courses';
 
 export function findAllCourses() {}
 
-export function findAllCoursesByChannelId() {}
+export function findAllCoursesByChannelId(channelId: number) {
+  const request = api.get(`${url}`, {
+    params: { channelId: channelId },
+  });
+
+  return axiosFetch<Course[]>(request);
+}
 
 export function findCourse() {}
 
