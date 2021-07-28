@@ -92,6 +92,7 @@ const EditCourseGeneral: React.FC<Props> = () => {
               {editCourseResponse.errorResponse.message}
             </ServiceError>
           ) : null}
+
           <EditCourseImage initialImage={getImagePicture(course)} />
 
           <InputField
@@ -129,7 +130,7 @@ const EditCourseGeneral: React.FC<Props> = () => {
               type="submit"
               disabled={!(formik.isValid && formik.dirty) ? true : undefined}
             >
-              {formik.isSubmitting ? <ButtonLoader /> : 'Editar Canal'}
+              {formik.isSubmitting ? <ButtonLoader /> : 'Editar Curso'}
             </ButtonPrimary>
 
             <ButtonSecondary

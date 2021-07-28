@@ -105,7 +105,7 @@ const EditCourseImage: React.FC<Props> = ({ initialImage }) => {
         </ServiceError>
       )}
 
-      <ImageUploadInput className="stack">
+      <ImageUploadInput className="inline">
         <img src={imageSrc} />
 
         {!isUpload ? (

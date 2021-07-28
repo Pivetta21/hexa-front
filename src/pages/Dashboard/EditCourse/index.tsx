@@ -7,7 +7,7 @@ import CourseDashboardContext from 'src/providers/CourseDashboardContext';
 import { RootState } from 'src/redux/store';
 import { findCourse } from 'src/services/course.service';
 import { InternalLinksContainer, Section } from 'src/styled/Blocks';
-import { Header, HeaderCaption, InternalLink } from 'src/styled/Texts';
+import { Header, InternalLink } from 'src/styled/Texts';
 
 import EditCourseGeneral from './EditCourseGeneral';
 import EditCourseOthers from './EditCourseOthers';
@@ -50,9 +50,7 @@ const EditCourse: React.FC<Props> = () => {
           <div className="main-padding">
             <Section>
               <Header>Editar Curso</Header>
-              <HeaderCaption>
-                Aqui você pode editar o curso, adionar módulos e vídeos.
-              </HeaderCaption>
+
               <InternalLinksContainer>
                 <InternalLink
                   to={`/dashboard/course/${course.id}`}
