@@ -8,6 +8,7 @@ import { getChannel } from 'src/redux/channelSlice';
 import { RootState } from 'src/redux/store';
 
 import CreateChannel from 'src/pages/Dashboard/CreateChannel';
+import Loading from '../Loading';
 
 interface Props {
   path: string;
@@ -15,11 +16,11 @@ interface Props {
   component: React.FC<any>;
 }
 
-const ChannelProtectedRoute: React.FC<Props> = (props) => {
+const DashboardProtectedRoute: React.FC<Props> = (props) => {
   const { authenticatedUser, isUserLoggedIn } = useContext(AuthContext);
 
   const dispatch = useDispatch();
-  const { channel, isChannelMemoized } = useSelector(
+  const { channel, isChannelMemoized, status } = useSelector(
     (state: RootState) => state.channel,
   );
 
@@ -30,16 +31,28 @@ const ChannelProtectedRoute: React.FC<Props> = (props) => {
   }
 
   useEffect(() => {
-    handleFetchChannel();
+    setTimeout(() => {
+      handleFetchChannel();
+    }, 400);
   }, []);
 
-  if (isUserLoggedIn && channel.id) {
-    return <Route {...props} />;
-  } else if (isUserLoggedIn && !channel.id) {
-    return <CreateChannel />;
-  } else {
+  if (status === 'success') {
+    if (isUserLoggedIn && channel.id) {
+      return <Route {...props} />;
+    }
+
+    if (isUserLoggedIn && !channel.id) {
+      return <CreateChannel />;
+    }
+
     return <Redirect to="/" />;
+  } else {
+    if (!isUserLoggedIn) {
+      return <Redirect to="/" />;
+    }
+
+    return <Loading />;
   }
 };
 
-export default ChannelProtectedRoute;
+export default DashboardProtectedRoute;

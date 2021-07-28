@@ -4,11 +4,11 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AuthenticatedUser } from 'src/models/AuthenticatedUser.model';
 import { findFollowingChannels } from 'src/services/channelUser.service';
 
-type StatusType = 'success' | 'loading' | 'failed';
+type StatusType = 'success' | 'loading' | 'failed' | 'unset';
 
 const initialState = {
   channels: [] as ChannelI[],
-  status: '' as StatusType,
+  status: 'unset' as StatusType,
 };
 
 export const getSubscriptions = createAsyncThunk(
@@ -39,6 +39,7 @@ export const subscriptionsSlice = createSlice({
   reducers: {
     resetSubscriptions: (state) => {
       state.channels = [] as ChannelI[];
+      state.status = 'unset';
     },
     follow: (state, action: PayloadAction<ChannelI>) => {
       state.channels.push(action.payload);

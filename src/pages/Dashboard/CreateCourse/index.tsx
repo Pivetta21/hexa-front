@@ -81,8 +81,9 @@ const CreateCourse: React.FC<Props> = () => {
             if (authenticatedUser && authenticatedUser.token) {
               const serviceResponse = await createCourse(
                 {
-                  channel: channel,
                   ...values,
+                  channel: channel,
+                  isPublic: Boolean(values.isPublic),
                 },
                 authenticatedUser.token,
               );

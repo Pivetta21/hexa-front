@@ -33,8 +33,11 @@ import AuthContext from 'src/providers/AuthContext';
 
 import { RootState } from 'src/redux/store';
 import { resetChannel } from 'src/redux/channelSlice';
+import { useHistory } from 'react-router-dom';
 
 const DeleteChannel: React.FC = () => {
+  const history = useHistory();
+
   const dispatch = useDispatch();
   const { channel } = useSelector((state: RootState) => state.channel);
 
@@ -64,6 +67,7 @@ const DeleteChannel: React.FC = () => {
       if (!serviceResponse.errorResponse && serviceResponse.data) {
         setConfirmDeleteChannel(false);
         dispatch(resetChannel());
+        history.push('/');
       }
     }
   }

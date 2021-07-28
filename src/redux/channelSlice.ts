@@ -5,12 +5,12 @@ import { findChannelByUserId } from 'src/services/channel.service';
 
 import { AuthenticatedUser } from 'src/models/AuthenticatedUser.model';
 
-type StatusType = 'success' | 'loading' | 'failed';
+type StatusType = 'success' | 'loading' | 'failed' | 'unset';
 
 const initialState = {
   isChannelMemoized: false,
   channel: {} as ChannelI,
-  status: '' as StatusType,
+  status: 'unset' as StatusType,
 };
 
 export const getChannel = createAsyncThunk(
@@ -42,6 +42,7 @@ export const channelSlice = createSlice({
     resetChannel: (state) => {
       state.isChannelMemoized = false;
       state.channel = {} as ChannelI;
+      state.status = 'unset';
     },
   },
   extraReducers: (builder) => {
