@@ -1,4 +1,6 @@
 import { useState, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -17,22 +19,21 @@ import { ButtonLoader } from 'src/styled/Loaders';
 import { ServiceError } from 'src/styled/Inputs';
 
 import AuthContext from 'src/providers/AuthContext';
-import ChannelContext from 'src/providers/ChannelContext';
 
 import { createChannel } from 'src/services/channel.service';
 
 import { ServiceResponse } from 'src/models/ServiceResponse.model';
 import { ChannelI } from 'src/models/Channel.model';
 
-import { useHistory } from 'react-router-dom';
+import { setChannel } from 'src/redux/channelSlice';
 
 interface Props {}
 
 const CreateChannel: React.FC<Props> = () => {
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const { authenticatedUser } = useContext(AuthContext);
-  const { setChannel } = useContext(ChannelContext);
 
   const [createChannelRes, setCreateChannelRes] = useState(
     {} as ServiceResponse<ChannelI>,
@@ -77,7 +78,8 @@ const CreateChannel: React.FC<Props> = () => {
               setCreateChannelRes(serviceResponse);
 
               if (!serviceResponse.errorResponse && serviceResponse.data) {
-                setChannel(serviceResponse.data);
+                dispatch(setChannel(serviceResponse.data));
+                history.push('/dashboard');
               }
             }
 
@@ -117,7 +119,10 @@ const CreateChannel: React.FC<Props> = () => {
                   {formik.isSubmitting ? <ButtonLoader /> : 'Criar Canal'}
                 </ButtonPrimary>
 
-                <ButtonSecondary onClick={() => history.push('/')}>
+                <ButtonSecondary
+                  type="button"
+                  onClick={() => history.push('/')}
+                >
                   Voltar
                 </ButtonSecondary>
               </ButtonsRowContainer>

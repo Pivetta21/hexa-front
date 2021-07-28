@@ -1,4 +1,5 @@
 import { Fragment, useContext, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import useOutsideClick from 'src/hooks/useOutsideClick';
 
@@ -21,20 +22,26 @@ import { InlineOption } from 'src/styled/Blocks';
 import { ContainerHeader } from 'src/styled/Texts';
 import { ServiceError } from 'src/styled/Inputs';
 
-import AuthContext from 'src/providers/AuthContext';
-import ChannelContext from 'src/providers/ChannelContext';
-
 import {
   deleteBannerPicture,
   deleteChannel,
 } from 'src/services/channel.service';
 
 import { ServiceResponse } from 'src/models/ServiceResponse.model';
-import { ChannelI } from 'src/models/Channel.model';
+
+import AuthContext from 'src/providers/AuthContext';
+
+import { RootState } from 'src/redux/store';
+import { resetChannel } from 'src/redux/channelSlice';
+import { useHistory } from 'react-router-dom';
 
 const DeleteChannel: React.FC = () => {
+  const history = useHistory();
+
+  const dispatch = useDispatch();
+  const { channel } = useSelector((state: RootState) => state.channel);
+
   const { authenticatedUser } = useContext(AuthContext);
-  const { channel, setChannel } = useContext(ChannelContext);
 
   const [deleteChannelRes, setDeleteChannelRes] = useState(
     {} as ServiceResponse<boolean>,
@@ -58,8 +65,9 @@ const DeleteChannel: React.FC = () => {
       setDeleteChannelRes(serviceResponse);
 
       if (!serviceResponse.errorResponse && serviceResponse.data) {
-        await setConfirmDeleteChannel(false);
-        setChannel({} as ChannelI);
+        setConfirmDeleteChannel(false);
+        dispatch(resetChannel());
+        history.push('/');
       }
     }
   }

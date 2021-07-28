@@ -1,5 +1,4 @@
 import { useRef, useState, useContext } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
 import {
   ButtonPrimary,
@@ -12,32 +11,28 @@ import { ImageUploadInput, ServiceError } from 'src/styled/Inputs';
 import { ImageUploadContainer } from 'src/styled/Blocks';
 
 import AuthContext from 'src/providers/AuthContext';
-
-import {
-  deleteBannerPicture,
-  uploadBannerPicture,
-} from 'src/services/channel.service';
+import CourseDashboardContext from 'src/providers/CourseDashboardContext';
 
 import { ServiceResponse } from 'src/models/ServiceResponse.model';
-import { ChannelI } from 'src/models/Channel.model';
+import { Course } from 'src/models/Course.model';
 
 import { isFileImage, isFileImageAccepted } from 'src/services/storage.service';
 
-import { RootState } from 'src/redux/store';
-import { setChannel } from 'src/redux/channelSlice';
+import {
+  deleteImagePicture,
+  uploadImagePicture,
+} from 'src/services/course.service';
 
 interface Props {
   initialImage: string;
 }
 
-const EditChannelBanner: React.FC<Props> = ({ initialImage }) => {
-  const dispatch = useDispatch();
-  const { channel } = useSelector((state: RootState) => state.channel);
-
+const EditCourseImage: React.FC<Props> = ({ initialImage }) => {
   const { authenticatedUser } = useContext(AuthContext);
+  const { course, setCourse } = useContext(CourseDashboardContext);
 
-  const [uploadProfilePictureRes, setUploadProfilePictureRes] = useState(
-    {} as ServiceResponse<ChannelI>,
+  const [uploadImagePictureRes, setUploadImagePictureRes] = useState(
+    {} as ServiceResponse<Course>,
   );
 
   const [imageSrc, setImageSrc] = useState(initialImage);
@@ -77,21 +72,21 @@ const EditChannelBanner: React.FC<Props> = ({ initialImage }) => {
       const file = inputFiles[0];
 
       if (isFileImage(file) && isFileImageAccepted(file)) {
-        deleteBannerPicture(authenticatedUser.token, channel);
+        deleteImagePicture(course, authenticatedUser.token);
 
-        const serviceResponse = await uploadBannerPicture(
-          authenticatedUser.token,
-          channel.id,
+        const serviceResponse = await uploadImagePicture(
+          course.id,
           file,
+          authenticatedUser.token,
         );
 
-        setUploadProfilePictureRes(serviceResponse);
+        setUploadImagePictureRes(serviceResponse);
 
         if (!serviceResponse.errorResponse && serviceResponse.data) {
-          dispatch(setChannel(serviceResponse.data));
+          setCourse(serviceResponse.data);
         }
       } else {
-        uploadProfilePictureRes.errorResponse = {
+        uploadImagePictureRes.errorResponse = {
           message: 'Imagem possui o tipo inválido!',
           statusCode: 400,
         };
@@ -103,10 +98,10 @@ const EditChannelBanner: React.FC<Props> = ({ initialImage }) => {
   }
 
   return (
-    <ImageUploadContainer style={{ marginBottom: '0px' }}>
-      {uploadProfilePictureRes.errorResponse && (
+    <ImageUploadContainer>
+      {uploadImagePictureRes.errorResponse && (
         <ServiceError style={{ marginTop: '0px' }}>
-          {uploadProfilePictureRes.errorResponse.message}
+          {uploadImagePictureRes.errorResponse.message}
         </ServiceError>
       )}
 
@@ -115,7 +110,7 @@ const EditChannelBanner: React.FC<Props> = ({ initialImage }) => {
 
         {!isUpload ? (
           <OutlineButton type="button" onClick={(e) => selectImage(e)}>
-            Alterar Foto
+            Alterar Imagem
           </OutlineButton>
         ) : (
           <ButtonsRowContainer style={{ marginTop: '0px' }}>
@@ -134,4 +129,4 @@ const EditChannelBanner: React.FC<Props> = ({ initialImage }) => {
   );
 };
 
-export default EditChannelBanner;
+export default EditCourseImage;

@@ -1,4 +1,7 @@
 import { Fragment, useState, useContext, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+
 import { ChannelI } from 'src/models/Channel.model';
 import {
   ChannelAuthorImage,
@@ -7,9 +10,12 @@ import {
   ChannelInfo,
   ChannelSection,
   ChannelDisplayContainer,
+  ChannelDisplayActions,
 } from './styles';
 
 import { ButtonPrimary, ButtonSecondary } from 'src/styled/Buttons';
+
+import { ReactComponent as Cog } from 'src/assets/svg/icons/Cog.svg';
 
 import { getBannerPicture } from 'src/services/channel.service';
 import { getProfilePicture } from 'src/services/user.service';
@@ -20,7 +26,6 @@ import {
 } from 'src/services/channelUser.service';
 
 import AuthContext from 'src/providers/AuthContext';
-import { useDispatch } from 'react-redux';
 import { follow, unfollow } from 'src/redux/subscriptionsSlice';
 
 interface Props {
@@ -28,8 +33,10 @@ interface Props {
 }
 
 const ChannelDisplay: React.FC<Props> = ({ channel }) => {
+  const history = useHistory();
+
   const dispatch = useDispatch();
-  const { authenticatedUser } = useContext(AuthContext);
+  const { authenticatedUser, isUserLoggedIn } = useContext(AuthContext);
 
   const [isFollowing, setIsFollowing] = useState(false);
 
@@ -76,13 +83,23 @@ const ChannelDisplay: React.FC<Props> = ({ channel }) => {
 
       if (!serviceResponse.errorResponse && serviceResponse.data) {
         setIsFollowing(true);
+      } else {
+        setIsFollowing(false);
       }
     }
   }
 
+  function isChannelOwner() {
+    return channel.user.id === authenticatedUser?.user.id;
+  }
+
   useEffect(() => {
     handleFindFollowingChannels();
-  }, []);
+
+    return () => {
+      setIsFollowing(false);
+    };
+  }, [isUserLoggedIn]);
 
   return (
     <ChannelDisplayContainer>
@@ -98,7 +115,7 @@ const ChannelDisplay: React.FC<Props> = ({ channel }) => {
             </div>
             {authenticatedUser?.user ? (
               <Fragment>
-                {!isFollowing ? (
+                {!isFollowing && !isChannelOwner() && (
                   <ButtonPrimary
                     type="button"
                     title="Começar a Seguir"
@@ -106,7 +123,8 @@ const ChannelDisplay: React.FC<Props> = ({ channel }) => {
                   >
                     SEGUIR
                   </ButtonPrimary>
-                ) : (
+                )}
+                {isFollowing && !isChannelOwner() && (
                   <ButtonSecondary
                     type="button"
                     title="Deixar de Seguir"
@@ -115,10 +133,25 @@ const ChannelDisplay: React.FC<Props> = ({ channel }) => {
                     SEGUINDO
                   </ButtonSecondary>
                 )}
+                {isChannelOwner() && (
+                  <ChannelDisplayActions>
+                    <Cog
+                      title="Editar canal"
+                      onClick={() => history.push('/dashboard/edit-channel')}
+                    />
+                    <ButtonPrimary
+                      type="button"
+                      title="Painel de controle"
+                      onClick={() => history.push('/dashboard')}
+                    >
+                      DASHBOARD
+                    </ButtonPrimary>
+                  </ChannelDisplayActions>
+                )}
               </Fragment>
             ) : (
               <ButtonPrimary type="button" disabled>
-                Seguir Canal
+                SEGUIR
               </ButtonPrimary>
             )}
           </ChannelInfo>

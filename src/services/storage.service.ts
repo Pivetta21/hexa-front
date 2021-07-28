@@ -1,6 +1,6 @@
 import api from './api';
 
-import { AxiosResponse, AxiosError } from 'axios';
+import { AxiosResponse, AxiosError, AxiosRequestConfig } from 'axios';
 
 import { ServiceResponse } from './../models/ServiceResponse.model';
 import { FileStorage } from './../models/FileStorage.model';
@@ -10,6 +10,7 @@ const url = '/storage';
 export enum DeleteImageOptions {
   PROFILE_PICTURE = 'profile',
   CHANNEL_IMAGE = 'channel',
+  COURSE_IMAGE = 'course',
 }
 
 export const uploadImage = async (
@@ -56,16 +57,37 @@ export const deleteImage = async (
   return serviceResponse;
 };
 
+export const deleteImageWithParams = async (
+  access_token: string,
+  deleteOption: DeleteImageOptions,
+  fileUrl: string,
+  config: AxiosRequestConfig,
+): Promise<ServiceResponse<void>> => {
+  const filename = parseFilename(fileUrl);
+
+  const request = api.delete(`${url}/images/${deleteOption}/${filename}`, {
+    headers: { Authorization: `Bearer ${access_token}` },
+    params: config.params,
+  });
+
+  const serviceResponse: ServiceResponse<void> = {};
+
+  await request.then().catch((e: AxiosError) => {
+    if (e.response) serviceResponse.errorResponse = e.response.data;
+  });
+
+  return serviceResponse;
+};
+
+// Storage helpers methods.
 export const parseFilename = (url: string) => {
   return url.substring(url.lastIndexOf('/') + 1);
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const isFileVideo = (file: File) => {
   return file && file['type'].split('/')[0] == 'video';
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const isFileVideoAccepted = (file: File) => {
   const acceptedVideoTypes = [
     'video/mp4',

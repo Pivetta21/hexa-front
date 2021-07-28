@@ -31,6 +31,7 @@ const InputField: React.FC<Props> = ({
         <input
           className={fullWidth ? 'w-100' : undefined}
           type={props.type ? props.type : 'text'}
+          step={props.type === 'number' ? '0.01' : undefined}
           {...field}
           {...props}
         />

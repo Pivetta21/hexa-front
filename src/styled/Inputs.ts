@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-import { invert, transparentize } from 'polished';
+import { invert, transparentize, lighten } from 'polished';
 
 const input = css`
   background: none;
@@ -31,10 +31,86 @@ const inputError = css`
   }
 `;
 
+export const InputRow = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+  column-gap: 16px;
+
+  input {
+    width: 100%;
+    min-width: unset !important;
+  }
+
+  &.reset-margin {
+    div {
+      margin-bottom: 0px;
+    }
+  }
+`;
+
+export const DefaultSelect = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: ${(props) => props.theme.spacings.default};
+
+  label {
+    font-size: ${(props) => props.theme.fontSizes.body.normal};
+    font-weight: 700;
+  }
+
+  select {
+    margin-top: 8px;
+    border: none;
+    padding: 10px 12px;
+    border-radius: 6px;
+    font-family: inherit;
+    color: ${(props) => props.theme.colors.text};
+    font-size: ${(props) => props.theme.fontSizes.body.normal};
+    font-weight: 400;
+    background-color: ${(props) =>
+      lighten(0.07, invert(props.theme.colors.text))};
+
+    option {
+      padding: 0;
+      border: none;
+    }
+  }
+`;
+
+export const DefaultCheckbox = styled.label`
+  display: flex;
+  align-items: center;
+  user-select: none;
+  cursor: pointer;
+  font-family: inherit;
+  color: ${(props) => props.theme.colors.text};
+  font-size: ${(props) => props.theme.fontSizes.body.normal};
+  margin-bottom: ${(props) => props.theme.spacings.default};
+  font-weight: 400;
+
+  cursor: default;
+
+  input {
+    cursor: pointer;
+    margin-right: 12px;
+  }
+`;
+
 export const DefaultInput = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: ${(props) => props.theme.spacings.default};
+
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none !important;
+    margin: 0 !important;
+  }
+
+  input[type='number'] {
+    -moz-appearance: textfield !important;
+  }
 
   label {
     font-size: ${(props) => props.theme.fontSizes.body.normal};
@@ -45,7 +121,7 @@ export const DefaultInput = styled.div`
   textarea {
     ${input}
     background-color: ${(props) =>
-      transparentize(0.92, props.theme.colors.text)};
+      lighten(0.07, invert(props.theme.colors.text))};
     padding: 10px 12px;
     border-radius: 6px;
     margin-top: 8px;

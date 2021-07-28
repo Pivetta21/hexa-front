@@ -1,57 +1,56 @@
-import { useState, useContext, useEffect } from 'react';
+import { useEffect } from 'react';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
-import AuthContext from 'src/providers/AuthContext';
+import { ReactComponent as Cog } from 'src/assets/svg/icons/Cog.svg';
+import { Course } from 'src/models/Course.model';
+import { RootState } from 'src/redux/store';
+import { findAllCoursesByChannelId } from 'src/services/course.service';
+import { ButtonPrimary } from 'src/styled/Buttons';
+import DashboardCoursesList from './CoursesList';
 
-import { findChannelByUserId } from 'src/services/channel.service';
-
-import { ChannelI } from 'src/models/Channel.model';
-
-import Loading from 'src/components/Loading';
-
-import EditChannel from './EditChannel';
-import ChannelContext from 'src/providers/ChannelContext';
-import CreateChannel from './CreateChannel';
+import {
+  DashboardButtons,
+  DashboardContainer,
+  DashboardHeader,
+  DashboardTitle,
+} from './styles';
 
 const Dashboard: React.FC = () => {
-  const { authenticatedUser } = useContext(AuthContext);
+  const history = useHistory();
 
-  const [isLoading, setIsLoading] = useState(true);
-  const [channel, setChannel] = useState({} as ChannelI);
+  const { channel } = useSelector((state: RootState) => state.channel);
 
-  function handleSetChannel(updatedChannel: ChannelI) {
-    setChannel(updatedChannel);
-  }
+  const [courses, setCourses] = useState([] as Course[]);
 
-  const redirectChannel = async () => {
-    if (authenticatedUser) {
-      const serviceResponse = await findChannelByUserId(
-        authenticatedUser.user.id,
-      );
+  async function handleFetchCourses() {
+    const serviceResponse = await findAllCoursesByChannelId(channel.id);
 
-      if (!serviceResponse.errorResponse && serviceResponse.data) {
-        await setChannel(serviceResponse.data);
-      }
-
-      await setIsLoading(false);
+    if (!serviceResponse.errorResponse && serviceResponse.data) {
+      setCourses(serviceResponse.data);
     }
-  };
-
+  }
   useEffect(() => {
-    setTimeout(() => {
-      redirectChannel();
-    }, 1000);
+    handleFetchCourses();
   }, []);
 
   return (
-    <ChannelContext.Provider
-      value={{ channel: channel, setChannel: handleSetChannel }}
-    >
-      <div style={{ height: '100%' }}>
-        {isLoading ? <Loading /> : undefined}
-        {channel.id && !isLoading ? <EditChannel /> : undefined}
-        {!channel.id && !isLoading ? <CreateChannel /> : undefined}
-      </div>
-    </ChannelContext.Provider>
+    <DashboardContainer className="main-padding">
+      <DashboardHeader>
+        <DashboardTitle>Painel de Controle</DashboardTitle>
+        <DashboardButtons>
+          <Cog onClick={() => history.push('/dashboard/edit-channel')} />
+          <ButtonPrimary
+            type="button"
+            onClick={() => history.push('/dashboard/create-course')}
+          >
+            Novo Curso
+          </ButtonPrimary>
+        </DashboardButtons>
+      </DashboardHeader>
+      <DashboardCoursesList coursesList={courses}></DashboardCoursesList>
+    </DashboardContainer>
   );
 };
 
