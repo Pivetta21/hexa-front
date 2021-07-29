@@ -4,7 +4,7 @@ import {
   ChannelItemHeader,
   ChannelItemImage,
   ChannelsListContainer,
-} from './styles';
+} from 'src/styled/ChannelsList';
 
 import { useHistory } from 'react-router-dom';
 import { getProfilePicture } from 'src/services/user.service';

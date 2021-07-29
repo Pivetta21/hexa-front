@@ -5,7 +5,7 @@ import {
   CourseItemContainerSk,
   CourseItemImageSk,
   CoursesListContainerSk,
-} from './styles';
+} from 'src/styled/CoursesListSkeleton';
 
 interface Props {}
 

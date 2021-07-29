@@ -61,7 +61,6 @@ export const CourseItemAuthorInfoSk = styled.div`
   p {
     height: 10px;
     width: 60%;
-
     background-color: ${(props) =>
       transparentize(0.92, props.theme.colors.text)};
   }

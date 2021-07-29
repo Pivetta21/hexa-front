@@ -9,7 +9,7 @@ import {
   CourseItemContainer,
   CourseItemImage,
   CoursesListContainer,
-} from './styles';
+} from 'src/styled/CoursesList';
 
 interface Props {
   courses: Course[];
