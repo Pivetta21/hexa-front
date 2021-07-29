@@ -20,11 +20,8 @@ export const ChannelItemContainerSk = styled.div`
   padding: 16px;
   background-color: ${(props) => transparentize(0.92, props.theme.colors.text)};
   border-radius: 8px;
-
-  :hover {
-    cursor: pointer;
-    box-shadow: ${(props) => props.theme.shadows.primary};
-  }
+  user-select: none;
+  pointer-events: none;
 `;
 
 export const ChannelItemImageSk = styled.div`
@@ -62,8 +59,8 @@ export const ChannelItemHeaderSk = styled.div`
   }
 
   p {
-    height: 94px;
-    width: 90%;
+    height: 96px;
+    width: 100%;
     background-color: ${(props) =>
       transparentize(0.92, props.theme.colors.text)};
     margin-top: 16px;

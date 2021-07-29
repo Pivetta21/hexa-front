@@ -5,8 +5,8 @@ import { findAllChannels } from 'src/services/channel.service';
 import { ServiceResponse } from 'src/models/ServiceResponse.model';
 import { ChannelI } from 'src/models/Channel.model';
 import { useState } from 'react';
-import ChannelsList from 'src/components/ChannelsList';
-import ChannelListSkeleton from 'src/components/ChannelsList/Skeleton';
+import ChannelsList from 'src/pages/Discover/DiscoverChannels/ChannelsList';
+import ChannelListSkeleton from 'src/pages/Discover/DiscoverChannels/ChannelsList/Skeleton';
 import { ListBlock } from 'src/styled/Blocks';
 
 interface Props {}

@@ -8,6 +8,9 @@ export const CoursesListContainer = styled.div`
   row-gap: 20px;
   column-gap: 16px;
 
+  @media (max-width: ${(props) => props.theme.breakpoints.nav.tablet}) {
+  }
+
   @media (max-width: ${(props) => props.theme.breakpoints.nav.mobile}) {
     display: flex;
     flex-direction: column;
