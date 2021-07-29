@@ -9,18 +9,19 @@ import {
   CourseItemContainer,
   CourseItemImage,
   CoursesListContainer,
-} from 'src/styled/CoursesList';
+} from './styles';
 
 interface Props {
   courses: Course[];
+  isColumn?: boolean;
 }
 
-const CoursesList: React.FC<Props> = ({ courses }) => {
+const CoursesList: React.FC<Props> = ({ courses, isColumn = true }) => {
   const history = useHistory();
 
   return (
     <ListBlock>
-      <CoursesListContainer>
+      <CoursesListContainer className={isColumn ? 'column' : 'row'}>
         {courses.map((course) => {
           return (
             <CourseItemContainer

@@ -5,15 +5,17 @@ import {
   CourseItemContainerSk,
   CourseItemImageSk,
   CoursesListContainerSk,
-} from 'src/styled/CoursesListSkeleton';
+} from './styles';
 
-interface Props {}
+interface Props {
+  isColumn?: boolean;
+}
 
-const CoursesListSkeleton: React.FC<Props> = () => {
+const CoursesListSkeleton: React.FC<Props> = ({ isColumn = true }) => {
   const courses = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
   return (
     <ListBlock>
-      <CoursesListContainerSk>
+      <CoursesListContainerSk className={isColumn ? 'column' : 'row'}>
         {courses.map((course) => {
           return (
             <CourseItemContainerSk key={course}>

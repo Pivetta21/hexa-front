@@ -4,8 +4,8 @@ import { Course } from 'src/models/Course.model';
 import { ServiceResponse } from 'src/models/ServiceResponse.model';
 import { findAllCourses } from 'src/services/course.service';
 
-import CoursesList from 'src/pages/Discover/DiscoverCourses/CoursesList';
-import CoursesListSkeleton from 'src/pages/Discover/DiscoverCourses/CoursesList/Skeleton';
+import CoursesList from 'src/components/CoursesList';
+import CoursesListSkeleton from 'src/components/CoursesList/Skeleton';
 
 const DiscoverCourses: React.FC = () => {
   const [coursesResponse, setCoursesResponse] = useState(
@@ -23,6 +23,7 @@ const DiscoverCourses: React.FC = () => {
       fetchCourses();
     }, 1000);
   }, []);
+
   return (
     <Fragment>
       {!coursesResponse.errorResponse && coursesResponse.data && (

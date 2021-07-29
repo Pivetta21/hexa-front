@@ -2,15 +2,28 @@ import styled from 'styled-components';
 import { transparentize } from 'polished';
 
 export const CoursesListContainerSk = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  grid-template-rows: 1fr 1fr;
-  row-gap: 20px;
-  column-gap: 16px;
+  &.column {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    grid-template-rows: 1fr;
+    row-gap: 20px;
+    column-gap: 16px;
 
-  @media (max-width: ${(props) => props.theme.breakpoints.nav.mobile}) {
-    display: flex;
-    flex-direction: column;
+    @media (max-width: ${(props) => props.theme.breakpoints.nav.mobile}) {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  &.row {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    grid-template-rows: 276px;
+    height: 284px;
+    row-gap: 20px;
+    column-gap: 16px;
+    grid-auto-rows: 0;
+    overflow: hidden;
   }
 `;
 

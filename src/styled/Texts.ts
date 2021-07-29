@@ -8,6 +8,13 @@ export const Header = styled.div`
   margin-bottom: ${(props) => props.theme.spacings.xSmall};
 `;
 
+export const HeaderSmall = styled.div`
+  font-weight: 700;
+  font-size: ${(props) => props.theme.fontSizes.heading.normal};
+  color: ${(props) => props.theme.colors.text};
+  margin-bottom: ${(props) => props.theme.spacings.small};
+`;
+
 export const HeaderCaption = styled.h1`
   font-weight: 400;
   font-size: ${(props) => props.theme.fontSizes.body.medium};
