@@ -1,11 +1,10 @@
 import styled from 'styled-components';
-
 import { transparentize } from 'polished';
 
-export const ChannelListSk = styled.div`
+export const ChannelsListContainerSk = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-  row-gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+  row-gap: 20px;
   column-gap: 16px;
 
   @media (max-width: ${(props) => props.theme.breakpoints.nav.mobile}) {
@@ -22,10 +21,52 @@ export const ChannelItemContainerSk = styled.div`
   background-color: ${(props) => transparentize(0.92, props.theme.colors.text)};
   border-radius: 8px;
 
-  pointer-events: none;
+  :hover {
+    cursor: pointer;
+    box-shadow: ${(props) => props.theme.shadows.primary};
+  }
+`;
+
+export const ChannelItemImageSk = styled.div`
+  &.img {
+    width: 74px;
+    min-width: 74px;
+    height: 74px;
+    min-height: 74px;
+    border-radius: 50%;
+    background-color: ${(props) =>
+      transparentize(0.92, props.theme.colors.text)};
+  }
 `;
 
 export const ChannelItemHeaderSk = styled.div`
-  display: flex;
-  flex-direction: column;
+  margin-left: 16px;
+  width: 100%;
+  height: 100%;
+
+  h1 {
+    height: 15px;
+    width: 70%;
+    background-color: ${(props) =>
+      transparentize(0.92, props.theme.colors.text)};
+    border-radius: 4px;
+  }
+
+  div {
+    height: 15px;
+    width: 40%;
+    background-color: ${(props) =>
+      transparentize(0.92, props.theme.colors.text)};
+    margin-top: 8px;
+    border-radius: 4px;
+  }
+
+  p {
+    height: 94px;
+    width: 90%;
+    background-color: ${(props) =>
+      transparentize(0.92, props.theme.colors.text)};
+    margin-top: 16px;
+    border-radius: 4px;
+  }
 `;

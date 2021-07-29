@@ -12,7 +12,11 @@ import {
 
 const url = '/courses';
 
-export function findAllCourses() {}
+export function findAllCourses() {
+  const request = api.get(`${url}`);
+
+  return axiosFetch<Course[]>(request);
+}
 
 export function findAllCoursesByChannelId(channelId: number) {
   const request = api.get(`${url}`, {
