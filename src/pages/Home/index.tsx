@@ -5,40 +5,47 @@ import { SeeMore } from 'src/styled/SeeMore';
 import { useEffect, useState } from 'react';
 import { findAllCourses } from 'src/services/course.service';
 import { Course } from 'src/models/Course.model';
-import { ServiceResponse } from 'src/models/ServiceResponse.model';
 import CoursesList from 'src/components/CoursesList';
 import CoursesListSkeleton from 'src/components/CoursesList/Skeleton';
 import { useHistory } from 'react-router-dom';
+
+import HomeSubscriptions from './HomeSubscriptions';
 
 interface Props {}
 
 const Home: React.FC<Props> = () => {
   const history = useHistory();
 
-  const [coursesResponse, setCoursesResponse] = useState(
-    {} as ServiceResponse<Course[]>,
-  );
+  const [isLoading, setIsLoading] = useState(true);
+  const [recentCourses, setRecentCourses] = useState([] as Course[]);
 
   useEffect(() => {
-    async function fetchCourses() {
-      const serviceResponse = await findAllCourses();
+    async function fetchRecentCourses() {
+      const { errorResponse, data } = await findAllCourses();
 
-      setCoursesResponse(serviceResponse);
+      if (!errorResponse && data) {
+        setRecentCourses(data);
+      }
+
+      setIsLoading(false);
     }
 
     setTimeout(() => {
-      fetchCourses();
-    }, 1000);
+      fetchRecentCourses();
+    }, 600);
+
+    return () => {
+      setIsLoading(true);
+      setRecentCourses([] as Course[]);
+    };
   }, []);
 
   return (
     <div className="main-padding">
       <HeaderSmall>Mais recentes</HeaderSmall>
 
-      {!coursesResponse.errorResponse && coursesResponse.data && (
-        <CoursesList courses={coursesResponse.data} isColumn={false} />
-      )}
-      {!coursesResponse.data && <CoursesListSkeleton isColumn={false} />}
+      {!isLoading && <CoursesList courses={recentCourses} isColumn={false} />}
+      {isLoading && <CoursesListSkeleton isColumn={false} />}
 
       <SeeMore onClick={() => history.push('/discover')}>
         <div className="see-more">
@@ -47,22 +54,7 @@ const Home: React.FC<Props> = () => {
         </div>
       </SeeMore>
 
-      <HeaderSmall>Suas inscrições</HeaderSmall>
-
-      {!coursesResponse.errorResponse && coursesResponse.data && (
-        <CoursesList courses={coursesResponse.data} isColumn={false} />
-      )}
-      {!coursesResponse.data && <CoursesListSkeleton isColumn={false} />}
-
-      <SeeMore
-        style={{ marginBottom: '0px' }}
-        onClick={() => history.push('/subscriptions')}
-      >
-        <div className="see-more">
-          <span>Ver Mais</span>
-          <Arrow transform="rotate(270)" />
-        </div>
-      </SeeMore>
+      <HomeSubscriptions />
     </div>
   );
 };

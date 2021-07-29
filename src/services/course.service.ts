@@ -18,6 +18,14 @@ export function findAllCourses() {
   return axiosFetch<Course[]>(request);
 }
 
+export function findAllUserFollowingCourses(access_token: string) {
+  const request = api.get(`${url}/following`, {
+    headers: { Authorization: `Bearer ${access_token}` },
+  });
+
+  return axiosFetch<Course[]>(request);
+}
+
 export function findAllCoursesByChannelId(channelId: number) {
   const request = api.get(`${url}`, {
     params: { channelId: channelId },
