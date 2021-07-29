@@ -41,10 +41,12 @@ const Sidenav: React.FC<Props> = () => {
           <Home />
           <span>Página Inicial</span>
         </SidenavLink>
-        <SidenavLink to="/subscriptions" activeClassName="active">
-          <Star />
-          <span>Inscrições</span>
-        </SidenavLink>
+        {isUserLoggedIn && (
+          <SidenavLink to="/subscriptions" activeClassName="active">
+            <Star />
+            <span>Inscrições</span>
+          </SidenavLink>
+        )}
         <SidenavLink to="/discover" activeClassName="active">
           <Eye />
           <span>Descobrir</span>

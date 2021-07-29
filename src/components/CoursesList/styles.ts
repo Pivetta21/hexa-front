@@ -32,6 +32,7 @@ export const CourseItemContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  user-select: none;
 
   img {
     object-fit: cover;
@@ -49,6 +50,25 @@ export const CourseItemImage = styled.img`
   height: 200px;
   min-height: 200px;
   background-color: ${(props) => transparentize(0.92, props.theme.colors.text)};
+`;
+
+export const CourseItemBadges = styled.div`
+  position: absolute;
+  right: 12px;
+  text-transform: uppercase;
+  font-size: ${(props) => props.theme.fontSizes.body.small};
+  font-weight: 600;
+  top: 8px;
+  user-select: none;
+
+  span {
+    padding: 2px 6px;
+    color: ${(props) => props.theme.commonColors.white};
+    background-image: ${(props) => props.theme.gradients.primary};
+    margin-left: 8px;
+    border-radius: 4px;
+    box-shadow: ${(props) => props.theme.shadows.primary};
+  }
 `;
 
 export const CourseItemAuthor = styled.div`

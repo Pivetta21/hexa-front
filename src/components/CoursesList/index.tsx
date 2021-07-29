@@ -6,6 +6,7 @@ import { ListBlock } from 'src/styled/Blocks';
 import {
   CourseItemAuthor,
   CourseItemAuthorInfo,
+  CourseItemBadges,
   CourseItemContainer,
   CourseItemImage,
   CoursesListContainer,
@@ -29,6 +30,9 @@ const CoursesList: React.FC<Props> = ({ courses, isColumn = true }) => {
               onClick={() => history.push(`/discover/courses/${course.id}`)}
             >
               <CourseItemImage src={getImagePicture(course)} />
+              <CourseItemBadges>
+                <span>{course.price > 0 ? `Pago` : 'Gratuito'}</span>
+              </CourseItemBadges>
               <CourseItemAuthor>
                 <img src={getProfilePicture(course.channel.user)} />
                 <CourseItemAuthorInfo>

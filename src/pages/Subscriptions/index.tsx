@@ -1,18 +1,14 @@
-import { Fragment, useContext, useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useContext, useEffect, useState } from 'react';
 import CoursesList from 'src/components/CoursesList';
 import CoursesListSkeleton from 'src/components/CoursesList/Skeleton';
 import { Course } from 'src/models/Course.model';
 import AuthContext from 'src/providers/AuthContext';
 import { findAllUserFollowingCourses } from 'src/services/course.service';
-import { SeeMore } from 'src/styled/SeeMore';
-import { ReactComponent as Arrow } from 'src/assets/svg/icons/Arrow.svg';
+import { Header } from 'src/styled/Texts';
 
-import { HeaderSmall } from 'src/styled/Texts';
-import { NoCourseCTA } from '../styles';
+interface Props {}
 
-const HomeSubscriptions: React.FC = () => {
-  const history = useHistory();
+const Subscriptions: React.FC<Props> = () => {
   const { authenticatedUser, isUserLoggedIn } = useContext(AuthContext);
 
   const [isLoading, setIsLoading] = useState(true);
@@ -31,7 +27,6 @@ const HomeSubscriptions: React.FC = () => {
           setSubscriptionsCourses(serviceResponse.data);
         }
       }
-
       setIsLoading(false);
     }
 
@@ -43,36 +38,21 @@ const HomeSubscriptions: React.FC = () => {
       setIsLoading(true);
       setSubscriptionsCourses([] as Course[]);
     };
-  }, [isUserLoggedIn]);
+  }, []);
 
   return (
-    <Fragment>
-      <HeaderSmall>Suas inscrições</HeaderSmall>
+    <div className="main-padding">
+      <Header>Subscriptions</Header>
       {!isLoading && subscriptionsCourses.length > 0 && (
-        <CoursesList courses={subscriptionsCourses} isColumn={false} />
+        <CoursesList courses={subscriptionsCourses} />
       )}
-      {!isLoading && subscriptionsCourses.length == 0 && (
-        <NoCourseCTA>
-          {isUserLoggedIn ? (
-            <span>Não tem publicações ainda ou não segue nenhum canal.</span>
-          ) : (
-            <span>Crie uma conta para poder seguir canais!</span>
-          )}
-        </NoCourseCTA>
-      )}
-      {isLoading && <CoursesListSkeleton isColumn={false} />}
 
-      <SeeMore
-        style={{ marginBottom: '0px' }}
-        onClick={() => history.push('/subscriptions')}
-      >
-        <div className="see-more">
-          <span>Ver Mais</span>
-          <Arrow transform="rotate(270)" />
-        </div>
-      </SeeMore>
-    </Fragment>
+      {!isLoading && subscriptionsCourses.length == 0 && (
+        <div>Não tem publicações ainda ou não segue nenhum canal.</div>
+      )}
+      {isLoading && <CoursesListSkeleton />}
+    </div>
   );
 };
 
-export default HomeSubscriptions;
+export default Subscriptions;

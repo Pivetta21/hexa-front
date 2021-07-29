@@ -15,6 +15,7 @@ import Dashboard from './pages/Dashboard';
 import EditChannel from './pages/Dashboard/EditChannel';
 import CreateCourse from './pages/Dashboard/CreateCourse';
 import EditCourse from './pages/Dashboard/EditCourse';
+import Subscriptions from './pages/Subscriptions';
 
 const Routes = () => {
   return (
@@ -46,9 +47,7 @@ const Routes = () => {
       </Route>
       <Route path="/discover" component={Discover} />
 
-      <Route path="/subscriptions">
-        <h1 className="main-padding">Suas Inscrições</h1>
-      </Route>
+      <ProtectedRoute path="/subscriptions" component={Subscriptions} />
 
       <Route path="/" component={Home} exact />
 
