@@ -11,6 +11,10 @@ export const DashboardHeader = styled.div`
 export const DashboardTitle = styled.h1`
   font-weight: 700;
   font-size: 32px;
+  a {
+    text-decoration: none;
+    color: ${(props) => props.theme.colors.text};
+  }
 `;
 
 export const DashboardButtons = styled.div`

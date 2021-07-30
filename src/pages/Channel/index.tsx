@@ -12,7 +12,7 @@ import ChannelDisplay from './ChannelDisplay';
 import { ContentBlock, InternalLinksContainer } from 'src/styled/Blocks';
 import { InternalLink } from 'src/styled/Texts';
 
-import ChannelHomeSkeleton from './ChannelHome/Skeleton';
+import ChannelHome from './ChannelHome';
 
 interface Props {}
 
@@ -75,13 +75,13 @@ const Channel: React.FC<Props> = () => {
                 path={`/discover/channels/${channelResponse.data.id}`}
                 exact
               >
-                <ChannelHomeSkeleton />
+                <ChannelHome channelId={id} />
               </Route>
               <Route
                 path={`/discover/channels/${channelResponse.data.id}/about`}
                 exact
               >
-                <div>Carregar sobre e estatísticas aqui</div>
+                <div>Sobre e estatísticas deste canal!</div>
               </Route>
             </Switch>
           </ContentBlock>

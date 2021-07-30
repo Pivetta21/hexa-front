@@ -12,7 +12,19 @@ import {
 
 const url = '/courses';
 
-export function findAllCourses() {}
+export function findAllCourses() {
+  const request = api.get(`${url}`);
+
+  return axiosFetch<Course[]>(request);
+}
+
+export function findAllUserFollowingCourses(access_token: string) {
+  const request = api.get(`${url}/following`, {
+    headers: { Authorization: `Bearer ${access_token}` },
+  });
+
+  return axiosFetch<Course[]>(request);
+}
 
 export function findAllCoursesByChannelId(channelId: number) {
   const request = api.get(`${url}`, {
@@ -68,7 +80,9 @@ export function deleteCourse(
 
 export function getImagePicture(course: Course) {
   if (course.image_url && course.image_url.length > 0) {
-    return process.env.REACT_APP_SERVER_URL + '/' + course.image_url;
+    return (
+      process.env.REACT_APP_SERVER_URL + '/storage/images/' + course.image_url
+    );
   }
 
   return noimage;
@@ -99,7 +113,7 @@ export async function uploadImagePicture(
     serviceResponse = await updateCourse(
       courseId,
       {
-        image_url: uploadImageResponse.data.path,
+        image_url: uploadImageResponse.data.filename,
       },
       access_token,
     );

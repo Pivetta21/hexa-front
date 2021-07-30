@@ -1,14 +1,17 @@
-import { useEffect } from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+
 import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { RootState } from 'src/redux/store';
 
 import { ReactComponent as Cog } from 'src/assets/svg/icons/Cog.svg';
-import { Course } from 'src/models/Course.model';
-import { RootState } from 'src/redux/store';
-import { findAllCoursesByChannelId } from 'src/services/course.service';
+
 import { ButtonPrimary } from 'src/styled/Buttons';
-import DashboardCoursesList from './CoursesList';
+
+import { Course } from 'src/models/Course.model';
+import { findAllCoursesByChannelId } from 'src/services/course.service';
+
+import DashboardCoursesList from './DashboardCoursesList';
 
 import {
   DashboardButtons,
@@ -38,7 +41,11 @@ const Dashboard: React.FC = () => {
   return (
     <DashboardContainer className="main-padding">
       <DashboardHeader>
-        <DashboardTitle>Painel de Controle</DashboardTitle>
+        <DashboardTitle title="Link para visualizar a página do seu canal.">
+          <Link to={`/discover/channels/${channel.id}`} target="_blank">
+            Painel de Controle
+          </Link>
+        </DashboardTitle>
         <DashboardButtons>
           <Cog onClick={() => history.push('/dashboard/edit-channel')} />
           <ButtonPrimary

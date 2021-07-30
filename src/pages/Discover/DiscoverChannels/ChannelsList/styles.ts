@@ -1,10 +1,10 @@
-import { transparentize } from 'polished';
 import styled from 'styled-components';
+import { transparentize } from 'polished';
 
 export const ChannelsListContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
-  row-gap: 16px;
+  row-gap: 20px;
   column-gap: 16px;
 
   @media (max-width: ${(props) => props.theme.breakpoints.nav.mobile}) {

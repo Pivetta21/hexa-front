@@ -1,10 +1,37 @@
-interface Props {}
+import { Fragment, useState, useEffect } from 'react';
 
-const DiscoverCourses: React.FC<Props> = () => {
+import { Course } from 'src/models/Course.model';
+import { ServiceResponse } from 'src/models/ServiceResponse.model';
+import { findAllCourses } from 'src/services/course.service';
+
+import CoursesList from 'src/components/CoursesList';
+import CoursesListSkeleton from 'src/components/CoursesList/Skeleton';
+
+const DiscoverCourses: React.FC = () => {
+  const [coursesResponse, setCoursesResponse] = useState(
+    {} as ServiceResponse<Course[]>,
+  );
+
+  useEffect(() => {
+    async function fetchCourses() {
+      const serviceResponse = await findAllCourses();
+
+      setCoursesResponse(serviceResponse);
+    }
+
+    setTimeout(() => {
+      fetchCourses();
+    }, 1000);
+  }, []);
+
   return (
-    <div style={{ margin: '32px 0px' }}>
-      <h1>Descobrir cursos</h1>
-    </div>
+    <Fragment>
+      {!coursesResponse.errorResponse && coursesResponse.data && (
+        <CoursesList courses={coursesResponse.data} />
+      )}
+
+      {!coursesResponse.data && <CoursesListSkeleton />}
+    </Fragment>
   );
 };
 

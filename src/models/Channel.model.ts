@@ -1,3 +1,4 @@
+import { Course } from './Course.model';
 import { User } from './User.model';
 export interface ChannelI {
   id: number;
@@ -6,6 +7,7 @@ export interface ChannelI {
   description?: string;
   banner_url?: string;
   created_at: string;
+  courses?: Course[];
 }
 
 export interface CreateChannelI {

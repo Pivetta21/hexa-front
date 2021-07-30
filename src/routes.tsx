@@ -15,16 +15,15 @@ import Dashboard from './pages/Dashboard';
 import EditChannel from './pages/Dashboard/EditChannel';
 import CreateCourse from './pages/Dashboard/CreateCourse';
 import EditCourse from './pages/Dashboard/EditCourse';
+import Subscriptions from './pages/Subscriptions';
+import Profile from './pages/Profile';
+import CoursePage from './pages/Course';
 
 const Routes = () => {
   return (
     <Switch key="routes">
       <ProtectedRoute path="/profile/config" component={ProfileConfig} />
-      <ProtectedRoute
-        path="/profile"
-        component={() => <h1 className="main-padding">Perfil</h1>}
-        exact
-      />
+      <ProtectedRoute path="/profile" component={Profile} exact />
 
       <DashboardProtectedRoute
         path="/dashboard/course/:id"
@@ -41,14 +40,10 @@ const Routes = () => {
       <DashboardProtectedRoute path="/dashboard" component={Dashboard} exact />
 
       <Route path="/discover/channels/:id" component={Channel} />
-      <Route path="/discover/courses/:id">
-        <div>Public Course Component</div>
-      </Route>
+      <Route path="/discover/courses/:id" component={CoursePage} />
       <Route path="/discover" component={Discover} />
 
-      <Route path="/subscriptions">
-        <h1 className="main-padding">Suas Inscrições</h1>
-      </Route>
+      <ProtectedRoute path="/subscriptions" component={Subscriptions} />
 
       <Route path="/" component={Home} exact />
 
