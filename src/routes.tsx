@@ -17,6 +17,7 @@ import CreateCourse from './pages/Dashboard/CreateCourse';
 import EditCourse from './pages/Dashboard/EditCourse';
 import Subscriptions from './pages/Subscriptions';
 import Profile from './pages/Profile';
+import CoursePage from './pages/Course';
 
 const Routes = () => {
   return (
@@ -39,9 +40,7 @@ const Routes = () => {
       <DashboardProtectedRoute path="/dashboard" component={Dashboard} exact />
 
       <Route path="/discover/channels/:id" component={Channel} />
-      <Route path="/discover/courses/:id">
-        <div>Public Course Component</div>
-      </Route>
+      <Route path="/discover/courses/:id" component={CoursePage} />
       <Route path="/discover" component={Discover} />
 
       <ProtectedRoute path="/subscriptions" component={Subscriptions} />
