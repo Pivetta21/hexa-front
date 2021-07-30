@@ -54,11 +54,11 @@ export const CourseItemImage = styled.img`
 
 export const CourseItemBadges = styled.div`
   position: absolute;
-  right: 12px;
+  right: 8px;
+  top: 8px;
   text-transform: uppercase;
   font-size: ${(props) => props.theme.fontSizes.body.small};
   font-weight: 600;
-  top: 8px;
   user-select: none;
 
   span {

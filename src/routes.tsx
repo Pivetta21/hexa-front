@@ -16,16 +16,13 @@ import EditChannel from './pages/Dashboard/EditChannel';
 import CreateCourse from './pages/Dashboard/CreateCourse';
 import EditCourse from './pages/Dashboard/EditCourse';
 import Subscriptions from './pages/Subscriptions';
+import Profile from './pages/Profile';
 
 const Routes = () => {
   return (
     <Switch key="routes">
       <ProtectedRoute path="/profile/config" component={ProfileConfig} />
-      <ProtectedRoute
-        path="/profile"
-        component={() => <h1 className="main-padding">Perfil</h1>}
-        exact
-      />
+      <ProtectedRoute path="/profile" component={Profile} exact />
 
       <DashboardProtectedRoute
         path="/dashboard/course/:id"
