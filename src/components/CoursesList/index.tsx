@@ -31,7 +31,7 @@ const CoursesList: React.FC<Props> = ({ courses, isColumn = true }) => {
             >
               <CourseItemImage src={getImagePicture(course)} />
               <CourseItemBadges>
-                <span>{course.price > 0 ? `Pago` : 'Gratuito'}</span>
+                <span>{course.price > 0 ? `Conteúdo Pago` : 'Gratuito'}</span>
               </CourseItemBadges>
               <CourseItemAuthor>
                 <img src={getProfilePicture(course.channel.user)} />

@@ -41,7 +41,7 @@ export const CourseItemContainer = styled.div`
 
   :hover {
     cursor: pointer;
-    filter: drop-shadow(${(props) => props.theme.shadows.big});
+    filter: drop-shadow(${(props) => props.theme.shadows.primary});
   }
 `;
 
