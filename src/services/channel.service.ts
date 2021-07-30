@@ -133,7 +133,9 @@ export async function deleteChannel(access_token: string, channelId: number) {
 
 export function getBannerPicture(channel: ChannelI) {
   if (channel.banner_url && channel.banner_url.length > 0) {
-    return process.env.REACT_APP_SERVER_URL + '/' + channel.banner_url;
+    return (
+      process.env.REACT_APP_SERVER_URL + '/storage/images/' + channel.banner_url
+    );
   }
 
   return nobanner;
@@ -157,7 +159,7 @@ export async function uploadBannerPicture(
 
   if (uploadImageResponse.data) {
     serviceResponse = await updateChannel(access_token, channelId, {
-      banner_url: uploadImageResponse.data.path,
+      banner_url: uploadImageResponse.data.filename,
     });
   } else {
     serviceResponse.errorResponse = uploadImageResponse.errorResponse;

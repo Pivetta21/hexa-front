@@ -149,7 +149,7 @@ export function getProfilePicture(user: User | null | undefined): string {
     const userPicture = user.pictureUrl;
 
     if (userPicture && userPicture.length > 0) {
-      return `${process.env.REACT_APP_SERVER_URL}/${userPicture}`;
+      return `${process.env.REACT_APP_SERVER_URL}/storage/images/${userPicture}`;
     }
   }
 
@@ -176,7 +176,7 @@ export async function uploadProfilePicture(
 
   if (uploadImageResponse.data) {
     serviceResponse = await updateUser(access_token, userId, {
-      pictureUrl: uploadImageResponse.data.path,
+      pictureUrl: uploadImageResponse.data.filename,
     });
   } else {
     serviceResponse.errorResponse = uploadImageResponse.errorResponse;

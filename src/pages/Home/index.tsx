@@ -44,7 +44,12 @@ const Home: React.FC<Props> = () => {
     <div className="main-padding">
       <HeaderSmall>Mais recentes</HeaderSmall>
 
-      {!isLoading && <CoursesList courses={recentCourses} isColumn={false} />}
+      {!isLoading && recentCourses.length > 0 && (
+        <CoursesList courses={recentCourses} isColumn={false} />
+      )}
+      {!isLoading && recentCourses.length == 0 && (
+        <CoursesListSkeleton isColumn={false} />
+      )}
       {isLoading && <CoursesListSkeleton isColumn={false} />}
 
       <SeeMore onClick={() => history.push('/discover')}>

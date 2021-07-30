@@ -16,7 +16,7 @@ import {
 } from 'src/styled/Overlay';
 import { ReactComponent as Close } from 'src/assets/svg/icons/Close.svg';
 import { ContainerHeader } from 'src/styled/Texts';
-import { deleteProfilePicture, deleteUser } from 'src/services/user.service';
+import { deleteUser } from 'src/services/user.service';
 import { useContext } from 'react';
 import AuthContext from 'src/providers/AuthContext';
 import { useState } from 'react';
@@ -40,8 +40,6 @@ const DeleteAccount: React.FC<Props> = () => {
 
   async function handleDeleteAccount() {
     if (authenticatedUser && authenticatedUser.token) {
-      deleteProfilePicture(authenticatedUser);
-
       const serviceResponse = await deleteUser(
         authenticatedUser.token,
         authenticatedUser.user.id,
