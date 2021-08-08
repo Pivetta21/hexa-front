@@ -12,6 +12,7 @@ import { Header, InternalLink } from 'src/styled/Texts';
 import EditCourseGeneral from './EditCourseGeneral';
 import EditCourseModules from './EditCourseModules';
 import EditCourseOthers from './EditCourseOthers';
+import EditCourseVideos from './EditCourseVideos';
 
 interface Props {}
 
@@ -88,7 +89,7 @@ const EditCourse: React.FC<Props> = () => {
                   <EditCourseModules />
                 </Route>
                 <Route path={`/dashboard/course/${course.id}/videos`} exact>
-                  <div>Vídeos Component</div>
+                  <EditCourseVideos />
                 </Route>
                 <Route path={`/dashboard/course/${course.id}/others`} exact>
                   <EditCourseOthers />

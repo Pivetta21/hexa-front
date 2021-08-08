@@ -39,3 +39,14 @@ export function updateModule(
 
   return axiosFetch<ModuleI>(request);
 }
+
+export function deleteModule(
+  moduleId: number,
+  access_token: string,
+): Promise<ServiceResponse<boolean>> {
+  const request = api.delete(`${url}/${moduleId}`, {
+    headers: { Authorization: `Bearer ${access_token}` },
+  });
+
+  return axiosFetch<boolean>(request);
+}

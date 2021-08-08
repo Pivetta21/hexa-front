@@ -31,6 +31,7 @@ import {
 } from 'src/styled/Buttons';
 
 import { ButtonLoader } from 'src/styled/Loaders';
+import DeleteModule from '../DeleteModule';
 
 const EditModule: React.FC = () => {
   const history = useHistory();
@@ -139,6 +140,12 @@ const EditModule: React.FC = () => {
           {formik.touched.name && formik.errors.name ? (
             <OutlineInputError>{formik.errors.name}</OutlineInputError>
           ) : null}
+
+          <DeleteModule
+            module={modules[moduleIndex]}
+            modules={modules}
+            setModules={setModules}
+          />
         </Fragment>
       )}
 
