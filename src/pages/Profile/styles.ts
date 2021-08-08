@@ -42,6 +42,10 @@ export const ProfileInfo = styled.div`
     color: ${(props) => props.theme.colors.caption};
     margin-top: 24px;
   }
+
+  @media (max-width: ${(props) => props.theme.breakpoints.nav.mobile}) {
+    width: 100%;
+  }
 `;
 
 export const ProfileStats = styled.div`

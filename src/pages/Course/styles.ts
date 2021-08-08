@@ -23,6 +23,8 @@ export const CourseHeaderImage = styled.img`
   min-width: 180px;
   height: 180px;
   min-height: 180px;
+  object-fit: cover;
+  object-position: center;
   border-radius: 50%;
   background-color: ${(props) =>
     lighten(0.07, invert(props.theme.colors.text))};

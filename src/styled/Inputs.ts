@@ -54,6 +54,21 @@ export const DefaultSelect = styled.div`
   flex-direction: column;
   margin-bottom: ${(props) => props.theme.spacings.default};
 
+  &.inline {
+    flex-direction: row;
+    align-items: center;
+
+    label {
+      min-width: fit-content;
+      margin-right: 20px;
+    }
+
+    select {
+      width: 100%;
+      margin-top: 0px;
+    }
+  }
+
   label {
     font-size: ${(props) => props.theme.fontSizes.body.normal};
     font-weight: 700;
