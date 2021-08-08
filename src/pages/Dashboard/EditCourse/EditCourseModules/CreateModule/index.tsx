@@ -76,7 +76,7 @@ const CreateModule: React.FC = () => {
             fullWidth
             label="Nome"
             name="name"
-            placeholder="Digite aqui o nome do canal"
+            placeholder="Digite aqui o nome do módulo"
           />
 
           <ButtonsRowContainer>

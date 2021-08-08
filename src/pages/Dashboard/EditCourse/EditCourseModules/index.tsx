@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { DefaultSelect } from 'src/styled/Inputs';
 import CreateModule from './CreateModule';
+import EditModule from './EditModule';
 
 const EditCourseModules: React.FC = () => {
   const [option, setOption] = useState('create');
@@ -20,7 +21,7 @@ const EditCourseModules: React.FC = () => {
       </DefaultSelect>
 
       {option == 'create' && <CreateModule />}
-      {/* {option == 'edit' && <EditModule />} */}
+      {option == 'edit' && <EditModule />}
     </div>
   );
 };

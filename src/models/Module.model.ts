@@ -10,3 +10,7 @@ export interface CreateModuleI {
   course: Course;
   name: string;
 }
+
+export interface UpdateModuleI {
+  name: string;
+}
