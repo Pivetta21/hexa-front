@@ -34,6 +34,7 @@ import {
   uploadVideo,
 } from 'src/services/storage.service';
 import { ServiceResponse } from 'src/models/ServiceResponse.model';
+import DeleteVideo from '../DeleteVideo';
 
 interface Props {}
 
@@ -279,6 +280,13 @@ const EditVideo: React.FC<Props> = () => {
               {uploadVideoError}
             </OutlineInputError>
           ) : null}
+
+          <DeleteVideo
+            video={videos[videoIndex]}
+            videos={videos}
+            setVideos={setVideos}
+            setVideoIndex={setVideoIndex}
+          />
 
           <ButtonsRowContainer>
             <ButtonPrimary

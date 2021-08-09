@@ -39,4 +39,15 @@ export function updateVideo(
   return axiosFetch<VideoI>(request);
 }
 
+export function removeVideo(
+  videoId: number,
+  access_token: string,
+): Promise<ServiceResponse<boolean>> {
+  const request = api.delete(`${url}/${videoId}`, {
+    headers: { Authorization: `Bearer ${access_token}` },
+  });
+
+  return axiosFetch<boolean>(request);
+}
+
 // http://127.0.0.1:8080/storage/videos/3/8/11/video1.mp4
