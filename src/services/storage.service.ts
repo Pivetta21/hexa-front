@@ -1,4 +1,4 @@
-import api from './api';
+import api, { axiosFetch } from './api';
 
 import { AxiosResponse, AxiosError, AxiosRequestConfig } from 'axios';
 
@@ -12,6 +12,22 @@ export enum DeleteImageOptions {
   CHANNEL_IMAGE = 'channel',
   COURSE_IMAGE = 'course',
 }
+
+export const uploadVideo = (
+  access_token: string,
+  params: { channelId: number; courseId: number },
+  file: File,
+): Promise<ServiceResponse<FileStorage>> => {
+  const dataForm = new FormData();
+  dataForm.append('file', file);
+
+  const request = api.post(`${url}/videos`, dataForm, {
+    headers: { Authorization: `Bearer ${access_token}` },
+    params: params,
+  });
+
+  return axiosFetch<FileStorage>(request);
+};
 
 export const uploadImage = async (
   access_token: string,
