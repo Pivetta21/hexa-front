@@ -29,6 +29,27 @@ export const uploadVideo = (
   return axiosFetch<FileStorage>(request);
 };
 
+export const deleteVideo = async (
+  access_token: string,
+  params: { moduleId: number; videoId: number },
+  fileUrl: string,
+): Promise<ServiceResponse<void>> => {
+  const filename = parseFilename(fileUrl);
+
+  const request = api.delete(`${url}/videos/${filename}`, {
+    headers: { Authorization: `Bearer ${access_token}` },
+    params: params,
+  });
+
+  const serviceResponse: ServiceResponse<void> = {};
+
+  await request.then().catch((e: AxiosError) => {
+    if (e.response) serviceResponse.errorResponse = e.response.data;
+  });
+
+  return serviceResponse;
+};
+
 export const uploadImage = async (
   access_token: string,
   file: File,

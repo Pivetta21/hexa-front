@@ -1,12 +1,14 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
-import { Fragment, useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { ModuleI } from 'src/models/Module.model';
+import { VideoI } from 'src/models/Video.model';
 import CourseDashboardContext from 'src/providers/CourseDashboardContext';
 import { findModulesByCourseId } from 'src/services/module.service';
-import { createVideo } from 'src/services/video.service';
+import { findVideosByModuleId, updateVideo } from 'src/services/video.service';
 import {
   DefaultInput,
   DefaultSelect,
@@ -21,40 +23,63 @@ import {
   OutlineButton,
 } from 'src/styled/Buttons';
 import { ButtonLoader } from 'src/styled/Loaders';
-import { useRef } from 'react';
+import getFormikChangedValues from 'src/helpers/getFormikChangedValues';
+import { useSelector } from 'react-redux';
+import { RootState } from 'src/redux/store';
+import AuthContext from 'src/providers/AuthContext';
 import {
+  deleteVideo,
   isFileVideo,
   isFileVideoAccepted,
   uploadVideo,
 } from 'src/services/storage.service';
-import AuthContext from 'src/providers/AuthContext';
-import { useSelector } from 'react-redux';
-import { RootState } from 'src/redux/store';
+import { ServiceResponse } from 'src/models/ServiceResponse.model';
 
 interface Props {}
 
-const CreateVideo: React.FC<Props> = () => {
+const EditVideo: React.FC<Props> = () => {
   const history = useHistory();
 
-  const videoFileRef = useRef({} as HTMLInputElement);
+  const { channel } = useSelector((state: RootState) => state.channel);
 
   const [modules, setModules] = useState([] as ModuleI[]);
   const [moduleId, setModuleId] = useState(-1);
 
-  const [createVideoError, setCreateVideoError] = useState('');
+  const [videos, setVideos] = useState([] as VideoI[]);
+  const [videoIndex, setVideoIndex] = useState(-1);
+
+  const videoFileRef = useRef({} as HTMLInputElement);
+
+  const [editVideoRes, setEditVideoRes] = useState(
+    {} as ServiceResponse<VideoI>,
+  );
   const [uploadVideoError, setUploadVideoError] = useState('');
 
   const { authenticatedUser } = useContext(AuthContext);
   const { course } = useContext(CourseDashboardContext);
 
-  const { channel } = useSelector((state: RootState) => state.channel);
-
-  function handleVideoChange() {
+  function handleFileChange() {
     videoFileRef.current.click();
+  }
+
+  function handleVideoChange(e: any) {
+    setVideoIndex(e.target.value);
+    formik.resetForm();
   }
 
   function handleModuleChange(e: any) {
     setModuleId(e.target.value);
+    fetchVideosByModuleId(e.target.value);
+  }
+
+  async function fetchVideosByModuleId(moduleId: number) {
+    const serviceResponse = await findVideosByModuleId(moduleId);
+
+    if (!serviceResponse.errorResponse && serviceResponse.data) {
+      setVideos(serviceResponse.data);
+    } else {
+      setVideos([] as VideoI[]);
+    }
   }
 
   async function fetchModules() {
@@ -70,37 +95,50 @@ const CreateVideo: React.FC<Props> = () => {
 
     return () => {
       setModules([] as ModuleI[]);
+      setVideos([] as VideoI[]);
+      setVideoIndex(-1);
     };
   }, []);
 
   const initialValues = {
-    name: '',
-    description: '',
+    name: videos[videoIndex] ? videos[videoIndex].name : '',
+    description:
+      videos[videoIndex] && videos[videoIndex].description
+        ? videos[videoIndex].description
+        : '',
     video_url: '',
   };
 
   const validationSchema = Yup.object({
     name: Yup.string()
-      .min(5, 'O nome do vídeo deve ser maior.')
-      .max(54, 'O nome do vídeo deve ser menor.')
-      .required('Esse campo é obrigatório!'),
+      .min(5, 'O nome do módulo deve ser maior.')
+      .max(54, 'O nome do módulo deve ser menor.'),
     description: Yup.string().optional(),
-    video_url: Yup.string().required('Esse campo é obrigatório!'),
+    video_url: Yup.string().optional(),
   });
 
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: initialValues,
     validationSchema: validationSchema,
     onSubmit: async (values, actions) => {
       actions.setSubmitting(true);
 
+      let video_url = '';
+      const token = authenticatedUser!.token!;
       const inputFiles = videoFileRef.current.files;
 
-      if (inputFiles) {
+      const changedValues = getFormikChangedValues(values, initialValues);
+
+      if ('video_url' in changedValues && inputFiles) {
         const file = inputFiles[0];
 
         if (isFileVideo(file) && isFileVideoAccepted(file)) {
-          const token = authenticatedUser!.token!;
+          await deleteVideo(
+            token,
+            { moduleId: moduleId, videoId: videos[videoIndex].id },
+            videos[videoIndex].video_url,
+          );
 
           const uploadResponse = await uploadVideo(
             token,
@@ -109,27 +147,39 @@ const CreateVideo: React.FC<Props> = () => {
           );
 
           if (!uploadResponse.errorResponse && uploadResponse.data) {
-            const newVideo = {
-              ...values,
-              video_url: uploadResponse.data.filename,
-              module: { id: moduleId } as ModuleI,
-            };
+            video_url = uploadResponse.data.filename;
+            videos[videoIndex].video_url = video_url;
 
-            const { errorResponse } = await createVideo(newVideo, token);
-
-            if (errorResponse) {
-              setCreateVideoError(errorResponse.message);
-            } else {
-              setCreateVideoError('');
-              setUploadVideoError('');
-              actions.resetForm();
-            }
+            setUploadVideoError('');
+            actions.resetForm();
           } else {
+            delete changedValues.video_url;
             setUploadVideoError('Não foi possível fazer upload!');
           }
         } else {
+          delete changedValues.video_url;
           setUploadVideoError('Arquivo possui um formato inválido!');
         }
+      }
+
+      const newVideo = {
+        ...changedValues,
+      };
+
+      if (video_url.length > 0) {
+        newVideo.video_url = video_url;
+      }
+
+      const serviceResponse = await updateVideo(
+        videos[videoIndex].id,
+        newVideo,
+        token,
+      );
+
+      setEditVideoRes(serviceResponse);
+
+      if (!serviceResponse.errorResponse && serviceResponse.data) {
+        videos[videoIndex] = serviceResponse.data;
       }
 
       actions.setSubmitting(false);
@@ -137,17 +187,7 @@ const CreateVideo: React.FC<Props> = () => {
   });
 
   return (
-    <FormContainer
-      autoComplete="off"
-      onSubmit={formik.handleSubmit}
-      style={{ marginTop: '0px' }}
-    >
-      {createVideoError.length > 0 && !formik.isValidating ? (
-        <ServiceError style={{ marginTop: '0px' }}>
-          {createVideoError}
-        </ServiceError>
-      ) : null}
-
+    <div>
       <DefaultSelect>
         <label htmlFor="modOption">Módulo</label>
         <select name="modOption" onChange={(e) => handleModuleChange(e)}>
@@ -162,8 +202,28 @@ const CreateVideo: React.FC<Props> = () => {
         </select>
       </DefaultSelect>
 
-      {moduleId > 0 && (
-        <Fragment>
+      {videos.length > 0 && (
+        <DefaultSelect>
+          <label htmlFor="videoOption">Vídeo</label>
+          <select name="videoOption" onChange={(e) => handleVideoChange(e)}>
+            <option value="-1" selected disabled hidden>
+              Selecione um vídeo
+            </option>
+            {videos.map((video, index) => (
+              <option key={video.id} value={index}>
+                {index + 1}. {video.name}
+              </option>
+            ))}
+          </select>
+        </DefaultSelect>
+      )}
+
+      {videoIndex >= 0 && (
+        <FormContainer autoComplete="off" onSubmit={formik.handleSubmit}>
+          {editVideoRes.errorResponse && !formik.isValidating ? (
+            <ServiceError>{editVideoRes.errorResponse.message}</ServiceError>
+          ) : null}
+
           <DefaultInput>
             <label htmlFor="name">Nome</label>
             <input
@@ -208,7 +268,7 @@ const CreateVideo: React.FC<Props> = () => {
           <OutlineButton
             className="w-100"
             type="button"
-            onClick={() => handleVideoChange()}
+            onClick={() => handleFileChange()}
           >
             {formik.values.video_url.length > 0
               ? formik.values.video_url.replace(/^.*[\\/]/, '')
@@ -225,7 +285,7 @@ const CreateVideo: React.FC<Props> = () => {
               type="submit"
               disabled={!(formik.isValid && formik.dirty) ? true : undefined}
             >
-              {formik.isSubmitting ? <ButtonLoader /> : 'Criar Vídeo'}
+              {formik.isSubmitting ? <ButtonLoader /> : 'Editar Vídeo'}
             </ButtonPrimary>
 
             <ButtonSecondary
@@ -235,10 +295,10 @@ const CreateVideo: React.FC<Props> = () => {
               Voltar
             </ButtonSecondary>
           </ButtonsRowContainer>
-        </Fragment>
+        </FormContainer>
       )}
-    </FormContainer>
+    </div>
   );
 };
 
-export default CreateVideo;
+export default EditVideo;

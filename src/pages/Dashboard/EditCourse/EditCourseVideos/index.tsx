@@ -1,6 +1,7 @@
 import { Fragment, useState } from 'react';
 import { DefaultSelect } from 'src/styled/Inputs';
 import CreateVideo from './CreateVideo';
+import EditVideo from './EditVideo';
 
 const EditCourseVideos: React.FC = () => {
   const [option, setOption] = useState('create');
@@ -20,7 +21,7 @@ const EditCourseVideos: React.FC = () => {
       </DefaultSelect>
 
       {option == 'create' && <CreateVideo />}
-      {option == 'edit' && <div>Edit Vídeo</div>}
+      {option == 'edit' && <EditVideo />}
     </Fragment>
   );
 };
