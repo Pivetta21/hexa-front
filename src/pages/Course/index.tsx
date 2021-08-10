@@ -1,26 +1,15 @@
-import { useState } from 'react';
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+
+import { findCourse } from 'src/services/course.service';
 import { Course } from 'src/models/Course.model';
-import { findCourse, getImagePicture } from 'src/services/course.service';
-import CoursePageSkeleton from './Skeleton';
 
-import { ReactComponent as Star } from 'src/assets/svg/icons/Star.svg';
+import Loading from 'src/components/Loading';
 
-import {
-  CourseHeaderImage,
-  CourseHeaderInfo,
-  CourseHeaderRate,
-  CoursePageContainer,
-  CoursePageDetails,
-  CoursePageDetailsContent,
-  CoursePageDetailsInfo,
-  CoursePageHeader,
-} from './styles';
+import CourseOverview from './CourseOverview';
+import CourseContext from 'src/providers/CourseContext';
 
-interface Props {}
-
-const CoursePage: React.FC<Props> = () => {
+const CoursePage: React.FC = () => {
   const { id } = useParams() as any;
 
   const [isLoading, setIsLoading] = useState(true);
@@ -48,32 +37,10 @@ const CoursePage: React.FC<Props> = () => {
   }, []);
 
   return (
-    <div className="main-padding">
-      {!isLoading && (
-        <CoursePageContainer>
-          <CoursePageHeader>
-            <CourseHeaderImage src={getImagePicture(course)} />
-            <CourseHeaderInfo>
-              <h1>{course.name}</h1>
-
-              <CourseHeaderRate>
-                <Star className="active" />
-                <Star className="active" />
-                <Star className="active" />
-                <Star className="active" />
-                <Star />
-              </CourseHeaderRate>
-            </CourseHeaderInfo>
-          </CoursePageHeader>
-
-          <CoursePageDetails>
-            <CoursePageDetailsContent></CoursePageDetailsContent>
-            <CoursePageDetailsInfo></CoursePageDetailsInfo>
-          </CoursePageDetails>
-        </CoursePageContainer>
-      )}
-      {isLoading && <CoursePageSkeleton />}
-    </div>
+    <CourseContext.Provider value={{ course, setCourse }}>
+      {!isLoading && <CourseOverview />}
+      {isLoading && <Loading />}
+    </CourseContext.Provider>
   );
 };
 

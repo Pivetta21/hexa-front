@@ -1,8 +1,10 @@
 import { ChannelI } from 'src/models/Channel.model';
+import { ModuleI } from './Module.model';
 
 export interface Course {
   id: number;
   channel: ChannelI;
+  modules?: ModuleI[];
   name: string;
   description?: string;
   image_url?: string;
