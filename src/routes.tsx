@@ -18,6 +18,7 @@ import EditCourse from './pages/Dashboard/EditCourse';
 import Subscriptions from './pages/Subscriptions';
 import Profile from './pages/Profile';
 import CoursePage from './pages/Course';
+import CourseModule from './pages/Course/CourseModule';
 
 const Routes = () => {
   return (
@@ -40,6 +41,10 @@ const Routes = () => {
       <DashboardProtectedRoute path="/dashboard" component={Dashboard} exact />
 
       <Route path="/discover/channels/:id" component={Channel} />
+      <Route
+        path="/discover/courses/:id/module/:moduleIndex"
+        component={CourseModule}
+      />
       <Route path="/discover/courses/:id" component={CoursePage} />
       <Route path="/discover" component={Discover} />
 

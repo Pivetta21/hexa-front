@@ -2,11 +2,12 @@ import { Course } from 'src/models/Course.model';
 
 import {
   CourseOverviewListContainer,
+  OverviewList,
   OverviewListHeader,
-  OverviewListUl,
 } from './styles';
 
 import { ReactComponent as Arrow } from 'src/assets/svg/icons/Arrow.svg';
+import { Link } from 'react-router-dom';
 
 interface Props {
   course: Course;
@@ -29,13 +30,18 @@ const CourseOverviewList: React.FC<Props> = ({ course }) => {
               {mIndex + 1}. {module.name}
               <Arrow className={mIndex == 0 ? 'open' : undefined} />
             </OverviewListHeader>
-            <OverviewListUl className={mIndex == 0 ? 'show' : undefined}>
+            <OverviewList className={mIndex == 0 ? 'show' : undefined}>
               {module.videos?.map((video, vIndex) => (
-                <li key={video.id}>
+                <Link
+                  to={`/discover/courses/${course.id}/module/${
+                    mIndex + 1
+                  }?video=${vIndex + 1}`}
+                  key={video.id}
+                >
                   {vIndex + 1}. {video.name}
-                </li>
+                </Link>
               ))}
-            </OverviewListUl>
+            </OverviewList>
           </div>
         );
       })}

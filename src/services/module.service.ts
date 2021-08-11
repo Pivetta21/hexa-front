@@ -17,6 +17,12 @@ export function findModulesByCourseId(
   return axiosFetch<ModuleI[]>(request);
 }
 
+export function findModuleById(id: number): Promise<ServiceResponse<ModuleI>> {
+  const request = api.get(`${url}/${id}`);
+
+  return axiosFetch<ModuleI>(request);
+}
+
 export function createModule(
   createModuleDto: CreateModuleI,
   access_token: string,

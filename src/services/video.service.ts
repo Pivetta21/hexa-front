@@ -50,4 +50,8 @@ export function removeVideo(
   return axiosFetch<boolean>(request);
 }
 
-// http://127.0.0.1:8080/storage/videos/3/8/11/video1.mp4
+export function getVideoSrc(video: VideoI) {
+  return (
+    process.env.REACT_APP_SERVER_URL + '/storage/videos/' + video.video_url
+  );
+}

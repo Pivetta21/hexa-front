@@ -112,6 +112,10 @@ export const CourseOverviewCreator = styled.div`
     > div {
       width: 100%;
     }
+
+    :hover {
+      cursor: pointer;
+    }
   }
 
   img {
@@ -133,10 +137,6 @@ export const CourseOverviewCreator = styled.div`
   span {
     color: ${(props) => props.theme.colors.caption};
     letter-spacing: 0.35px;
-  }
-
-  :hover {
-    cursor: pointer;
   }
 `;
 

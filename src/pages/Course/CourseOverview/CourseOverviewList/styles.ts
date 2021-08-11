@@ -32,12 +32,14 @@ export const OverviewListHeader = styled.div`
   }
 `;
 
-export const OverviewListUl = styled.ul`
+export const OverviewList = styled.div`
   display: none;
   background-color: ${(props) =>
     lighten(0.02, invert(props.theme.colors.text))};
 
-  li {
+  a {
+    color: ${(props) => props.theme.colors.text};
+
     margin-bottom: 12px;
     margin-left: 16px;
     margin-right: 16px;
