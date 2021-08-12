@@ -41,7 +41,7 @@ const Routes = () => {
       <DashboardProtectedRoute path="/dashboard" component={Dashboard} exact />
 
       <Route path="/discover/channels/:id" component={Channel} />
-      <Route
+      <ProtectedRoute
         path="/discover/courses/:id/module/:moduleIndex"
         component={CourseModule}
       />

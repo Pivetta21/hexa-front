@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { lighten, invert, transparentize } from 'polished';
 import styled from 'styled-components';
 
@@ -61,7 +62,8 @@ export const CourseModuleInfo = styled.div`
     lighten(0.07, invert(props.theme.colors.text))};
 `;
 
-export const CourseInfoName = styled.div`
+export const CourseInfoName = styled(Link)`
+  display: block;
   font-size: 1.15rem;
   margin-bottom: 12px;
   font-weight: 600;

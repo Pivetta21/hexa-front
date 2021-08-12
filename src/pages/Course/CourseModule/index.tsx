@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { Fragment, useEffect, useState } from 'react';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useHistory, useLocation, useParams } from 'react-router-dom';
 import Loading from 'src/components/Loading';
 import { Course } from 'src/models/Course.model';
 import { ModuleI } from 'src/models/Module.model';
@@ -25,18 +25,36 @@ import {
   CourseVideoInfo,
 } from './styles';
 import { SeeMore } from 'src/styled/SeeMore';
+import { useContext } from 'react';
+import AuthContext from 'src/providers/AuthContext';
+import { checkIfUserIsRegistered } from 'src/services/courseRegistration.service';
 
 interface Props {}
 
 const CourseModule: React.FC<Props> = () => {
   const { id, moduleIndex } = useParams() as any;
   const videoIndex = new URLSearchParams(useLocation().search).get('video');
+
+  const history = useHistory();
+  const { authenticatedUser } = useContext(AuthContext);
+
   const videoRef = useRef(null);
 
   const [course, setCourse] = useState({} as Course);
   const [module, setModule] = useState({} as ModuleI);
   const [video, setVideo] = useState({} as VideoI);
-  const [isLoading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+
+  async function fetchIsRegistered(courseId: number) {
+    const { data } = await checkIfUserIsRegistered(
+      { userId: authenticatedUser!.user!.id, courseId: courseId },
+      authenticatedUser!.token!,
+    );
+
+    if (data == false) {
+      history.goBack();
+    }
+  }
 
   function bootstrapVideo(module: ModuleI) {
     if (module.videos && Number(videoIndex) > 0) {
@@ -65,10 +83,14 @@ const CourseModule: React.FC<Props> = () => {
     if (!errorResponse && data) {
       setCourse(data);
 
+      fetchIsRegistered(data.id);
+
       bootstrapModule(data);
+    } else {
+      history.goBack();
     }
 
-    setLoading(false);
+    setIsLoading(false);
   }
 
   useEffect(() => {
@@ -78,7 +100,7 @@ const CourseModule: React.FC<Props> = () => {
       setCourse({} as Course);
       setModule({} as ModuleI);
       setVideo({} as VideoI);
-      setLoading(true);
+      setIsLoading(true);
     };
   }, []);
 
@@ -120,7 +142,9 @@ const CourseModule: React.FC<Props> = () => {
             </CourseVideoInfo>
 
             <CourseModuleInfo>
-              <CourseInfoName>{course.name}</CourseInfoName>
+              <CourseInfoName to={`/discover/courses/${course.id}`}>
+                {course.name}
+              </CourseInfoName>
               <hr />
               <CourseInfoModule>
                 <CourseInfoModuleNav>

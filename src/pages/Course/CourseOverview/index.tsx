@@ -16,11 +16,11 @@ import {
   CourseOverviewCreator,
   CourseOverviewStats,
 } from './styles';
-import { ButtonPrimary } from 'src/styled/Buttons';
 import { getProfilePicture } from 'src/services/user.service';
 import { useContext } from 'react';
 import CourseContext from 'src/providers/CourseContext';
 import CourseOverviewList from './CourseOverviewList';
+import CourseOverviewButton from './CourseOverviewButton';
 
 const CourseOverview: React.FC = () => {
   const { course } = useContext(CourseContext);
@@ -90,7 +90,7 @@ const CourseOverview: React.FC = () => {
           </CourseOverviewDetailsContent>
 
           <CourseOverviewInfo>
-            <ButtonPrimary>Continuar Assistindo</ButtonPrimary>
+            <CourseOverviewButton course={course} />
 
             <CourseOverviewText>Informações</CourseOverviewText>
             <CourseOverviewStats>
