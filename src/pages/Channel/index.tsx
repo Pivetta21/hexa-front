@@ -13,6 +13,7 @@ import { ContentBlock, InternalLinksContainer } from 'src/styled/Blocks';
 import { InternalLink } from 'src/styled/Texts';
 
 import ChannelHome from './ChannelHome';
+import ChannelAbout from './ChannelAbout';
 
 interface Props {}
 
@@ -81,7 +82,7 @@ const Channel: React.FC<Props> = () => {
                 path={`/discover/channels/${channelResponse.data.id}/about`}
                 exact
               >
-                <div>Sobre e estatísticas deste canal!</div>
+                <ChannelAbout channel={channelResponse.data} />
               </Route>
             </Switch>
           </ContentBlock>
