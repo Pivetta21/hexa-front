@@ -1,23 +1,22 @@
-import { useEffect } from 'react';
-import { useState } from 'react';
 import { Fragment, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Course } from 'src/models/Course.model';
 import AuthContext from 'src/providers/AuthContext';
-import {
-  checkIfUserIsRegistered,
-  registerToCourse,
-} from 'src/services/courseRegistration.service';
+import { registerToCourse } from 'src/services/courseRegistration.service';
 import { ButtonPrimary } from 'src/styled/Buttons';
 
 interface Props {
   course: Course;
+  isRegistered: boolean;
+  setIsRegistered: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const CourseOverviewButton: React.FC<Props> = ({ course }) => {
+const CourseOverviewButton: React.FC<Props> = ({
+  course,
+  isRegistered,
+  setIsRegistered,
+}) => {
   const { isUserLoggedIn, authenticatedUser } = useContext(AuthContext);
-  const [isRegistered, setIsRegistered] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
 
   async function handleRegisterToCourse() {
     const serviceResponse = await registerToCourse(
@@ -34,32 +33,9 @@ const CourseOverviewButton: React.FC<Props> = ({ course }) => {
     }
   }
 
-  async function fetchIsRegistered() {
-    if (isUserLoggedIn) {
-      const { data } = await checkIfUserIsRegistered(
-        { userId: authenticatedUser!.user!.id, courseId: course.id },
-        authenticatedUser!.token!,
-      );
-
-      if (data == true) {
-        setIsRegistered(true);
-      }
-    }
-
-    setIsLoading(false);
-  }
-
-  useEffect(() => {
-    fetchIsRegistered();
-
-    return () => {
-      setIsLoading(true);
-    };
-  }, []);
-
   return (
     <Fragment>
-      {isUserLoggedIn && isRegistered && !isLoading && (
+      {isUserLoggedIn && isRegistered && (
         <Link to={`/discover/courses/${course.id}/module/1?video=1`}>
           <ButtonPrimary>ASSISTIR</ButtonPrimary>
         </Link>
@@ -67,7 +43,6 @@ const CourseOverviewButton: React.FC<Props> = ({ course }) => {
 
       {isUserLoggedIn &&
         !isRegistered &&
-        !isLoading &&
         authenticatedUser?.user.id != course.channel.user.id && (
           <ButtonPrimary onClick={() => handleRegisterToCourse()}>
             REGISTRAR-SE
@@ -75,8 +50,9 @@ const CourseOverviewButton: React.FC<Props> = ({ course }) => {
         )}
 
       {(!isUserLoggedIn ||
-        authenticatedUser?.user.id == course.channel.user.id) &&
-        !isLoading && <ButtonPrimary disabled>REGISTRAR-SE</ButtonPrimary>}
+        authenticatedUser?.user.id == course.channel.user.id) && (
+        <ButtonPrimary disabled>REGISTRAR-SE</ButtonPrimary>
+      )}
     </Fragment>
   );
 };

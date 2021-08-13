@@ -58,6 +58,11 @@ export const CourseHeaderRate = styled.div`
     height: 40px;
     width: 40px;
     fill: ${(props) => transparentize(0.92, props.theme.colors.text)};
+
+    :hover {
+      cursor: pointer;
+      transform: translateY(-4px);
+    }
   }
 
   svg.active {

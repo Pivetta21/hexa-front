@@ -45,14 +45,16 @@ const CourseModule: React.FC<Props> = () => {
   const [video, setVideo] = useState({} as VideoI);
   const [isLoading, setIsLoading] = useState(true);
 
-  async function fetchIsRegistered(courseId: number) {
-    const { data } = await checkIfUserIsRegistered(
-      { userId: authenticatedUser!.user!.id, courseId: courseId },
-      authenticatedUser!.token!,
-    );
+  async function fetchIsRegistered(course: Course) {
+    if (authenticatedUser!.user!.id != course.channel.user.id) {
+      const { data } = await checkIfUserIsRegistered(
+        { userId: authenticatedUser!.user!.id, courseId: course.id },
+        authenticatedUser!.token!,
+      );
 
-    if (data == false) {
-      history.goBack();
+      if (data == false) {
+        history.goBack();
+      }
     }
   }
 
@@ -83,7 +85,7 @@ const CourseModule: React.FC<Props> = () => {
     if (!errorResponse && data) {
       setCourse(data);
 
-      fetchIsRegistered(data.id);
+      fetchIsRegistered(data);
 
       bootstrapModule(data);
     } else {

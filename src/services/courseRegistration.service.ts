@@ -1,5 +1,6 @@
 import {
   CourseRegistration,
+  RateCourseDto,
   RegisterCourseDto,
 } from './../models/CourseRegistration';
 import { ServiceResponse } from 'src/models/ServiceResponse.model';
@@ -46,4 +47,23 @@ export function findUserCourses(
   });
 
   return axiosFetch<CourseRegistration[]>(request);
+}
+
+export function getCourseRate(
+  courseId: number,
+): Promise<ServiceResponse<{ avg: number }>> {
+  const request = api.get(`${url}/rate/${courseId}`);
+
+  return axiosFetch<{ avg: number }>(request);
+}
+
+export function rateCourse(
+  rateCourse: RateCourseDto,
+  access_token: string,
+): Promise<ServiceResponse<CourseRegistration>> {
+  const request = api.post(`${url}/rate`, rateCourse, {
+    headers: { Authorization: `Bearer ${access_token}` },
+  });
+
+  return axiosFetch<CourseRegistration>(request);
 }

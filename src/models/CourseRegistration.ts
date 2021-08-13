@@ -17,3 +17,9 @@ export type RegisterCourseDto = {
   userId: number;
   price: number;
 };
+
+export type RateCourseDto = {
+  courseId: number;
+  userId: number;
+  rate: number;
+};

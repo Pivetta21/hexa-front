@@ -16,14 +16,72 @@ import {
   CourseOverviewCreator,
 } from './styles';
 import { getProfilePicture } from 'src/services/user.service';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import CourseContext from 'src/providers/CourseContext';
 import CourseOverviewList from './CourseOverviewList';
 import CourseOverviewButton from './CourseOverviewButton';
 import { StatsCards } from 'src/styled/StatsCards';
+import {
+  checkIfUserIsRegistered,
+  getCourseRate,
+  rateCourse,
+} from 'src/services/courseRegistration.service';
+import AuthContext from 'src/providers/AuthContext';
+import { useEffect } from 'react';
+import { ButtonLoader } from 'src/styled/Loaders';
 
 const CourseOverview: React.FC = () => {
   const { course } = useContext(CourseContext);
+  const { authenticatedUser, isUserLoggedIn } = useContext(AuthContext);
+
+  const [isRegistered, setIsRegistered] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [rate, setRate] = useState(0);
+
+  async function handleRateCourse(userRate: number) {
+    if (isUserLoggedIn && isRegistered) {
+      rateCourse(
+        {
+          courseId: course.id,
+          rate: userRate,
+          userId: authenticatedUser!.user.id,
+        },
+        authenticatedUser!.token!,
+      );
+    }
+  }
+
+  async function fetchOverviewInfo() {
+    if (isUserLoggedIn) {
+      const { data } = await checkIfUserIsRegistered(
+        { userId: authenticatedUser!.user!.id, courseId: course.id },
+        authenticatedUser!.token!,
+      );
+
+      if (data == true) {
+        setIsRegistered(true);
+      }
+    }
+
+    const rateResponse = await getCourseRate(course.id);
+
+    if (!rateResponse.errorResponse && rateResponse.data) {
+      setRate(rateResponse.data.avg);
+    }
+
+    setIsLoading(false);
+  }
+
+  useEffect(() => {
+    setTimeout(() => {
+      fetchOverviewInfo();
+    }, 600);
+
+    return () => {
+      setIsLoading(true);
+      setRate(0);
+    };
+  }, [authenticatedUser]);
 
   function getModulesCount(): string {
     const modules = course.modules;
@@ -66,13 +124,32 @@ const CourseOverview: React.FC = () => {
           <CourseHeaderInfo>
             <h1>{course.name}</h1>
 
-            <CourseHeaderRate>
-              <Star className="active" />
-              <Star className="active" />
-              <Star className="active" />
-              <Star className="active" />
-              <Star />
-            </CourseHeaderRate>
+            {!isLoading ? (
+              <CourseHeaderRate>
+                <Star
+                  className={rate >= 1 ? 'active' : undefined}
+                  onClick={() => handleRateCourse(1)}
+                />
+                <Star
+                  className={rate >= 2 ? 'active' : undefined}
+                  onClick={() => handleRateCourse(2)}
+                />
+                <Star
+                  className={rate >= 3 ? 'active' : undefined}
+                  onClick={() => handleRateCourse(3)}
+                />
+                <Star
+                  className={rate >= 4 ? 'active' : undefined}
+                  onClick={() => handleRateCourse(4)}
+                />
+                <Star
+                  className={rate > 4.5 ? 'active' : undefined}
+                  onClick={() => handleRateCourse(5)}
+                />
+              </CourseHeaderRate>
+            ) : (
+              <ButtonLoader />
+            )}
           </CourseHeaderInfo>
         </CourseOverviewHeader>
 
@@ -90,7 +167,15 @@ const CourseOverview: React.FC = () => {
           </CourseOverviewDetailsContent>
 
           <CourseOverviewInfo>
-            <CourseOverviewButton course={course} />
+            {!isLoading ? (
+              <CourseOverviewButton
+                course={course}
+                isRegistered={isRegistered}
+                setIsRegistered={setIsRegistered}
+              />
+            ) : (
+              <ButtonLoader style={{ marginBottom: '12px' }} />
+            )}
 
             <CourseOverviewText>Informações</CourseOverviewText>
             <StatsCards>
