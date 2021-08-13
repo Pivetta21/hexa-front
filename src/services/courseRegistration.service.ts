@@ -36,3 +36,14 @@ export function checkIfUserIsRegistered(
 
   return axiosFetch<boolean>(request);
 }
+
+export function findUserCourses(
+  userId: number,
+  access_token: string,
+): Promise<ServiceResponse<CourseRegistration[]>> {
+  const request = api.get(`${url}/courses/${userId}`, {
+    headers: { Authorization: `Bearer ${access_token}` },
+  });
+
+  return axiosFetch<CourseRegistration[]>(request);
+}
