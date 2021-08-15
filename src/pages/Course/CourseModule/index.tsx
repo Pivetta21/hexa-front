@@ -156,7 +156,9 @@ const CourseModule: React.FC<Props> = () => {
                 </div>
               </SeeMore>
 
-              <VideoComments videoId={video.id} />
+              <span className="comments">
+                <VideoComments videoId={video.id} />
+              </span>
             </CourseVideoInfo>
 
             <div>

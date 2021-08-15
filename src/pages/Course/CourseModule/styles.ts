@@ -2,7 +2,13 @@ import { Link } from 'react-router-dom';
 import { lighten, invert, transparentize } from 'polished';
 import styled from 'styled-components';
 
-export const CourseModuleContainer = styled.div``;
+export const CourseModuleContainer = styled.div`
+  @media (max-width: 1150px) {
+    span.comments {
+      display: none;
+    }
+  }
+`;
 
 export const CourseModuleVideo = styled.video`
   height: 450px;
@@ -15,6 +21,12 @@ export const CourseVideoGrid = styled.div`
   margin-top: 20px;
   display: flex;
   column-gap: 24px;
+
+  @media (max-width: 1150px) {
+    column-gap: 0px;
+    row-gap: 24px;
+    flex-direction: column;
+  }
 `;
 
 export const CourseVideoInfo = styled.div`

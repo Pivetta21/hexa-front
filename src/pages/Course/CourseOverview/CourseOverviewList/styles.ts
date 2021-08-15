@@ -3,6 +3,10 @@ import styled from 'styled-components';
 
 export const CourseOverviewListContainer = styled.div`
   min-width: 525px;
+
+  @media (max-width: 1150px) {
+    min-width: 100%;
+  }
 `;
 
 export const OverviewListHeader = styled.div`

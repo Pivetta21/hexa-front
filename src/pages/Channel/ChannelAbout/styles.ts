@@ -11,6 +11,11 @@ export const ChannelAboutContainer = styled.div`
     font-weight: 600;
     letter-spacing: 0.5px;
   }
+
+  @media (max-width: 1100px) {
+    flex-direction: column-reverse;
+    row-gap: 24px;
+  }
 `;
 
 export const ChannelAboutDescription = styled.div`

@@ -4,6 +4,10 @@ import styled from 'styled-components';
 export const CourseOverviewContainer = styled.div`
   display: flex;
   justify-content: center;
+
+  @media (max-width: 1150px) {
+    flex-direction: column;
+  }
 `;
 
 export const CourseOverviewHeader = styled.div`
@@ -34,7 +38,7 @@ export const CourseHeaderImage = styled.img`
   background-color: ${(props) =>
     lighten(0.07, invert(props.theme.colors.text))};
 
-  @media (max-width: ${(props) => props.theme.breakpoints.nav.tablet}) {
+  @media (max-width: 1150px) {
     display: none;
   }
 `;
@@ -45,7 +49,7 @@ export const CourseHeaderInfo = styled.div`
   align-items: flex-start;
   margin-left: 32px;
 
-  @media (max-width: ${(props) => props.theme.breakpoints.nav.tablet}) {
+  @media (max-width: 1150px) {
     margin-left: 0px;
   }
 `;
@@ -76,6 +80,11 @@ export const CourseOverviewDetails = styled.div`
   width: 100%;
   grid-template-columns: 1fr auto;
   margin-top: 32px;
+
+  @media (max-width: 1150px) {
+    display: flex;
+    flex-direction: column-reverse;
+  }
 `;
 
 export const CourseOverviewDetailsContent = styled.div`
@@ -87,6 +96,11 @@ export const CourseOverviewDetailsContent = styled.div`
 
   p {
     margin-bottom: 24px;
+  }
+
+  @media (max-width: 1150px) {
+    margin-top: 24px;
+    margin-right: 0px;
   }
 `;
 
@@ -142,5 +156,9 @@ export const CourseOverviewCreator = styled.div`
   span {
     color: ${(props) => props.theme.colors.caption};
     letter-spacing: 0.35px;
+  }
+
+  @media (max-width: 1150px) {
+    display: none;
   }
 `;
