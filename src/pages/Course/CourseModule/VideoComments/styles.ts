@@ -67,9 +67,20 @@ export const VideoCommentsList = styled.div`
     object-position: center;
     margin-right: 12px;
   }
+
+  &.hide {
+    display: none;
+  }
 `;
 
 export const VideoCommentBlock = styled.div`
+  width: 100%;
+
+  > div {
+    display: flex;
+    justify-content: space-between;
+  }
+
   h1 {
     font-weight: 600;
     margin-right: 12px;
@@ -82,6 +93,21 @@ export const VideoCommentBlock = styled.div`
     font-weight: 400;
     font-size: ${(props) => props.theme.fontSizes.body.small};
     color: ${(props) => props.theme.colors.caption};
+  }
+
+  div.delete {
+    color: ${(props) => props.theme.colors.caption};
+
+    svg {
+      fill: ${(props) => props.theme.colors.icon};
+      width: 25px;
+      height: 25px;
+
+      :hover {
+        cursor: pointer;
+        fill: crimson;
+      }
+    }
   }
 
   margin-bottom: 16px;

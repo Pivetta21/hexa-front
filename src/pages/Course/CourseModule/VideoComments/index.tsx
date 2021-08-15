@@ -3,6 +3,8 @@ import { Fragment, useContext, useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
+import { ReactComponent as Subtract } from 'src/assets/svg/icons/Subtract.svg';
+
 import AuthContext from 'src/providers/AuthContext';
 
 import { VideoComment } from 'src/models/VideoComment.model';
@@ -10,6 +12,7 @@ import { VideoComment } from 'src/models/VideoComment.model';
 import { getProfilePicture } from 'src/services/user.service';
 import {
   createVideoComments,
+  deleteComment,
   findVideoComments,
 } from 'src/services/videoComments';
 import { DefaultInput, DefaultInputError } from 'src/styled/Inputs';
@@ -32,6 +35,17 @@ const VideoComments: React.FC<Props> = ({ videoId }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [comments, setComments] = useState([] as VideoComment[]);
 
+  async function handleRemoveComment(commentId: number) {
+    const serviceResponse = await deleteComment(
+      commentId,
+      authenticatedUser!.token!,
+    );
+
+    if (!serviceResponse.errorResponse) {
+      document.getElementById(`comment${commentId}`)?.classList.add('hide');
+    }
+  }
+
   function renderComments(): JSX.Element[] {
     const elements = [];
 
@@ -39,16 +53,23 @@ const VideoComments: React.FC<Props> = ({ videoId }) => {
       const comment = comments[i];
 
       elements.push(
-        <VideoCommentsList key={comment.id}>
+        <VideoCommentsList key={comment.id} id={`comment${comment.id}`}>
           <img src={getProfilePicture(comment.user)} />
 
           <VideoCommentBlock>
-            <h1>
-              {comment.user?.name}
-              <span>
-                Publicado em {formatDate('pt-br', comment.published_at)}
-              </span>
-            </h1>
+            <div>
+              <h1>
+                {comment.user?.name}
+                <span>
+                  Publicado em {formatDate('pt-br', comment.published_at)}
+                </span>
+              </h1>
+              {comment.user?.id == authenticatedUser?.user.id ? (
+                <div className="delete" title="Deseja excluir seu comentário?">
+                  <Subtract onClick={() => handleRemoveComment(comment.id)} />
+                </div>
+              ) : undefined}
+            </div>
             <p>{comment.text}</p>
           </VideoCommentBlock>
         </VideoCommentsList>,

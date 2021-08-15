@@ -30,3 +30,14 @@ export function createVideoComments(
 
   return axiosFetch<VideoComment>(request);
 }
+
+export function deleteComment(
+  commentId: number,
+  access_token: string,
+): Promise<ServiceResponse<any>> {
+  const request = api.delete(`${url}/${commentId}`, {
+    headers: { Authorization: `Bearer ${access_token}` },
+  });
+
+  return axiosFetch<any>(request);
+}
