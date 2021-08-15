@@ -14,18 +14,24 @@ export const CourseModuleVideo = styled.video`
 export const CourseVideoGrid = styled.div`
   margin-top: 20px;
   display: flex;
-  justify-content: space-between;
+  column-gap: 24px;
 `;
 
 export const CourseVideoInfo = styled.div`
-  margin-right: 24px;
   width: 100%;
 `;
 
 export const CourseVideoDescription = styled.div`
   margin-top: 14px;
   margin-bottom: 8px;
+  max-height: 28px;
+  overflow: hidden;
+
+  &.h-100 {
+    max-height: fit-content;
+  }
 `;
+
 export const CourseVideoDetails = styled.div`
   display: flex;
   align-items: center;
@@ -39,6 +45,11 @@ export const CourseVideoDetails = styled.div`
     object-fit: cover;
     object-position: center;
     margin-right: 16px;
+
+    :hover {
+      cursor: pointer;
+      opacity: 0.8;
+    }
   }
 
   > div {
