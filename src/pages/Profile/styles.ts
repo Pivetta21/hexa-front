@@ -37,14 +37,28 @@ export const ProfileInfo = styled.div`
     margin-bottom: 16px;
   }
 
-  > div {
+  span {
+    display: inline-block;
     font-size: ${(props) => props.theme.fontSizes.body.normal};
     color: ${(props) => props.theme.colors.caption};
     margin-top: 24px;
   }
 
-  @media (max-width: ${(props) => props.theme.breakpoints.nav.mobile}) {
+  @media (max-width: 1100px) {
     width: 100%;
+
+    > div {
+      display: flex;
+      margin-bottom: 12px;
+
+      img {
+        margin-right: 12px;
+      }
+    }
+
+    button {
+      width: 100%;
+    }
   }
 `;
 
@@ -52,4 +66,8 @@ export const ProfileStats = styled.div`
   display: flex;
   flex-direction: column;
   row-gap: 48px;
+
+  @media (max-width: 1100px) {
+    width: 100%;
+  }
 `;

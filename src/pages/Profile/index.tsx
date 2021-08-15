@@ -45,22 +45,26 @@ const Profile: React.FC = () => {
   return (
     <ProfileContainer className="main-padding">
       <ProfileInfo>
-        <img src={getProfilePicture(authenticatedUser?.user)} />
-        <h1>{authenticatedUser?.user.name}</h1>
-        <p>{authenticatedUser?.user.email}</p>
+        <div>
+          <img src={getProfilePicture(authenticatedUser?.user)} />
+          <div>
+            <h1>{authenticatedUser?.user.name}</h1>
+            <p>{authenticatedUser?.user.email}</p>
+          </div>
+        </div>
         <ButtonPrimary
           type="button"
           onClick={() => history.push('/profile/config')}
         >
           Editar Perfil
         </ButtonPrimary>
-        <div>
+        <span>
           Entrou em {formatDate('pt-br', authenticatedUser!.user.signUpDate)}
-        </div>
+        </span>
       </ProfileInfo>
 
       <ProfileStats>
-        {!loading && (
+        {!loading && courseRegistration.length > 0 && (
           <ProfileStatsList courseRegisrationList={courseRegistration} />
         )}
 

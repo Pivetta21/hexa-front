@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { lighten, invert } from 'polished';
 
 export const ProgressCard = styled(Link)`
+  margin-bottom: 12px;
   padding: 12px;
   display: flex;
   align-items: center;
@@ -23,17 +24,25 @@ export const ProgressCard = styled(Link)`
   }
 
   h1 {
+    width: 320px;
     font-weight: 600;
     height: 24px;
-    max-width: 320px;
-    white-space: nowrap;
-    overflow: hidden;
     text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
   span {
     display: block;
     margin-top: 4px;
     color: ${(props) => props.theme.colors.caption};
+  }
+
+  @media (max-width: 1100px) {
+    h1 {
+      width: 100% !important;
+    }
   }
 `;

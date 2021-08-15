@@ -18,6 +18,10 @@ export const ProfileStatsSection = styled.div`
     background-color: ${(props) =>
       lighten(0.07, invert(props.theme.colors.text))};
   }
+
+  @media (max-width: 1100px) {
+    width: 100%;
+  }
 `;
 
 export const ProfileStatsSectionGrid = styled.div`
@@ -31,5 +35,11 @@ export const ProfileStatsSectionGrid = styled.div`
     height: 100px;
     background-color: ${(props) =>
       lighten(0.07, invert(props.theme.colors.text))};
+  }
+
+  @media (max-width: 1100px) {
+    div {
+      width: 100%;
+    }
   }
 `;
