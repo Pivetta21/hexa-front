@@ -29,6 +29,9 @@ import {
 import AuthContext from 'src/providers/AuthContext';
 import { useEffect } from 'react';
 import { ButtonLoader } from 'src/styled/Loaders';
+import { ServiceResponse } from 'src/models/ServiceResponse.model';
+import { CourseRegistration } from 'src/models/CourseRegistration';
+import Toast from 'src/components/Toast';
 
 const CourseOverview: React.FC = () => {
   const { course } = useContext(CourseContext);
@@ -37,10 +40,15 @@ const CourseOverview: React.FC = () => {
   const [isRegistered, setIsRegistered] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [rate, setRate] = useState(0);
+  const [rateResponse, setRateResponse] = useState(
+    {} as ServiceResponse<CourseRegistration>,
+  );
 
   async function handleRateCourse(userRate: number) {
+    setRateResponse({} as ServiceResponse<CourseRegistration>);
+
     if (isUserLoggedIn && isRegistered) {
-      rateCourse(
+      const serviceResponse = await rateCourse(
         {
           courseId: course.id,
           rate: userRate,
@@ -48,6 +56,8 @@ const CourseOverview: React.FC = () => {
         },
         authenticatedUser!.token!,
       );
+
+      setRateResponse(serviceResponse);
     }
   }
 
@@ -151,6 +161,14 @@ const CourseOverview: React.FC = () => {
               <ButtonLoader />
             )}
           </CourseHeaderInfo>
+          {!rateResponse.errorResponse && rateResponse.data && (
+            <Toast
+              title="Avaliado!"
+              description="Você avaliou esse curso com sucesso!"
+              type="message"
+              time="slow"
+            />
+          )}
         </CourseOverviewHeader>
 
         <CourseOverviewDetails>
