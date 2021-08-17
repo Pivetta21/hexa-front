@@ -34,8 +34,8 @@ export function findAllCoursesByChannelId(channelId: number) {
   return axiosFetch<Course[]>(request);
 }
 
-export function findCourse(channelId: number) {
-  const request = api.get(`${url}/${channelId}`);
+export function findCourse(courseId: number) {
+  const request = api.get(`${url}/${courseId}`);
 
   return axiosFetch<Course>(request);
 }

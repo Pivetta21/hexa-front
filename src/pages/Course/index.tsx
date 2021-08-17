@@ -16,7 +16,7 @@ const CoursePage: React.FC = () => {
   const [course, setCourse] = useState({} as Course);
 
   useEffect(() => {
-    async function fetchCouse() {
+    async function fetchCourse() {
       const { data, errorResponse } = await findCourse(id);
 
       if (!errorResponse && data) {
@@ -27,7 +27,7 @@ const CoursePage: React.FC = () => {
     }
 
     setTimeout(() => {
-      fetchCouse();
+      fetchCourse();
     }, 600);
 
     return () => {
