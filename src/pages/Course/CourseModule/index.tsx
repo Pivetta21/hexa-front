@@ -16,6 +16,7 @@ import {
   CourseInfoModuleNav,
   CourseInfoModuleVideos,
   CourseInfoName,
+  CourseInfoNextModule,
   CourseModuleContainer,
   CourseModuleInfo,
   CourseModuleVideo,
@@ -204,11 +205,32 @@ const CourseModule: React.FC<Props> = () => {
                           course.id
                         }/module/${moduleIndex}?video=${vIndex + 1}`}
                         key={v.id}
+                        className={v.id == video.id ? 'active' : undefined}
                       >
                         {vIndex + 1}. {v.name}
                       </Link>
                     );
                   })}
+                  <Fragment>
+                    {course.modules && course.modules.length != moduleIndex && (
+                      <CourseInfoNextModule>
+                        <h1>PRÓXIMO MÓDULO</h1>
+                        <div>
+                          <h2>
+                            {course.modules[moduleIndex]
+                              ? course.modules[moduleIndex].name
+                              : 'A'}
+                          </h2>
+                          <p>
+                            {course.modules[moduleIndex].videos
+                              ? course.modules[moduleIndex].videos!.length + 1
+                              : 0}
+                            <span> vídeos</span>
+                          </p>
+                        </div>
+                      </CourseInfoNextModule>
+                    )}
+                  </Fragment>
                 </CourseInfoModuleVideos>
               </CourseModuleInfo>
             </div>

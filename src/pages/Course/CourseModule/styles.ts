@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { lighten, invert, transparentize } from 'polished';
+import { lighten, invert, transparentize, darken } from 'polished';
 import styled from 'styled-components';
 
 export const CourseModuleContainer = styled.div`
@@ -109,6 +109,7 @@ export const CourseInfoModuleName = styled.div`
   font-size: ${(props) => props.theme.fontSizes.body.medium};
   font-weight: 600;
 `;
+
 export const CourseInfoModuleNav = styled.div`
   display: flex;
   align-items: center;
@@ -152,5 +153,36 @@ export const CourseInfoModuleVideos = styled.div`
       transparentize(0.92, props.theme.colors.text)};
     border-radius: 12px;
     padding: 12px 16px;
+
+    &.active {
+      background-color: ${(props) =>
+        darken(0.05, invert(props.theme.colors.icon))};
+      font-weight: 600;
+    }
+  }
+`;
+
+export const CourseInfoNextModule = styled.div`
+  h1 {
+    font-size: ${(props) => props.theme.fontSizes.body.medium};
+    font-weight: 400;
+    color: ${(props) => props.theme.colors.caption};
+    margin-bottom: 8px;
+    margin-top: 12px;
+  }
+
+  > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    column-gap: 32px;
+  }
+
+  h2 {
+    font-weight: 600;
+  }
+
+  p {
+    min-width: fit-content;
   }
 `;
