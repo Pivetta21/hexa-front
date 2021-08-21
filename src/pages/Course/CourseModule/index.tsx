@@ -170,7 +170,7 @@ const CourseModule: React.FC<Props> = () => {
                 <hr />
                 <CourseInfoModule>
                   <CourseInfoModuleNav>
-                    {course.modules!.length <= moduleIndex && (
+                    {moduleIndex - 1 > 0 && (
                       <Link
                         className="marginR"
                         to={`/discover/courses/${course.id}/module/${Number(
@@ -216,11 +216,7 @@ const CourseModule: React.FC<Props> = () => {
                       <CourseInfoNextModule>
                         <h1>PRÓXIMO MÓDULO</h1>
                         <div>
-                          <h2>
-                            {course.modules[moduleIndex]
-                              ? course.modules[moduleIndex].name
-                              : 'A'}
-                          </h2>
+                          <h2>{course.modules[moduleIndex]!.name}</h2>
                           <p>
                             {course.modules[moduleIndex].videos
                               ? course.modules[moduleIndex].videos!.length + 1
