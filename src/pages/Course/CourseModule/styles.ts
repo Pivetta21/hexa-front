@@ -3,7 +3,7 @@ import { lighten, invert, transparentize, darken } from 'polished';
 import styled from 'styled-components';
 
 export const CourseModuleContainer = styled.div`
-  @media (max-width: 1150px) {
+  @media (max-width: 1300px) {
     span.comments {
       display: none;
     }
@@ -22,7 +22,7 @@ export const CourseVideoGrid = styled.div`
   display: flex;
   column-gap: 24px;
 
-  @media (max-width: 1150px) {
+  @media (max-width: 1300px) {
     column-gap: 0px;
     row-gap: 24px;
     flex-direction: column;
