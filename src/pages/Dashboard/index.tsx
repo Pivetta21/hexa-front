@@ -19,6 +19,7 @@ import {
   DashboardHeader,
   DashboardTitle,
 } from './styles';
+import { DefaultInput } from 'src/styled/Inputs';
 
 const Dashboard: React.FC = () => {
   const history = useHistory();
@@ -26,6 +27,19 @@ const Dashboard: React.FC = () => {
   const { channel } = useSelector((state: RootState) => state.channel);
 
   const [courses, setCourses] = useState([] as Course[]);
+  const [filteredCourses, setFilteredCourses] = useState([] as Course[]);
+
+  function findCourseByName(e: React.FormEvent<HTMLInputElement>) {
+    const value = e.currentTarget.value;
+
+    const filterValues = courses.filter((course) => {
+      const courseName = course.name.trim().toLocaleLowerCase();
+
+      return courseName.includes(value.trim().toLocaleLowerCase());
+    });
+
+    if (filterValues) setFilteredCourses(filterValues);
+  }
 
   async function handleFetchCourses() {
     const serviceResponse = await findAllCoursesByChannelId(channel.id);
@@ -34,6 +48,7 @@ const Dashboard: React.FC = () => {
       setCourses(serviceResponse.data);
     }
   }
+
   useEffect(() => {
     handleFetchCourses();
   }, []);
@@ -56,7 +71,18 @@ const Dashboard: React.FC = () => {
           </ButtonPrimary>
         </DashboardButtons>
       </DashboardHeader>
-      <DashboardCoursesList coursesList={courses}></DashboardCoursesList>
+      {courses.length > 0 && (
+        <DefaultInput style={{ marginTop: '4px', marginBottom: '0px' }}>
+          <input
+            type="text"
+            onChange={(e) => findCourseByName(e)}
+            placeholder="Buscar pelo nome do curso..."
+          />
+        </DefaultInput>
+      )}
+      <DashboardCoursesList
+        coursesList={filteredCourses.length > 0 ? filteredCourses : courses}
+      ></DashboardCoursesList>
     </DashboardContainer>
   );
 };
