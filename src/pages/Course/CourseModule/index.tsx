@@ -219,7 +219,7 @@ const CourseModule: React.FC<Props> = () => {
                           <h2>{course.modules[moduleIndex]!.name}</h2>
                           <p>
                             {course.modules[moduleIndex].videos
-                              ? course.modules[moduleIndex].videos!.length + 1
+                              ? course.modules[moduleIndex].videos!.length
                               : 0}
                             <span> vídeos</span>
                           </p>
